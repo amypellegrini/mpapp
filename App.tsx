@@ -26,12 +26,21 @@ function App(): JSX.Element {
         </Pressable>
       </View>
       <Pressable
-        style={({pressed}) => [
-          {
-            backgroundColor: pressed ? '#2255DD' : '#3366EE',
-          },
-          styles.button,
-        ]}
+        disabled={text.length === 0}
+        style={({pressed}) => {
+          let backgroundColor = pressed ? '#2255DD' : '#3366EE';
+
+          if (text.length === 0) {
+            backgroundColor = '#666666';
+          }
+
+          return [
+            {
+              backgroundColor,
+            },
+            styles.button,
+          ];
+        }}
         onPress={() => console.log('Button pressed')}>
         <Text style={styles.buttonText}>Start practice</Text>
       </Pressable>
@@ -84,7 +93,7 @@ const styles = StyleSheet.create({
   entryFieldText: {
     height: 30,
     marginLeft: 1,
-    marginBottom: -4,
+    marginBottom: -7,
     fontStyle: 'italic',
   },
   plusButton: {
