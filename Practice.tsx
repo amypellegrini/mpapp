@@ -11,7 +11,7 @@ function formatTime(totalSeconds) {
     .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }
 
-function Practice() {
+function Practice({entryTitle}) {
   const startTime = Date.now();
 
   const [seconds, setSeconds] = React.useState(0);
@@ -32,9 +32,15 @@ function Practice() {
 
   return (
     <View style={styles.container}>
-      <Text>[ENTRY TITLE HERE]</Text>
-      <Text style={styles.timeDisplay}>{formatTime(seconds)}</Text>
-      <Text>[CONTROLS HERE]</Text>
+      <View style={styles.header}>
+        <Text style={styles.entryTitle}>{entryTitle}</Text>
+      </View>
+      <View style={styles.body}>
+        <Text style={styles.timeDisplay}>{formatTime(seconds)}</Text>
+      </View>
+      <View style={styles.footer}>
+        <Text>Controls</Text>
+      </View>
     </View>
   );
 }
@@ -46,8 +52,26 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'column',
   },
-
+  body: {
+    justifyContent: 'center',
+    height: '60%',
+  },
+  header: {
+    height: '20%',
+    justifyContent: 'center',
+  },
+  footer: {
+    height: '20%',
+    justifyContent: 'center',
+  },
+  entryTitle: {
+    margin: 0,
+    fontSize: 24,
+    fontWeight: '500',
+    textAlign: 'center',
+  },
   timeDisplay: {
+    marginTop: -15,
     fontSize: 64,
     fontWeight: '300',
     textAlign: 'center',

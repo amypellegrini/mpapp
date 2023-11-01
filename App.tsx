@@ -4,7 +4,7 @@ import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
 import {Navigation} from 'react-native-navigation';
 
 function App({componentId}): JSX.Element {
-  const [text, onChangeText] = React.useState('');
+  const [entryTitle, onChangeEntryTitle] = React.useState('');
 
   return (
     <View style={styles.container}>
@@ -13,8 +13,8 @@ function App({componentId}): JSX.Element {
         <Text style={styles.inputLabel}>What are you playing?</Text>
         <TextInput
           placeholder="Practice entry title"
-          onChangeText={value => onChangeText(value)}
-          value={text}
+          onChangeText={value => onChangeEntryTitle(value)}
+          value={entryTitle}
           style={styles.input}
         />
         <Pressable style={styles.entryFieldButton}>
@@ -27,11 +27,11 @@ function App({componentId}): JSX.Element {
         </Pressable>
       </View>
       <Pressable
-        disabled={text.length === 0}
+        disabled={entryTitle.length === 0}
         style={({pressed}) => {
           let backgroundColor = pressed ? '#2255DD' : '#3366EE';
 
-          if (text.length === 0) {
+          if (entryTitle.length === 0) {
             backgroundColor = '#666666';
           }
 
@@ -46,6 +46,9 @@ function App({componentId}): JSX.Element {
           Navigation.push(componentId, {
             component: {
               name: 'com.myApp.Practice',
+              passProps: {
+                entryTitle: entryTitle,
+              },
             },
           });
         }}>
