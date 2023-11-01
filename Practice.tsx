@@ -1,5 +1,15 @@
 import React, {useEffect} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
+
+function formatTime(totalSeconds) {
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  return `${hours.toString().padStart(2, '0')}:${minutes
+    .toString()
+    .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+}
 
 function Practice() {
   const startTime = Date.now();
@@ -21,10 +31,27 @@ function Practice() {
   }, []);
 
   return (
-    <View>
-      <Text>{seconds}</Text>
+    <View style={styles.container}>
+      <Text>[ENTRY TITLE HERE]</Text>
+      <Text style={styles.timeDisplay}>{formatTime(seconds)}</Text>
+      <Text>[CONTROLS HERE]</Text>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'column',
+  },
+
+  timeDisplay: {
+    fontSize: 64,
+    fontWeight: '300',
+    textAlign: 'center',
+  },
+});
 
 export default Practice;
