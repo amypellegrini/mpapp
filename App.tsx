@@ -1,8 +1,9 @@
 import React from 'react';
 
 import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Navigation} from 'react-native-navigation';
 
-function App(): JSX.Element {
+function App({componentId}): JSX.Element {
   const [text, onChangeText] = React.useState('');
 
   return (
@@ -41,7 +42,13 @@ function App(): JSX.Element {
             styles.button,
           ];
         }}
-        onPress={() => console.log('Button pressed')}>
+        onPress={() => {
+          Navigation.push(componentId, {
+            component: {
+              name: 'com.myApp.Practice',
+            },
+          });
+        }}>
         <Text style={styles.buttonText}>Start practice</Text>
       </Pressable>
     </View>
