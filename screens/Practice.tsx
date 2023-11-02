@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {Navigation} from 'react-native-navigation';
+import Container from './components/container/Container';
 
 function formatTime(totalSeconds) {
   const hours = Math.floor(totalSeconds / 3600);
@@ -34,7 +35,7 @@ function Practice({entryTitle, componentId}) {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <Container>
       <View style={styles.header}>
         <Text style={styles.entryTitle}>{entryTitle}</Text>
       </View>
@@ -61,15 +62,11 @@ function Practice({entryTitle, componentId}) {
           <Text style={styles.buttonLabel}>Stop</Text>
         </Pressable>
       </View>
-    </View>
+    </Container>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'space-between',
-  },
   body: {},
   header: {},
   footer: {

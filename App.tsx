@@ -5,12 +5,13 @@ import {Navigation} from 'react-native-navigation';
 
 import Title from './screens/components/title';
 import Main from './screens/components/main';
+import Container from './screens/components/container/Container';
 
 function App({componentId}): JSX.Element {
   const [entryTitle, onChangeEntryTitle] = React.useState('');
 
   return (
-    <View style={styles.container}>
+    <Container>
       <Main>
         <Title>The Music Practice App</Title>
         <Text style={styles.inputLabel}>What are you playing?</Text>
@@ -57,15 +58,11 @@ function App({componentId}): JSX.Element {
         }}>
         <Text style={styles.buttonText}>Start practice</Text>
       </Pressable>
-    </View>
+    </Container>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'space-between',
-  },
   inputLabel: {
     color: '#EFEFEF',
     fontSize: 16,
