@@ -68,24 +68,15 @@ function Practice({entryTitle, componentId}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'space-between',
-    flexDirection: 'column',
   },
-  body: {
-    justifyContent: 'center',
-    height: '60%',
-  },
-  header: {
-    height: '20%',
-    justifyContent: 'center',
-  },
+  body: {},
+  header: {},
   footer: {
-    height: '20%',
     flexDirection: 'row',
     alignItems: 'flex-end',
     justifyContent: 'center',
-    width: '100%',
+    // width: '100%',
   },
   button: {
     margin: 6,
@@ -111,19 +102,21 @@ const styles = StyleSheet.create({
     height: 60,
     textAlign: 'center',
     textAlignVertical: 'center',
-    color: '#333333',
+    color: '#222222',
   },
   entryTitle: {
     margin: 0,
     fontSize: 24,
     fontWeight: '500',
     textAlign: 'center',
+    color: '#EFEFEF',
   },
   timeDisplay: {
     marginTop: -15,
     fontSize: 64,
     fontWeight: '300',
     textAlign: 'center',
+    color: '#EFEFEF',
   },
 });
 

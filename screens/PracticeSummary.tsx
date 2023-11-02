@@ -1,14 +1,15 @@
 import React from 'react';
 import {View, Text, Pressable, StyleSheet} from 'react-native';
+import Title from './components/title';
 
 function PracticeSummary({entryTitle, duration}) {
   return (
     <View style={styles.container}>
       <View>
-        <Text>Well done!</Text>
+        <Title>Practice summary</Title>
       </View>
       <View>
-        <Text>Practice Summary</Text>
+        <Text>Well done!</Text>
         <Text>Entry title:</Text>
         <Text>{entryTitle}</Text>
         <Text>{duration}</Text>

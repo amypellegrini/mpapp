@@ -3,13 +3,15 @@ import React from 'react';
 import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
 import {Navigation} from 'react-native-navigation';
 
+import Title from './screens/components/title';
+
 function App({componentId}): JSX.Element {
   const [entryTitle, onChangeEntryTitle] = React.useState('');
 
   return (
     <View style={styles.container}>
       <View style={styles.main}>
-        <Text style={styles.title}>The Music Practice App</Text>
+        <Title>The Music Practice App</Title>
         <Text style={styles.inputLabel}>What are you playing?</Text>
         <TextInput
           placeholder="Practice entry title"
@@ -61,21 +63,13 @@ function App({componentId}): JSX.Element {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
   },
   main: {
     paddingTop: 10,
     paddingBottom: 10,
     paddingLeft: 20,
     paddingRight: 20,
-    flex: 1,
-  },
-  title: {
-    color: '#EFEFEF',
-    fontSize: 24,
-    fontWeight: 'bold',
-    textTransform: 'uppercase',
-    marginBottom: 20,
   },
   inputLabel: {
     color: '#EFEFEF',
