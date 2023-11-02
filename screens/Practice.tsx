@@ -1,7 +1,9 @@
 import React, {useEffect} from 'react';
+
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {Navigation} from 'react-native-navigation';
-import Container from './components/container/Container';
+
+import Container from './components/container';
 
 function formatTime(totalSeconds) {
   const hours = Math.floor(totalSeconds / 3600);

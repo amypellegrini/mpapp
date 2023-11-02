@@ -4,10 +4,11 @@ import {View, Text, Pressable, StyleSheet} from 'react-native';
 
 import Title from './components/title';
 import Main from './components/main';
+import Container from './components/container';
 
 function PracticeSummary({entryTitle, duration}) {
   return (
-    <View style={styles.container}>
+    <Container>
       <Main>
         <View>
           <Title>Practice summary</Title>
@@ -27,15 +28,11 @@ function PracticeSummary({entryTitle, duration}) {
           <Text>Save entry</Text>
         </Pressable>
       </View>
-    </View>
+    </Container>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'space-between',
-  },
   header: {},
   body: {},
   footer: {},

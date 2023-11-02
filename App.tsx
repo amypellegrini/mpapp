@@ -5,7 +5,7 @@ import {Navigation} from 'react-native-navigation';
 
 import Title from './screens/components/title';
 import Main from './screens/components/main';
-import Container from './screens/components/container/Container';
+import Container from './screens/components/container';
 
 function App({componentId}): JSX.Element {
   const [entryTitle, onChangeEntryTitle] = React.useState('');
