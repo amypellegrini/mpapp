@@ -1,17 +1,20 @@
 import React, {useEffect} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {Navigation} from 'react-native-navigation';
 
 function formatTime(totalSeconds) {
   const hours = Math.floor(totalSeconds / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);
   const seconds = totalSeconds % 60;
 
-  return `${hours.toString().padStart(2, '0')}:${minutes
+  const hoursString = hours > 0 ? `${hours.toString().padStart(2, '0')}:` : '';
+
+  return `${hoursString}${minutes.toString().padStart(2, '0')}:${seconds
     .toString()
-    .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    .padStart(2, '0')}`;
 }
 
-function Practice({entryTitle}) {
+function Practice({entryTitle, componentId}) {
   const startTime = Date.now();
 
   const [seconds, setSeconds] = React.useState(0);
@@ -39,7 +42,24 @@ function Practice({entryTitle}) {
         <Text style={styles.timeDisplay}>{formatTime(seconds)}</Text>
       </View>
       <View style={styles.footer}>
-        <Text>Controls</Text>
+        <Pressable style={[styles.button, styles.buttonLeft]}>
+          <Text style={styles.buttonLabel}>Pause</Text>
+        </Pressable>
+        <Pressable
+          style={[styles.button, styles.buttonRight]}
+          onPress={() => {
+            Navigation.push(componentId, {
+              component: {
+                name: 'com.myApp.PracticeSummary',
+                passProps: {
+                  entryTitle: entryTitle,
+                  duration: seconds,
+                },
+              },
+            });
+          }}>
+          <Text style={styles.buttonLabel}>Stop</Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -62,7 +82,36 @@ const styles = StyleSheet.create({
   },
   footer: {
     height: '20%',
+    flexDirection: 'row',
+    alignItems: 'flex-end',
     justifyContent: 'center',
+    width: '100%',
+  },
+  button: {
+    margin: 6,
+    borderRadius: 4,
+    height: 60,
+    flex: 1,
+    backgroundColor: '#DDDDDD',
+  },
+  buttonLeft: {
+    marginRight: 1,
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0,
+  },
+  buttonRight: {
+    marginLeft: 1,
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
+  },
+  buttonLabel: {
+    textTransform: 'uppercase',
+    fontWeight: '500',
+    fontSize: 20,
+    height: 60,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    color: '#333333',
   },
   entryTitle: {
     margin: 0,
