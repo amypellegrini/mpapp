@@ -1,19 +1,24 @@
 import React from 'react';
+
 import {View, Text, Pressable, StyleSheet} from 'react-native';
+
 import Title from './components/title';
+import Main from './components/main';
 
 function PracticeSummary({entryTitle, duration}) {
   return (
     <View style={styles.container}>
-      <View>
-        <Title>Practice summary</Title>
-      </View>
-      <View>
-        <Text>Well done!</Text>
-        <Text>Entry title:</Text>
-        <Text>{entryTitle}</Text>
-        <Text>{duration}</Text>
-      </View>
+      <Main>
+        <View>
+          <Title>Practice summary</Title>
+        </View>
+        <View>
+          <Text>Well done!</Text>
+          <Text>Entry title:</Text>
+          <Text>{entryTitle}</Text>
+          <Text>{duration}</Text>
+        </View>
+      </Main>
       <View>
         <Pressable>
           <Text>Reset</Text>

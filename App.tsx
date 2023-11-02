@@ -4,13 +4,14 @@ import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
 import {Navigation} from 'react-native-navigation';
 
 import Title from './screens/components/title';
+import Main from './screens/components/main';
 
 function App({componentId}): JSX.Element {
   const [entryTitle, onChangeEntryTitle] = React.useState('');
 
   return (
     <View style={styles.container}>
-      <View style={styles.main}>
+      <Main>
         <Title>The Music Practice App</Title>
         <Text style={styles.inputLabel}>What are you playing?</Text>
         <TextInput
@@ -27,7 +28,7 @@ function App({componentId}): JSX.Element {
             Add entry field (e.g. key, time signature, etc.)
           </Text>
         </Pressable>
-      </View>
+      </Main>
       <Pressable
         disabled={entryTitle.length === 0}
         style={({pressed}) => {
@@ -64,12 +65,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
-  },
-  main: {
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
   },
   inputLabel: {
     color: '#EFEFEF',
