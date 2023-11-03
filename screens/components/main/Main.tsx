@@ -7,6 +7,7 @@ const Main = ({children}) => {
 
 const styles = StyleSheet.create({
   main: {
+    flex: 1,
     paddingTop: 10,
     paddingBottom: 10,
     paddingLeft: 20,

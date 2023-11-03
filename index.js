@@ -6,8 +6,15 @@ import {Navigation} from 'react-native-navigation';
 import App from './App';
 import Practice from './screens/Practice';
 import PracticeSummary from './screens/PracticeSummary';
+import PracticePreview from './screens/PrecticePreview';
+import Dashboard from './screens/Dashboard';
 
-Navigation.registerComponent('com.myApp.WelcomeScreen', () => App);
+Navigation.registerComponent('com.myApp.Welcome', () => App);
+Navigation.registerComponent('com.myApp.Dashboard', () => Dashboard);
+Navigation.registerComponent(
+  'com.myApp.PracticePreview',
+  () => PracticePreview,
+);
 Navigation.registerComponent('com.myApp.Practice', () => Practice);
 Navigation.registerComponent(
   'com.myApp.PracticeSummary',
@@ -28,7 +35,7 @@ Navigation.events().registerAppLaunchedListener(() => {
         children: [
           {
             component: {
-              name: 'com.myApp.WelcomeScreen',
+              name: 'com.myApp.Welcome',
             },
           },
         ],

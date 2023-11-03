@@ -8,14 +8,12 @@ import Container from './components/container';
 import {ButtonLeft, ButtonRight} from './components/button/Button';
 import {Navigation} from 'react-native-navigation';
 
-import {RealmProvider, useRealm} from '@realm/react';
+import {useRealm} from '@realm/react';
+
+import RealmProviderWrapper from './RealmProviderWrapper';
 
 function PracticeSummaryContent({entryTitle, duration, componentId}) {
   const realm = useRealm();
-
-  const entries = realm.objects('PracticeEntry');
-
-  console.log(entries);
 
   return (
     <Container>
@@ -44,7 +42,7 @@ function PracticeSummaryContent({entryTitle, duration, componentId}) {
 
             Navigation.push(componentId, {
               component: {
-                name: 'com.myApp.WelcomeScreen',
+                name: 'com.myApp.Welcome',
               },
             });
           }}
@@ -56,9 +54,9 @@ function PracticeSummaryContent({entryTitle, duration, componentId}) {
 
 function PracticeSummary(props) {
   return (
-    <RealmProvider>
+    <RealmProviderWrapper>
       <PracticeSummaryContent {...props} />
-    </RealmProvider>
+    </RealmProviderWrapper>
   );
 }
 

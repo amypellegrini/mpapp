@@ -6,74 +6,10 @@ import {Navigation} from 'react-native-navigation';
 import Title from './screens/components/title';
 import Main from './screens/components/main';
 import Container from './screens/components/container';
-
-import {Realm, RealmProvider, useRealm, useQuery} from '@realm/react';
-
-class PracticeEntry extends Realm.Object {
-  static schema = {
-    name: 'PracticeEntry',
-    properties: {
-      title: 'string',
-      duration: 'int',
-    },
-  };
-}
+import Welcome from './screens/Welcome';
 
 function App({componentId}): JSX.Element {
-  const [entryTitle, onChangeEntryTitle] = React.useState('');
-
-  return (
-    <RealmProvider schema={[PracticeEntry]}>
-      <Container>
-        <Main>
-          <Title>The Music Practice App</Title>
-          <Text style={styles.inputLabel}>What are you playing?</Text>
-          <TextInput
-            placeholder="Practice entry title"
-            onChangeText={value => onChangeEntryTitle(value)}
-            value={entryTitle}
-            style={styles.input}
-          />
-          <Pressable style={styles.entryFieldButton}>
-            <View style={styles.plusButton}>
-              <Text style={styles.plusIcon}>+</Text>
-            </View>
-            <Text style={styles.entryFieldText}>
-              Add entry field (e.g. key, time signature, etc.)
-            </Text>
-          </Pressable>
-        </Main>
-        <Pressable
-          disabled={entryTitle.length === 0}
-          style={({pressed}) => {
-            let backgroundColor = pressed ? '#2255DD' : '#3366EE';
-
-            if (entryTitle.length === 0) {
-              backgroundColor = '#666666';
-            }
-
-            return [
-              {
-                backgroundColor,
-              },
-              styles.button,
-            ];
-          }}
-          onPress={() => {
-            Navigation.push(componentId, {
-              component: {
-                name: 'com.myApp.Practice',
-                passProps: {
-                  entryTitle: entryTitle,
-                },
-              },
-            });
-          }}>
-          <Text style={styles.buttonText}>Start practice</Text>
-        </Pressable>
-      </Container>
-    </RealmProvider>
-  );
+  return <Welcome componentId={componentId} />;
 }
 
 const styles = StyleSheet.create({
