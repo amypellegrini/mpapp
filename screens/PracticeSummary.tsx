@@ -1,12 +1,14 @@
 import React from 'react';
 
-import {View, Text, Pressable, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 
 import Title from './components/title';
 import Main from './components/main';
 import Container from './components/container';
+import {ButtonLeft, ButtonRight} from './components/button/Button';
+import {Navigation} from 'react-native-navigation';
 
-function PracticeSummary({entryTitle, duration}) {
+function PracticeSummary({entryTitle, duration, componentId}) {
   return (
     <Container>
       <Main>
@@ -20,13 +22,18 @@ function PracticeSummary({entryTitle, duration}) {
           <Text>{duration}</Text>
         </View>
       </Main>
-      <View>
-        <Pressable>
-          <Text>Reset</Text>
-        </Pressable>
-        <Pressable>
-          <Text>Save entry</Text>
-        </Pressable>
+      <View style={styles.footer}>
+        <ButtonLeft title="Reset" onPress={() => {}} />
+        <ButtonRight
+          title="Save entry"
+          onPress={() => {
+            Navigation.push(componentId, {
+              component: {
+                name: 'com.myApp.WelcomeScreen',
+              },
+            });
+          }}
+        />
       </View>
     </Container>
   );
@@ -35,7 +42,11 @@ function PracticeSummary({entryTitle, duration}) {
 const styles = StyleSheet.create({
   header: {},
   body: {},
-  footer: {},
+  footer: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+  },
   button: {},
   buttonLeft: {},
   buttonRight: {},

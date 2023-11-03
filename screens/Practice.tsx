@@ -1,9 +1,10 @@
 import React, {useEffect} from 'react';
 
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import {Navigation} from 'react-native-navigation';
 
 import Container from './components/container';
+import {ButtonLeft, ButtonRight} from './components/button/Button';
 
 function formatTime(totalSeconds) {
   const hours = Math.floor(totalSeconds / 3600);
@@ -45,11 +46,9 @@ function Practice({entryTitle, componentId}) {
         <Text style={styles.timeDisplay}>{formatTime(seconds)}</Text>
       </View>
       <View style={styles.footer}>
-        <Pressable style={[styles.button, styles.buttonLeft]}>
-          <Text style={styles.buttonLabel}>Pause</Text>
-        </Pressable>
-        <Pressable
-          style={[styles.button, styles.buttonRight]}
+        <ButtonLeft title="Pause" onPress={() => {}} />
+        <ButtonRight
+          title="Stop"
           onPress={() => {
             Navigation.push(componentId, {
               component: {
@@ -60,9 +59,8 @@ function Practice({entryTitle, componentId}) {
                 },
               },
             });
-          }}>
-          <Text style={styles.buttonLabel}>Stop</Text>
-        </Pressable>
+          }}
+        />
       </View>
     </Container>
   );
@@ -75,33 +73,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
     justifyContent: 'center',
-    // width: '100%',
-  },
-  button: {
-    margin: 6,
-    borderRadius: 4,
-    height: 60,
-    flex: 1,
-    backgroundColor: '#DDDDDD',
-  },
-  buttonLeft: {
-    marginRight: 1,
-    borderTopRightRadius: 0,
-    borderBottomRightRadius: 0,
-  },
-  buttonRight: {
-    marginLeft: 1,
-    borderTopLeftRadius: 0,
-    borderBottomLeftRadius: 0,
-  },
-  buttonLabel: {
-    textTransform: 'uppercase',
-    fontWeight: '500',
-    fontSize: 20,
-    height: 60,
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    color: '#222222',
   },
   entryTitle: {
     margin: 0,
