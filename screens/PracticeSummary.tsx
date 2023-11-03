@@ -8,7 +8,15 @@ import Container from './components/container';
 import {ButtonLeft, ButtonRight} from './components/button/Button';
 import {Navigation} from 'react-native-navigation';
 
-function PracticeSummary({entryTitle, duration, componentId}) {
+import {RealmProvider, useRealm} from '@realm/react';
+
+function PracticeSummaryContent({entryTitle, duration, componentId}) {
+  const realm = useRealm();
+
+  const entries = realm.objects('PracticeEntry');
+
+  console.log(entries);
+
   return (
     <Container>
       <Main>
@@ -27,6 +35,13 @@ function PracticeSummary({entryTitle, duration, componentId}) {
         <ButtonRight
           title="Save entry"
           onPress={() => {
+            realm.write(() => {
+              realm.create('PracticeEntry', {
+                title: entryTitle,
+                duration: duration,
+              });
+            });
+
             Navigation.push(componentId, {
               component: {
                 name: 'com.myApp.WelcomeScreen',
@@ -36,6 +51,14 @@ function PracticeSummary({entryTitle, duration, componentId}) {
         />
       </View>
     </Container>
+  );
+}
+
+function PracticeSummary(props) {
+  return (
+    <RealmProvider>
+      <PracticeSummaryContent {...props} />
+    </RealmProvider>
   );
 }
 
