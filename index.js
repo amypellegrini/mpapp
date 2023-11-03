@@ -21,6 +21,10 @@ Navigation.events().registerAppLaunchedListener(() => {
       drawBehind: true,
       animate: false,
     },
+    hardwareBackButton: {
+      dismissModalOnPress: false,
+      popStackOnPress: false,
+    },
   });
   Navigation.setRoot({
     root: {
