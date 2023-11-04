@@ -1,7 +1,7 @@
 import React from 'react';
 import {Realm, RealmProvider} from '@realm/react';
 
-class PracticeEntry extends Realm.Object {
+export class PracticeEntry extends Realm.Object {
   static schema = {
     name: 'PracticeEntry',
     properties: {
@@ -9,6 +9,9 @@ class PracticeEntry extends Realm.Object {
       duration: 'int',
     },
   };
+
+  public title: string;
+  public duration: number;
 }
 
 function RealmProviderWrapper({children}) {
