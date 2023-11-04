@@ -37,6 +37,7 @@ function PracticeSummaryContent({entryTitle, duration, componentId}) {
               realm.create('PracticeEntry', {
                 title: entryTitle,
                 duration: duration,
+                _id: new Realm.BSON.ObjectId(),
               });
             });
 

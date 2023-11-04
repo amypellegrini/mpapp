@@ -16,7 +16,7 @@ function DashboardContent() {
         <Title>Dashboard</Title>
         <View>
           {entries.map(entry => (
-            <View key={entry.title}>
+            <View key={entry._id.toString()}>
               <Text>{entry.title}</Text>
               <Text>{entry.duration}</Text>
             </View>

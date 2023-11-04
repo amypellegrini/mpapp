@@ -2,6 +2,7 @@
  * @format
  */
 
+import 'react-native-get-random-values';
 import {Navigation} from 'react-native-navigation';
 import App from './App';
 import Practice from './screens/Practice';
