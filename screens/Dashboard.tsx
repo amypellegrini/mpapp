@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {useRealm} from '@realm/react';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {useRealm, useQuery} from '@realm/react';
 import RealmProviderWrapper, {PracticeEntry} from './RealmProviderWrapper';
 import Container from './components/container';
 import Title from './components/title';
@@ -40,7 +40,7 @@ function formatDuration(seconds: number): string {
 
 function DashboardContent() {
   const realm = useRealm();
-  const entries = realm.objects<PracticeEntry>('PracticeEntry');
+  const entries = useQuery<PracticeEntry>('PracticeEntry');
 
   const totalTime = entries.reduce((total, entry) => {
     return total + entry.duration;
@@ -53,12 +53,23 @@ function DashboardContent() {
         <View style={styles.mb10}>
           {entries.map(entry => (
             <View style={styles.entryItem} key={entry._id.toString()}>
-              <Text style={[styles.entryItemTitle, styles.entryItemText]}>
-                {entry.title}
-              </Text>
-              <Text style={styles.entryItemText}>
-                {formatDuration(entry.duration)}
-              </Text>
+              <View>
+                <Text style={[styles.entryItemTitle, styles.entryItemText]}>
+                  {entry.title}
+                </Text>
+                <Text style={styles.entryItemText}>
+                  {formatDuration(entry.duration)}
+                </Text>
+              </View>
+              <Pressable
+                style={styles.deleteButton}
+                onPress={() => {
+                  realm.write(() => {
+                    realm.delete(entry);
+                  });
+                }}>
+                <Text style={styles.deleteButtonText}>x</Text>
+              </Pressable>
             </View>
           ))}
         </View>
@@ -83,12 +94,31 @@ const styles = StyleSheet.create({
   entryItem: {
     borderRadius: 4,
     backgroundColor: '#DFDFDF',
-    padding: 10,
-    paddingTop: 5,
+    padding: 5,
+    paddingLeft: 10,
     paddingBottom: 8,
     marginBottom: 5,
     borderWidth: 1,
     borderColor: '#666666',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  deleteButton: {
+    backgroundColor: '#E11111',
+    borderRadius: 4,
+    padding: 5,
+    marginLeft: 5,
+    width: 30,
+    height: 30,
+  },
+  deleteButtonText: {
+    fontFamily: 'Arial',
+    textAlign: 'center',
+    color: '#FAFAFA',
+    fontWeight: '700',
+    fontSize: 20,
+    marginTop: -8,
   },
   entryItemTitle: {
     fontWeight: 'bold',
