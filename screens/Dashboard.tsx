@@ -108,7 +108,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   deleteButton: {
-    backgroundColor: '#E11111',
+    backgroundColor: '#D11111',
+    borderColor: '#B11111',
+    borderWidth: 1,
     borderRadius: 4,
     padding: 5,
     marginLeft: 5,
