@@ -10,25 +10,31 @@ function formatDuration(seconds: number): string {
   if (seconds === 0) {
     return '0s';
   }
+
   const time = {
     hours: Math.floor(seconds / 3600),
     minutes: Math.floor((seconds % 3600) / 60),
     seconds: seconds % 60,
   };
+
   let duration = '';
 
   if (time.hours) {
     duration += `${time.hours} hour${time.hours > 1 ? 's' : ''} `;
   }
+
   if (time.minutes) {
     duration += `${time.minutes} minute${time.minutes > 1 ? 's' : ''} `;
   }
+
   if (time.minutes && time.seconds) {
     duration += 'and ';
   }
+
   if (time.seconds) {
     duration += `${time.seconds} second${time.seconds > 1 ? 's' : ''}`;
   }
+
   return duration.trim();
 }
 
@@ -36,11 +42,15 @@ function DashboardContent() {
   const realm = useRealm();
   const entries = realm.objects<PracticeEntry>('PracticeEntry');
 
+  const totalTime = entries.reduce((total, entry) => {
+    return total + entry.duration;
+  }, 0);
+
   return (
     <Container>
       <Main>
         <Title>Dashboard</Title>
-        <View>
+        <View style={styles.mb10}>
           {entries.map(entry => (
             <View style={styles.entryItem} key={entry._id.toString()}>
               <Text style={[styles.entryItemTitle, styles.entryItemText]}>
@@ -51,6 +61,10 @@ function DashboardContent() {
               </Text>
             </View>
           ))}
+        </View>
+        <View>
+          <Text style={styles.h4}>Total practice time:</Text>
+          <Text>{formatDuration(totalTime)}</Text>
         </View>
       </Main>
     </Container>
@@ -82,6 +96,14 @@ const styles = StyleSheet.create({
   },
   entryItemText: {
     color: '#111111',
+  },
+  h4: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#EFEFEF',
+  },
+  mb10: {
+    marginBottom: 10,
   },
 });
 
