@@ -50,32 +50,35 @@ function DashboardContent() {
     <Container>
       <Main>
         <Title>Dashboard</Title>
-        <View style={styles.mb10}>
-          {entries.map(entry => (
-            <View style={styles.entryItem} key={entry._id.toString()}>
-              <View>
-                <Text style={[styles.entryItemTitle, styles.entryItemText]}>
-                  {entry.title}
-                </Text>
-                <Text style={styles.entryItemText}>
-                  {formatDuration(entry.duration)}
-                </Text>
+        {entries.length > 0 && (
+          <View style={styles.mb10}>
+            {entries.map(entry => (
+              <View style={styles.entryItem} key={entry._id.toString()}>
+                <View>
+                  <Text style={[styles.entryItemTitle, styles.entryItemText]}>
+                    {entry.title}
+                  </Text>
+                  <Text style={styles.entryItemText}>
+                    {formatDuration(entry.duration)}
+                  </Text>
+                </View>
+                <Pressable
+                  style={styles.deleteButton}
+                  onPress={() => {
+                    realm.write(() => {
+                      realm.delete(entry);
+                    });
+                  }}>
+                  <Text style={styles.deleteButtonText}>x</Text>
+                </Pressable>
               </View>
-              <Pressable
-                style={styles.deleteButton}
-                onPress={() => {
-                  realm.write(() => {
-                    realm.delete(entry);
-                  });
-                }}>
-                <Text style={styles.deleteButtonText}>x</Text>
-              </Pressable>
-            </View>
-          ))}
-        </View>
+            ))}
+          </View>
+        )}
         <View>
           <Text style={styles.h4}>Total practice time:</Text>
-          <Text>{formatDuration(totalTime)}</Text>
+          {totalTime === 0 && <Text>You haven't practiced anything yet!</Text>}
+          {totalTime > 0 && <Text>{formatDuration(totalTime)}</Text>}
         </View>
       </Main>
     </Container>
@@ -131,6 +134,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#EFEFEF',
+    marginBottom: 5,
   },
   mb10: {
     marginBottom: 10,
