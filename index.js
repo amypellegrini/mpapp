@@ -9,11 +9,17 @@ import {Navigation} from 'react-native-navigation';
 import App from './App';
 import Practice from './screens/Practice';
 import PracticeSummary from './screens/PracticeSummary';
-import PracticePreview from './screens/PrecticePreview';
+import PracticePreview from './screens/PracticePreview';
+import PracticeJournal from './screens/PracticeJournal';
+import PracticeMenu from './screens/PracticeMenu';
 import Dashboard from './screens/Dashboard';
+import Goals from './screens/Goals';
+import PracticeSchedule from './screens/PracticeSchedule';
 
 Navigation.registerComponent('com.myApp.Welcome', () => App);
 Navigation.registerComponent('com.myApp.Dashboard', () => Dashboard);
+Navigation.registerComponent('com.myApp.PracticeMenu', () => PracticeMenu);
+
 Navigation.registerComponent(
   'com.myApp.PracticePreview',
   () => PracticePreview,
@@ -23,6 +29,15 @@ Navigation.registerComponent(
   'com.myApp.PracticeSummary',
   () => PracticeSummary,
 );
+Navigation.registerComponent(
+  'com.myApp.PracticeJournal',
+  () => PracticeJournal,
+);
+Navigation.registerComponent(
+  'com.myApp.PracticeSchedule',
+  () => PracticeSchedule,
+);
+Navigation.registerComponent('com.myApp.Goals', () => Goals);
 
 Navigation.events().registerAppLaunchedListener(() => {
   Navigation.setDefaultOptions({

@@ -11,43 +11,23 @@ const Welcome = ({componentId}) => {
     <Container>
       <Main>
         <Title>The Music Pratice App</Title>
+        <Button title="Free practice" onPress={() => {}} />
         <Button
-          title="Practice"
+          title="Detailed practice"
           onPress={() => {
             Navigation.push(componentId, {
               component: {
-                name: 'com.myApp.PracticeMenu',
+                name: 'com.myApp.PracticePreview',
               },
             });
           }}
         />
         <Button
-          title="Dashboard"
+          title="Practice schedule"
           onPress={() => {
             Navigation.push(componentId, {
               component: {
-                name: 'com.myApp.Dashboard',
-              },
-            });
-          }}
-        />
-        <Button
-          title="Goals"
-          onPress={() => {
-            Navigation.push(componentId, {
-              component: {
-                name: 'com.myApp.Goals',
-              },
-            });
-          }}
-        />
-
-        <Button
-          title="Practice journal"
-          onPress={() => {
-            Navigation.push(componentId, {
-              component: {
-                name: 'com.myApp.PracticeJournal',
+                name: 'com.myApp.PracticeSchedule',
               },
             });
           }}
