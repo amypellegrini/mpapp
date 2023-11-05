@@ -41,6 +41,7 @@ function PracticeSummaryContent({entryTitle, duration, componentId}) {
                 title: entryTitle,
                 duration: duration,
                 _id: new Realm.BSON.ObjectId(),
+                createdAt: new Date(),
               });
             });
 

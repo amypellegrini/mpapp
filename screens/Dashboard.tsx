@@ -59,6 +59,9 @@ function DashboardContent() {
                     {entry.title}
                   </Text>
                   <Text style={styles.entryItemText}>
+                    {entry.createdAt.toLocaleString()}
+                  </Text>
+                  <Text style={styles.entryItemText}>
                     {formatDuration(entry.duration)}
                   </Text>
                 </View>

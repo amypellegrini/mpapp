@@ -11,16 +11,18 @@ export class PracticeEntry extends Realm.Object {
       _id: 'objectId',
       title: 'string',
       duration: 'int',
+      createdAt: 'date',
     },
   };
 
   public title: string;
   public duration: number;
+  public createdAt: Date;
 }
 
 const config: Realm.Configuration = {
   schema: [PracticeEntry],
-  schemaVersion: 1,
+  schemaVersion: 2,
 };
 
 function RealmProviderWrapper({children}) {
