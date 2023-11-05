@@ -6,18 +6,27 @@ import Button from './components/button';
 import {Navigation} from 'react-native-navigation';
 import Main from './components/main';
 
-const Welcome = ({componentId}) => {
+const PracticeMenu = ({componentId}) => {
   return (
     <Container>
       <Main>
         <Title>The Music Pratice App</Title>
-        <Button title="Free practice" onPress={() => {}} />
         <Button
           title="Detailed practice"
           onPress={() => {
             Navigation.push(componentId, {
               component: {
                 name: 'com.myApp.PracticePreview',
+              },
+            });
+          }}
+        />
+        <Button
+          title="Free practice"
+          onPress={() => {
+            Navigation.push(componentId, {
+              component: {
+                name: 'com.myApp.FreePractice',
               },
             });
           }}
@@ -39,4 +48,4 @@ const Welcome = ({componentId}) => {
 
 const styles = StyleSheet.create({});
 
-export default Welcome;
+export default PracticeMenu;

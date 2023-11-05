@@ -32,15 +32,16 @@ const styles = StyleSheet.create({
     margin: 6,
     borderRadius: 4,
     height: 60,
-    flex: 1,
     backgroundColor: '#DDDDDD',
   },
   buttonLeft: {
+    flex: 1,
     marginRight: 1,
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0,
   },
   buttonRight: {
+    flex: 1,
     marginLeft: 1,
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,

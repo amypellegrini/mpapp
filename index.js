@@ -15,11 +15,12 @@ import PracticeMenu from './screens/PracticeMenu';
 import Dashboard from './screens/Dashboard';
 import Goals from './screens/Goals';
 import PracticeSchedule from './screens/PracticeSchedule';
+import FreePractice from './screens/FreePractice';
 
 Navigation.registerComponent('com.myApp.Welcome', () => App);
 Navigation.registerComponent('com.myApp.Dashboard', () => Dashboard);
 Navigation.registerComponent('com.myApp.PracticeMenu', () => PracticeMenu);
-
+Navigation.registerComponent('com.myApp.FreePractice', () => FreePractice);
 Navigation.registerComponent(
   'com.myApp.PracticePreview',
   () => PracticePreview,
