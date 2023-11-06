@@ -41,14 +41,15 @@ function PracticeSummaryContent({entryTitle, duration, componentId}) {
             <Text>{duration}</Text>
           </View>
 
-          <Text style={styles.h6}>Total practice time:</Text>
-          <Text>
-            {`${computedTotalTime}${
-              entrySummary
-                ? ' since ' + entrySummary.createdAt.toLocaleString()
-                : ''
-            }`}
-          </Text>
+          {entrySummary && (
+            <View style={styles.mb10}>
+              <Text style={styles.h6}>Total practice time:</Text>
+              <Text>
+                {computedTotalTime} since{' '}
+                {entrySummary.createdAt.toLocaleString()}
+              </Text>
+            </View>
+          )}
         </View>
       </Main>
       <View style={styles.footer}>
