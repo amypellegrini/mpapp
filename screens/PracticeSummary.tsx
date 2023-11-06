@@ -1,6 +1,6 @@
 import 'react-native-get-random-values';
 
-import React from 'react';
+import React, {useState} from 'react';
 import Realm from 'realm';
 
 import {View, Text, StyleSheet} from 'react-native';
@@ -11,12 +11,21 @@ import Container from './components/container';
 import {ButtonLeft, ButtonRight} from './components/button/Button';
 import {Navigation} from 'react-native-navigation';
 
-import {useRealm} from '@realm/react';
+import {useQuery, useRealm} from '@realm/react';
 
-import RealmProviderWrapper from './RealmProviderWrapper';
+import RealmProviderWrapper, {
+  PracticeEntrySummary,
+} from './RealmProviderWrapper';
 
 function PracticeSummaryContent({entryTitle, duration, componentId}) {
   const realm = useRealm();
+  const entrySummary = useQuery<PracticeEntrySummary>(
+    'PracticeEntrySummary',
+  ).filtered(`title = "${entryTitle}"`)[0];
+
+  const [computedTotalTime] = useState(
+    duration + (entrySummary ? entrySummary.totalDuration : 0),
+  );
 
   return (
     <Container>
@@ -25,10 +34,21 @@ function PracticeSummaryContent({entryTitle, duration, componentId}) {
           <Title>Practice summary</Title>
         </View>
         <View>
-          <Text>Well done!</Text>
-          <Text>Entry title:</Text>
-          <Text>{entryTitle}</Text>
-          <Text>{duration}</Text>
+          <View style={styles.mb10}>
+            <Text style={styles.h4}>Well done!</Text>
+            <Text style={styles.h6}>Entry details:</Text>
+            <Text>{entryTitle}</Text>
+            <Text>{duration}</Text>
+          </View>
+
+          <Text style={styles.h6}>Total practice time:</Text>
+          <Text>
+            {`${computedTotalTime}${
+              entrySummary
+                ? ' since ' + entrySummary.createdAt.toLocaleString()
+                : ''
+            }`}
+          </Text>
         </View>
       </Main>
       <View style={styles.footer}>
@@ -37,11 +57,25 @@ function PracticeSummaryContent({entryTitle, duration, componentId}) {
           title="Save entry"
           onPress={() => {
             realm.write(() => {
+              const date = new Date();
+
+              if (entrySummary) {
+                entrySummary.totalDuration += duration;
+              } else {
+                realm.create('PracticeEntrySummary', {
+                  title: entryTitle,
+                  totalDuration: duration,
+                  _id: new Realm.BSON.ObjectId(),
+                  createdAt: date,
+                  updatedAt: date,
+                });
+              }
+
               realm.create('PracticeEntry', {
                 title: entryTitle,
                 duration: duration,
                 _id: new Realm.BSON.ObjectId(),
-                createdAt: new Date(),
+                createdAt: date,
               });
             });
 
@@ -73,12 +107,20 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'center',
   },
-  button: {},
-  buttonLeft: {},
-  buttonRight: {},
-  buttonLabel: {},
   entryTitle: {},
-  timeDisplay: {},
+  h4: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#EFEFEF',
+    marginBottom: 5,
+  },
+  h6: {
+    color: '#EFEFEF',
+    fontWeight: 'bold',
+  },
+  mb10: {
+    marginBottom: 10,
+  },
 });
 
 export default PracticeSummary;

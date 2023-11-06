@@ -2,6 +2,26 @@ import React from 'react';
 import Realm from 'realm';
 import {RealmProvider} from '@realm/react';
 
+export class PracticeEntrySummary extends Realm.Object {
+  _id!: Realm.BSON.ObjectId;
+
+  static schema = {
+    name: 'PracticeEntrySummary',
+    properties: {
+      _id: 'objectId',
+      title: 'string',
+      totalDuration: 'int',
+      createdAt: 'date',
+      updatedAt: 'date',
+    },
+  };
+
+  public title: string;
+  public totalDuration: number;
+  public createdAt: Date;
+  public updatedAt: Date;
+}
+
 export class PracticeEntry extends Realm.Object {
   _id!: Realm.BSON.ObjectId;
 
@@ -21,8 +41,8 @@ export class PracticeEntry extends Realm.Object {
 }
 
 const config: Realm.Configuration = {
-  schema: [PracticeEntry],
-  schemaVersion: 2,
+  schema: [PracticeEntry, PracticeEntrySummary],
+  schemaVersion: 4,
 };
 
 function RealmProviderWrapper({children}) {
