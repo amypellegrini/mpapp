@@ -1,9 +1,9 @@
 import 'react-native-get-random-values';
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Realm from 'realm';
 
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, BackHandler} from 'react-native';
 
 import Title from './components/title';
 import Main from './components/main';
@@ -19,6 +19,21 @@ import RealmProviderWrapper, {
 
 function PracticeSummaryContent({entryTitle, duration, componentId}) {
   const realm = useRealm();
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      () => {
+        Navigation.popToRoot(componentId);
+        return true;
+      },
+    );
+
+    return () => {
+      backHandler.remove();
+    };
+  }, []);
+
   const entrySummary = useQuery<PracticeEntrySummary>(
     'PracticeEntrySummary',
   ).filtered(`title = "${entryTitle}"`)[0];
