@@ -1,8 +1,7 @@
 import React from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import {useRealm, useQuery} from '@realm/react';
 import RealmProviderWrapper, {
-  PracticeEntry,
   PracticeEntrySummary,
 } from './RealmProviderWrapper';
 import Container from './components/container';

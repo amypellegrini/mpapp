@@ -16,6 +16,8 @@ import {useQuery, useRealm} from '@realm/react';
 import RealmProviderWrapper, {
   PracticeEntrySummary,
 } from './RealmProviderWrapper';
+import formatDuration from './components/utils/formatDuration';
+import commonStyles from './components/commonStyles';
 
 function PracticeSummaryContent({entryTitle, duration, componentId}) {
   const realm = useRealm();
@@ -49,18 +51,18 @@ function PracticeSummaryContent({entryTitle, duration, componentId}) {
           <Title>Practice summary</Title>
         </View>
         <View>
-          <View style={styles.mb10}>
-            <Text style={styles.h4}>Well done!</Text>
-            <Text style={styles.h6}>Entry details:</Text>
+          <View style={commonStyles.mb10}>
+            <Text style={commonStyles.h4}>Well done!</Text>
+            <Text style={commonStyles.h6}>Entry details:</Text>
             <Text>{entryTitle}</Text>
-            <Text>{duration}</Text>
+            <Text>{formatDuration(duration)}</Text>
           </View>
 
           {entrySummary && (
             <View style={styles.mb10}>
-              <Text style={styles.h6}>Total practice time:</Text>
+              <Text style={commonStyles.h6}>Total practice time:</Text>
               <Text>
-                {computedTotalTime} since{' '}
+                {formatDuration(computedTotalTime)} since{' '}
                 {entrySummary.createdAt.toLocaleString()}
               </Text>
             </View>
@@ -120,19 +122,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   entryTitle: {},
-  h4: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#EFEFEF',
-    marginBottom: 5,
-  },
-  h6: {
-    color: '#EFEFEF',
-    fontWeight: 'bold',
-  },
-  mb10: {
-    marginBottom: 10,
-  },
 });
 
 export default PracticeSummary;

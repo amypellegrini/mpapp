@@ -10,6 +10,7 @@ import RealmProviderWrapper, {
 import {useQuery, useRealm} from '@realm/react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {Navigation} from 'react-native-navigation';
+import commonStyles from './components/commonStyles';
 
 function formatDuration(seconds: number): string {
   if (seconds === 0) {
@@ -53,46 +54,43 @@ function PracticeJournalContent({componentId}) {
     <Container>
       <Main>
         <Title>Practice journal</Title>
-        {entrySummaryList.map(entrySummary => {
-          const entryTitleCopy = entrySummary.title;
-          return (
-            <Pressable
-              style={styles.entryItem}
-              key={entrySummary._id.toString()}
-              onPress={() => {
-                Navigation.push(componentId, {
-                  component: {
-                    name: 'com.myApp.EntrySummaryDetail',
-                    passProps: {
-                      entryTitle: entryTitleCopy,
+        <View style={commonStyles.mb10}>
+          <Text style={commonStyles.h4}>Practice summary</Text>
+          {entrySummaryList.map(entrySummary => {
+            const entryTitleCopy = entrySummary.title;
+            return (
+              <Pressable
+                style={styles.entryItem}
+                key={entrySummary._id.toString()}
+                onPress={() => {
+                  Navigation.push(componentId, {
+                    component: {
+                      name: 'com.myApp.EntrySummaryDetail',
+                      passProps: {
+                        entryTitle: entryTitleCopy,
+                      },
                     },
-                  },
-                });
-              }}>
-              <Text style={[styles.h6, styles.entryItemText]}>
-                {entrySummary.title}
-              </Text>
-              <Text style={[styles.entryItemText]}>
-                {entrySummary.totalDuration} since{' '}
-                {entrySummary.createdAt.toLocaleString()}
-              </Text>
-            </Pressable>
-          );
-        })}
+                  });
+                }}>
+                <Text style={[commonStyles.h6, styles.entryItemText]}>
+                  {entrySummary.title}
+                </Text>
+                <Text style={[styles.entryItemText]}>
+                  {formatDuration(entrySummary.totalDuration)} since{' '}
+                  {entrySummary.createdAt.toLocaleString()}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </View>
         {entries.length > 0 && (
-          <View style={styles.mb10}>
-            <Text style={styles.h6}>Practice history:</Text>
+          <View style={commonStyles.mb10}>
+            <Text style={commonStyles.h4}>Practice history</Text>
             {entries.map(entry => (
-              <View key={entry._id.toString()} style={styles.entryItem}>
-                <Text style={[styles.entryItemTitle, styles.entryItemText]}>
-                  {entry.title}
-                </Text>
-                <Text style={styles.entryItemText}>
-                  {entry.createdAt.toLocaleString()}
-                </Text>
-                <Text style={styles.entryItemText}>
-                  {formatDuration(entry.duration)}
-                </Text>
+              <View key={entry._id.toString()} style={commonStyles.mb10}>
+                <Text style={[styles.entryItemTitle]}>{entry.title}</Text>
+                <Text>{entry.createdAt.toLocaleString()}</Text>
+                <Text>{formatDuration(entry.duration)}</Text>
               </View>
             ))}
           </View>
@@ -111,25 +109,16 @@ function PracticeJournal({componentId}) {
 }
 
 const styles = StyleSheet.create({
-  h6: {
-    color: '#EFEFEF',
-    fontWeight: 'bold',
-  },
-  mb10: {
-    marginBottom: 10,
-  },
   entryItem: {
     borderRadius: 4,
     backgroundColor: '#DFDFDF',
     padding: 5,
     paddingLeft: 10,
+    paddingRight: 10,
     paddingBottom: 8,
     marginBottom: 5,
     borderWidth: 1,
     borderColor: '#666666',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
   },
   deleteButton: {
     backgroundColor: '#D11111',
