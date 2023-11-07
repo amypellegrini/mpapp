@@ -9,6 +9,7 @@ import RealmProviderWrapper, {
 } from './RealmProviderWrapper';
 import {useQuery, useRealm} from '@realm/react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {Navigation} from 'react-native-navigation';
 
 function formatDuration(seconds: number): string {
   if (seconds === 0) {
@@ -42,8 +43,7 @@ function formatDuration(seconds: number): string {
   return duration.trim();
 }
 
-function PracticeJournalContent() {
-  const realm = useRealm();
+function PracticeJournalContent({componentId}) {
   const entries = useQuery<PracticeEntry>('PracticeEntry');
   const entrySummaryList = useQuery<PracticeEntrySummary>(
     'PracticeEntrySummary',
@@ -53,41 +53,46 @@ function PracticeJournalContent() {
     <Container>
       <Main>
         <Title>Practice journal</Title>
-        {entrySummaryList.map(entrySummary => (
-          <View key={entrySummary._id.toString()} style={styles.mb10}>
-            <Text style={styles.h6}>{entrySummary.title}</Text>
-            <Text>
-              {entrySummary.totalDuration} since{' '}
-              {entrySummary.createdAt.toLocaleString()}
-            </Text>
-          </View>
-        ))}
+        {entrySummaryList.map(entrySummary => {
+          const entryTitleCopy = entrySummary.title;
+          return (
+            <Pressable
+              style={styles.entryItem}
+              key={entrySummary._id.toString()}
+              onPress={() => {
+                Navigation.push(componentId, {
+                  component: {
+                    name: 'com.myApp.EntrySummaryDetail',
+                    passProps: {
+                      entryTitle: entryTitleCopy,
+                    },
+                  },
+                });
+              }}>
+              <Text style={[styles.h6, styles.entryItemText]}>
+                {entrySummary.title}
+              </Text>
+              <Text style={[styles.entryItemText]}>
+                {entrySummary.totalDuration} since{' '}
+                {entrySummary.createdAt.toLocaleString()}
+              </Text>
+            </Pressable>
+          );
+        })}
         {entries.length > 0 && (
           <View style={styles.mb10}>
             <Text style={styles.h6}>Practice history:</Text>
             {entries.map(entry => (
-              <View style={styles.entryItem} key={entry._id.toString()}>
-                <View>
-                  <Text style={[styles.entryItemTitle, styles.entryItemText]}>
-                    {entry.title}
-                  </Text>
-                  <Text style={styles.entryItemText}>
-                    {entry.createdAt.toLocaleString()}
-                  </Text>
-                  <Text style={styles.entryItemText}>
-                    {formatDuration(entry.duration)}
-                  </Text>
-                </View>
-                {/* TODO: move this feature to EntrySummaryDetail */}
-                {/* <Pressable
-                  style={styles.deleteButton}
-                  onPress={() => {
-                    realm.write(() => {
-                      realm.delete(entry);
-                    });
-                  }}>
-                  <Text style={styles.deleteButtonText}>x</Text>
-                </Pressable> */}
+              <View key={entry._id.toString()} style={styles.entryItem}>
+                <Text style={[styles.entryItemTitle, styles.entryItemText]}>
+                  {entry.title}
+                </Text>
+                <Text style={styles.entryItemText}>
+                  {entry.createdAt.toLocaleString()}
+                </Text>
+                <Text style={styles.entryItemText}>
+                  {formatDuration(entry.duration)}
+                </Text>
               </View>
             ))}
           </View>
@@ -97,10 +102,10 @@ function PracticeJournalContent() {
   );
 }
 
-function PracticeJournal() {
+function PracticeJournal({componentId}) {
   return (
     <RealmProviderWrapper>
-      <PracticeJournalContent />
+      <PracticeJournalContent componentId={componentId} />
     </RealmProviderWrapper>
   );
 }
