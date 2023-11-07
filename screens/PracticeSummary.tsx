@@ -95,11 +95,7 @@ function PracticeSummaryContent({entryTitle, duration, componentId}) {
               });
             });
 
-            Navigation.push(componentId, {
-              component: {
-                name: 'com.myApp.Welcome',
-              },
-            });
+            Navigation.popToRoot(componentId);
           }}
         />
       </View>
