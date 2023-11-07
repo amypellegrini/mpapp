@@ -17,7 +17,10 @@ function EntrySummaryDetailContent({entryTitle, componentId}) {
     <Container>
       <Main>
         <Title>{entryTitle}</Title>
-        <Text style={commonStyles.h4}>Practice entries under this title</Text>
+        <Text style={commonStyles.h4}>
+          {entries.length} practice {entries.length > 1 ? 'entries' : 'entry'}{' '}
+          under this title
+        </Text>
         {entries.map(entry => (
           <View key={entry._id.toString()} style={commonStyles.mb10}>
             <Text>{entry.createdAt.toLocaleString()}</Text>
