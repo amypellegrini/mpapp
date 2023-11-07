@@ -1,31 +1,61 @@
 import React from 'react';
 
-import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  useColorScheme,
+} from 'react-native';
 import {Navigation} from 'react-native-navigation';
 
 import Title from './components/title';
 import Main from './components/main';
 import Container from './components/container';
+import commonStyles from './components/commonStyles';
 
 function PracticePreview({componentId}): JSX.Element {
+  const isDarkMode = useColorScheme() === 'dark';
   const [entryTitle, onChangeEntryTitle] = React.useState('');
 
   return (
     <Container>
       <Main>
         <Title>The Music Practice App</Title>
-        <Text style={styles.inputLabel}>What are you playing?</Text>
+        <Text
+          style={[
+            commonStyles.h4,
+            {
+              color: isDarkMode ? '#EFEFEF' : '#202020',
+            },
+          ]}>
+          What are you playing?
+        </Text>
         <TextInput
           placeholder="Practice entry title"
           onChangeText={value => onChangeEntryTitle(value)}
           value={entryTitle}
-          style={styles.input}
+          style={[
+            styles.input,
+            {
+              color: isDarkMode ? '#BFBFBF' : '#666666',
+              borderBottomColor: isDarkMode ? '#BFBFBF' : '#666666',
+            },
+          ]}
+          placeholderTextColor={isDarkMode ? '#BFBFBF' : '#666666'}
         />
         <Pressable style={styles.entryFieldButton}>
           <View style={styles.plusButton}>
             <Text style={styles.plusIcon}>+</Text>
           </View>
-          <Text style={styles.entryFieldText}>
+          <Text
+            style={[
+              styles.entryFieldText,
+              {
+                color: isDarkMode ? '#BFBFBF' : '#666666',
+              },
+            ]}>
             Add entry field (e.g. key, time signature, etc.)
           </Text>
         </Pressable>
@@ -56,18 +86,21 @@ function PracticePreview({componentId}): JSX.Element {
             },
           });
         }}>
-        <Text style={styles.buttonText}>Start practice</Text>
+        <Text
+          style={[
+            styles.buttonText,
+            {
+              color: isDarkMode ? '#BFBFBF' : '#FFFFFF',
+            },
+          ]}>
+          Start practice
+        </Text>
       </Pressable>
     </Container>
   );
 }
 
 const styles = StyleSheet.create({
-  inputLabel: {
-    color: '#EFEFEF',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
   buttonText: {
     textTransform: 'uppercase',
     fontWeight: 'bold',

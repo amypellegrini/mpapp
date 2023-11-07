@@ -1,8 +1,26 @@
 import React from 'react';
-import {Text, StyleSheet} from 'react-native';
+import {Text, StyleSheet, useColorScheme} from 'react-native';
 
-const Title = ({children}) => {
-  return <Text style={styles.title}>{children}</Text>;
+const Title = ({style = {}, children}) => {
+  const isDarkMode = useColorScheme() === 'dark';
+
+  const stylesArray = Array.isArray(style) ? style : [style];
+  const resolvedStyles = stylesArray.map(style =>
+    typeof style === 'function' ? style({pressed: false}) : style,
+  );
+
+  return (
+    <Text
+      style={[
+        styles.title,
+        {
+          color: isDarkMode ? '#EFEFEF' : '#202020',
+        },
+        ...resolvedStyles,
+      ]}>
+      {children}
+    </Text>
+  );
 };
 
 const styles = StyleSheet.create({

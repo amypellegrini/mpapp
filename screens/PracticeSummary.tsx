@@ -3,7 +3,13 @@ import 'react-native-get-random-values';
 import React, {useEffect, useState} from 'react';
 import Realm from 'realm';
 
-import {View, Text, StyleSheet, BackHandler} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  BackHandler,
+  useColorScheme,
+} from 'react-native';
 
 import Title from './components/title';
 import Main from './components/main';
@@ -21,6 +27,7 @@ import commonStyles from './components/commonStyles';
 
 function PracticeSummaryContent({entryTitle, duration, componentId}) {
   const realm = useRealm();
+  const isDarkMode = useColorScheme() === 'dark';
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
@@ -52,15 +59,33 @@ function PracticeSummaryContent({entryTitle, duration, componentId}) {
         </View>
         <View>
           <View style={commonStyles.mb10}>
-            <Text style={commonStyles.h4}>Well done!</Text>
-            <Text style={commonStyles.h6}>Entry details:</Text>
+            <Text
+              style={[
+                commonStyles.h4,
+                {color: isDarkMode ? '#EFEFEF' : '#202020'},
+              ]}>
+              Well done!
+            </Text>
+            <Text
+              style={[
+                commonStyles.h6,
+                {color: isDarkMode ? '#EFEFEF' : '#202020'},
+              ]}>
+              Entry details:
+            </Text>
             <Text>{entryTitle}</Text>
             <Text>{formatDuration(duration)}</Text>
           </View>
 
           {entrySummary && (
             <View style={commonStyles.mb10}>
-              <Text style={commonStyles.h6}>Total practice time:</Text>
+              <Text
+                style={[
+                  commonStyles.h6,
+                  {color: isDarkMode ? '#EFEFEF' : '#202020'},
+                ]}>
+                Total practice time:
+              </Text>
               <Text>
                 {formatDuration(computedTotalTime)} since{' '}
                 {entrySummary.createdAt.toLocaleString()}

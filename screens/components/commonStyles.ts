@@ -14,6 +14,9 @@ const commonStyles = StyleSheet.create({
   mb10: {
     marginBottom: 10,
   },
+  textCenter: {
+    textAlign: 'center',
+  },
 });
 
 export default commonStyles;

@@ -1,10 +1,12 @@
 import React, {useEffect} from 'react';
 
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, useColorScheme} from 'react-native';
 import {Navigation} from 'react-native-navigation';
 
 import Container from './components/container';
 import {ButtonLeft, ButtonRight} from './components/button/Button';
+import Title from './components/title';
+import commonStyles from './components/commonStyles';
 
 function formatTime(totalSeconds) {
   const hours = Math.floor(totalSeconds / 3600);
@@ -19,6 +21,7 @@ function formatTime(totalSeconds) {
 }
 
 function Practice({entryTitle, componentId}) {
+  const isDarkMode = useColorScheme() === 'dark';
   const startTime = Date.now();
 
   const [seconds, setSeconds] = React.useState(0);
@@ -39,11 +42,17 @@ function Practice({entryTitle, componentId}) {
 
   return (
     <Container>
-      <View style={styles.header}>
-        <Text style={styles.entryTitle}>{entryTitle}</Text>
-      </View>
+      <Title style={commonStyles.textCenter}>{entryTitle}</Title>
       <View style={styles.body}>
-        <Text style={styles.timeDisplay}>{formatTime(seconds)}</Text>
+        <Text
+          style={[
+            styles.timeDisplay,
+            {
+              color: isDarkMode ? '#EFEFEF' : '#202020',
+            },
+          ]}>
+          {formatTime(seconds)}
+        </Text>
       </View>
       <View style={styles.footer}>
         <ButtonLeft title="Pause" onPress={() => {}} />
