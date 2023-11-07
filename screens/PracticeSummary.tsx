@@ -59,7 +59,7 @@ function PracticeSummaryContent({entryTitle, duration, componentId}) {
           </View>
 
           {entrySummary && (
-            <View style={styles.mb10}>
+            <View style={commonStyles.mb10}>
               <Text style={commonStyles.h6}>Total practice time:</Text>
               <Text>
                 {formatDuration(computedTotalTime)} since{' '}

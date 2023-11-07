@@ -6,15 +6,24 @@ interface ButtonProps extends PressableProps {
   onPress: () => void;
 }
 
-const Button: React.FC<ButtonProps> = ({title, style, ...props}) => {
+const Button: React.FC<ButtonProps> = ({title, style, children, ...props}) => {
   const stylesArray = Array.isArray(style) ? style : [style];
   const resolvedStyles = stylesArray.map(style =>
     typeof style === 'function' ? style({pressed: false}) : style,
   );
 
+  const renderChildren = () => {
+    if (typeof children === 'function') {
+      return children({pressed: false});
+    }
+
+    return children;
+  };
+
   return (
     <Pressable style={[styles.button, ...resolvedStyles]} {...props}>
       <Text style={styles.text}>{title}</Text>
+      {renderChildren()}
     </Pressable>
   );
 };
