@@ -42,7 +42,6 @@ const ButtonRight = (props: ButtonProps) => {
 const styles = StyleSheet.create({
   button: {
     borderRadius: 4,
-    height: 60,
     backgroundColor: '#DDDDDD',
   },
   buttonLeft: {

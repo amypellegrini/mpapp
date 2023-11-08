@@ -34,6 +34,9 @@ const commonStyles = StyleSheet.create({
   mb20: {
     marginBottom: 20,
   },
+  mb30: {
+    marginBottom: 30,
+  },
   textCenter: {
     textAlign: 'center',
   },
