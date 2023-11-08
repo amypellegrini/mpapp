@@ -1,5 +1,6 @@
 import React from 'react';
-import {StyleSheet, Text, useColorScheme} from 'react-native';
+import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {StyleSheet, Text} from 'react-native';
 import Container from './components/container';
 import Title from './components/title';
 import Button from './components/button';
@@ -21,14 +22,19 @@ const PracticeMenu = ({componentId}) => {
               },
             });
           }}>
+          <MaterialCommunityIcon
+            style={commonStyles.mAuto}
+            name="playlist-music"
+            color="#333333"
+            size={50}
+          />
           <Text
             style={[
               {
-                marginTop: -10,
                 color: '#111111',
               },
               commonStyles.textCenter,
-              commonStyles.mb20,
+              commonStyles.mb10,
             ]}>
             Set tempo, key, time signature, etc.
           </Text>
@@ -42,14 +48,19 @@ const PracticeMenu = ({componentId}) => {
               },
             });
           }}>
+          <MaterialCommunityIcon
+            style={commonStyles.mAuto}
+            name="music"
+            color="#333333"
+            size={50}
+          />
           <Text
             style={[
               {
-                marginTop: -10,
                 color: '#111111',
               },
               commonStyles.textCenter,
-              commonStyles.mb20,
+              commonStyles.mb10,
             ]}>
             Just track my practice time.
           </Text>

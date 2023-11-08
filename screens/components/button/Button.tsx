@@ -25,7 +25,7 @@ const Button: React.FC<ButtonProps> = ({title, style, children, ...props}) => {
     <Pressable
       style={[commonStyles.mb6, styles.button, ...resolvedStyles]}
       {...props}>
-      <Text style={styles.text}>{title}</Text>
+      <Text style={[styles.text]}>{title}</Text>
       {renderChildren()}
     </Pressable>
   );

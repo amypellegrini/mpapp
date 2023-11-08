@@ -45,8 +45,8 @@ const Welcome = ({componentId}) => {
               },
             });
           }}>
-          <FontistoIcon
-            name="music-note"
+          <MaterialCommunityIcon
+            name="music"
             style={styles.icon}
             size={30}
             color="#333333"
@@ -130,9 +130,8 @@ const Welcome = ({componentId}) => {
 
 const styles = StyleSheet.create({
   icon: {
-    marginLeft: 10,
     marginRight: 10,
-    width: 30,
+    width: 28,
   },
   iconButton: {
     display: 'flex',
