@@ -24,10 +24,11 @@ const PracticeMenu = ({componentId}) => {
           <Text
             style={[
               {
+                marginTop: -10,
                 color: '#111111',
               },
               commonStyles.textCenter,
-              commonStyles.mb30,
+              commonStyles.mb20,
             ]}>
             Set tempo, key, time signature, etc.
           </Text>
@@ -44,10 +45,11 @@ const PracticeMenu = ({componentId}) => {
           <Text
             style={[
               {
+                marginTop: -10,
                 color: '#111111',
               },
               commonStyles.textCenter,
-              commonStyles.mb30,
+              commonStyles.mb20,
             ]}>
             Just track my practice time.
           </Text>
