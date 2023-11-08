@@ -8,7 +8,7 @@ import RealmProviderWrapper, {
   PracticeEntrySummary,
 } from './RealmProviderWrapper';
 import {useQuery, useRealm} from '@realm/react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {View, Text, StyleSheet, Pressable, ScrollView} from 'react-native';
 import {Navigation} from 'react-native-navigation';
 import commonStyles from './components/commonStyles';
 
@@ -54,45 +54,55 @@ function PracticeJournalContent({componentId}) {
     <Container>
       <Main>
         <Title>Practice journal</Title>
-        <View style={commonStyles.mb10}>
+        <View
+          style={[
+            commonStyles.mb10,
+            {
+              maxHeight: '30%',
+            },
+          ]}>
           <Text style={commonStyles.h4}>Practice summary</Text>
-          {entrySummaryList.map(entrySummary => {
-            const entryTitleCopy = entrySummary.title;
-            return (
-              <Pressable
-                style={styles.entryItem}
-                key={entrySummary._id.toString()}
-                onPress={() => {
-                  Navigation.push(componentId, {
-                    component: {
-                      name: 'com.myApp.EntrySummaryDetail',
-                      passProps: {
-                        entryTitle: entryTitleCopy,
+          <ScrollView>
+            {entrySummaryList.map(entrySummary => {
+              const entryTitleCopy = entrySummary.title;
+              return (
+                <Pressable
+                  style={styles.entryItem}
+                  key={entrySummary._id.toString()}
+                  onPress={() => {
+                    Navigation.push(componentId, {
+                      component: {
+                        name: 'com.myApp.EntrySummaryDetail',
+                        passProps: {
+                          entryTitle: entryTitleCopy,
+                        },
                       },
-                    },
-                  });
-                }}>
-                <Text style={[commonStyles.h6, styles.entryItemText]}>
-                  {entrySummary.title}
-                </Text>
-                <Text style={[styles.entryItemText]}>
-                  {formatDuration(entrySummary.totalDuration)} since{' '}
-                  {entrySummary.createdAt.toLocaleString()}
-                </Text>
-              </Pressable>
-            );
-          })}
+                    });
+                  }}>
+                  <Text style={[commonStyles.h6, styles.entryItemText]}>
+                    {entrySummary.title}
+                  </Text>
+                  <Text style={[styles.entryItemText]}>
+                    {formatDuration(entrySummary.totalDuration)} since{' '}
+                    {entrySummary.createdAt.toLocaleString()}
+                  </Text>
+                </Pressable>
+              );
+            })}
+          </ScrollView>
         </View>
         {entries.length > 0 && (
-          <View style={commonStyles.mb10}>
+          <View style={{maxHeight: '30%'}}>
             <Text style={commonStyles.h4}>Practice history</Text>
-            {entries.map(entry => (
-              <View key={entry._id.toString()} style={commonStyles.mb10}>
-                <Text style={[styles.entryItemTitle]}>{entry.title}</Text>
-                <Text>{entry.createdAt.toLocaleString()}</Text>
-                <Text>{formatDuration(entry.duration)}</Text>
-              </View>
-            ))}
+            <ScrollView>
+              {entries.map(entry => (
+                <View key={entry._id.toString()} style={commonStyles.mb10}>
+                  <Text style={[styles.entryItemTitle]}>{entry.title}</Text>
+                  <Text>{entry.createdAt.toLocaleString()}</Text>
+                  <Text>{formatDuration(entry.duration)}</Text>
+                </View>
+              ))}
+            </ScrollView>
           </View>
         )}
       </Main>
