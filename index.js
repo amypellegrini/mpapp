@@ -14,7 +14,7 @@ import PracticeJournal from './screens/PracticeJournal';
 import PracticeMenu from './screens/PracticeMenu';
 import Dashboard from './screens/Dashboard';
 import Goals from './screens/Goals';
-import PracticeSchedule from './screens/PracticeSchedule';
+import DailyPlan from './screens/DailyPlan';
 import FreePractice from './screens/FreePractice';
 import EntrySummaryDetail from './screens/EntrySummaryDetail';
 
@@ -39,10 +39,7 @@ Navigation.registerComponent(
   'com.myApp.PracticeJournal',
   () => PracticeJournal,
 );
-Navigation.registerComponent(
-  'com.myApp.PracticeSchedule',
-  () => PracticeSchedule,
-);
+Navigation.registerComponent('com.myApp.DailyPlan', () => DailyPlan);
 Navigation.registerComponent('com.myApp.Goals', () => Goals);
 
 Navigation.events().registerAppLaunchedListener(() => {

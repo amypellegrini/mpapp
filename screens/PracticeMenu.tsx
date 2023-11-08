@@ -31,16 +31,6 @@ const PracticeMenu = ({componentId}) => {
             });
           }}
         />
-        <Button
-          title="Practice schedule"
-          onPress={() => {
-            Navigation.push(componentId, {
-              component: {
-                name: 'com.myApp.PracticeSchedule',
-              },
-            });
-          }}
-        />
       </Main>
     </Container>
   );

@@ -7,7 +7,7 @@ function PracticeSchedule() {
   return (
     <Container>
       <Main>
-        <Title>Practice schedule</Title>
+        <Title>Daily plan</Title>
       </Main>
     </Container>
   );

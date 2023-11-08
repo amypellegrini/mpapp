@@ -1,5 +1,6 @@
 import React from 'react';
 import {Pressable, PressableProps, StyleSheet, Text} from 'react-native';
+import commonStyles from '../commonStyles';
 
 interface ButtonProps extends PressableProps {
   title: string;
@@ -21,7 +22,9 @@ const Button: React.FC<ButtonProps> = ({title, style, children, ...props}) => {
   };
 
   return (
-    <Pressable style={[styles.button, ...resolvedStyles]} {...props}>
+    <Pressable
+      style={[commonStyles.mb6, styles.button, ...resolvedStyles]}
+      {...props}>
       <Text style={styles.text}>{title}</Text>
       {renderChildren()}
     </Pressable>
@@ -38,7 +41,6 @@ const ButtonRight = (props: ButtonProps) => {
 
 const styles = StyleSheet.create({
   button: {
-    margin: 6,
     borderRadius: 4,
     height: 60,
     backgroundColor: '#DDDDDD',
