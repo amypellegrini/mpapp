@@ -33,7 +33,7 @@ function PracticePreview({componentId}): JSX.Element {
           What are you playing?
         </Text>
         <TextInput
-          placeholder="Practice entry title"
+          placeholder='Practice entry title (e.g. "Moonlight Sonata")'
           onChangeText={value => onChangeEntryTitle(value)}
           value={entryTitle}
           style={[
