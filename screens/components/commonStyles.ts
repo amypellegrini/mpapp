@@ -13,6 +13,10 @@ const commonStyles = StyleSheet.create({
   h6: {
     fontWeight: 'bold',
   },
+  mAuto: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
   m6: {
     margin: 6,
   },
@@ -21,6 +25,15 @@ const commonStyles = StyleSheet.create({
   },
   ml6: {
     marginLeft: 6,
+  },
+  ml20: {
+    marginLeft: 20,
+  },
+  ml10: {
+    marginLeft: 10,
+  },
+  mr10: {
+    marginRight: 10,
   },
   mt6: {
     marginTop: 6,

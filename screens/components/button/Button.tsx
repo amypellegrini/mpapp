@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 4,
     backgroundColor: '#DDDDDD',
+    padding: 10,
   },
   buttonLeft: {
     flex: 1,
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     fontWeight: '500',
     fontSize: 20,
-    height: 60,
+    height: 40,
     textAlign: 'center',
     textAlignVertical: 'center',
     color: '#222222',
