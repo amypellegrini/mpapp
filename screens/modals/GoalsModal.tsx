@@ -29,16 +29,20 @@ function GoalsModal() {
             justifyContent: 'center',
             marginTop: 20,
           }}>
-          <View style={{marginHorizontal: 10}}>
-            <Text style={{textAlign: 'center'}}>Hours:</Text>
+          <View>
+            <Text style={[commonStyles.h4, commonStyles.textCenter]}>
+              Hours
+            </Text>
             <TextInput
               keyboardType="numeric"
               // onChangeText={value => onChangeEntryTitle(value)}
-              value={'0'}
+              value={'00'}
               style={[
                 commonStyles.input,
                 commonStyles.textCenter,
                 {
+                  fontSize: 42,
+                  fontWeight: '300',
                   width: 80,
                   color: isDarkMode ? '#BFBFBF' : '#666666',
                   borderBottomColor: isDarkMode ? '#BFBFBF' : '#666666',
@@ -47,16 +51,20 @@ function GoalsModal() {
               placeholderTextColor={isDarkMode ? '#BFBFBF' : '#666666'}
             />
           </View>
-          <View style={{marginHorizontal: 10}}>
-            <Text style={{textAlign: 'center'}}>Minutes:</Text>
+          <View>
+            <Text style={[commonStyles.h4, commonStyles.textCenter]}>
+              Minutes
+            </Text>
             <TextInput
               keyboardType="numeric"
               // onChangeText={value => onChangeEntryTitle(value)}
-              value={'0'}
+              value={'00'}
               style={[
                 commonStyles.input,
                 commonStyles.textCenter,
                 {
+                  fontWeight: '300',
+                  fontSize: 42,
                   width: 80,
                   color: isDarkMode ? '#BFBFBF' : '#666666',
                   borderBottomColor: isDarkMode ? '#BFBFBF' : '#666666',

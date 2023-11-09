@@ -10,6 +10,10 @@ const commonStyles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 5,
   },
+  h5: {
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
   h6: {
     fontWeight: 'bold',
   },
@@ -64,6 +68,9 @@ const commonStyles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: '#EFEFEF',
     marginBottom: 10,
+  },
+  font18: {
+    fontSize: 18,
   },
 });
 
