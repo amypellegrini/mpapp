@@ -2,7 +2,6 @@ import 'react-native-get-random-values';
 
 import React from 'react';
 import {StyleSheet, Text, useColorScheme} from 'react-native';
-import FontistoIcon from 'react-native-vector-icons/Fontisto';
 import FoundationIcon from 'react-native-vector-icons/Foundation';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
