@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Text, TextInput, View, useColorScheme} from 'react-native';
 import Button from '../components/button';
 import Container from '../components/container';
@@ -10,7 +10,10 @@ function H2({children}) {
   return <Text style={[commonStyles.h2]}>{children}</Text>;
 }
 
-function GoalsModal() {
+function GoalsModal({componentId}) {
+  const [hours, onChangeHours] = useState('');
+  const [minutes, onChangeMinutes] = useState('');
+
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
@@ -28,6 +31,7 @@ function GoalsModal() {
             flexDirection: 'row',
             justifyContent: 'center',
             marginTop: 20,
+            marginBottom: 25,
           }}>
           <View>
             <Text style={[commonStyles.h4, commonStyles.textCenter]}>
@@ -35,15 +39,17 @@ function GoalsModal() {
             </Text>
             <TextInput
               keyboardType="numeric"
-              // onChangeText={value => onChangeEntryTitle(value)}
-              value={'00'}
+              onChangeText={value => onChangeHours(value)}
+              value={hours}
+              placeholder="0"
               style={[
                 commonStyles.input,
                 commonStyles.textCenter,
                 {
                   fontSize: 42,
+                  paddingTop: 0,
                   fontWeight: '300',
-                  width: 80,
+                  width: 150,
                   color: isDarkMode ? '#BFBFBF' : '#666666',
                   borderBottomColor: isDarkMode ? '#BFBFBF' : '#666666',
                 },
@@ -57,15 +63,17 @@ function GoalsModal() {
             </Text>
             <TextInput
               keyboardType="numeric"
-              // onChangeText={value => onChangeEntryTitle(value)}
-              value={'00'}
+              onChangeText={value => onChangeMinutes(value)}
+              value={minutes}
+              placeholder="0"
               style={[
                 commonStyles.input,
                 commonStyles.textCenter,
                 {
+                  paddingTop: 0,
                   fontWeight: '300',
                   fontSize: 42,
-                  width: 80,
+                  width: 150,
                   color: isDarkMode ? '#BFBFBF' : '#666666',
                   borderBottomColor: isDarkMode ? '#BFBFBF' : '#666666',
                 },
@@ -74,8 +82,18 @@ function GoalsModal() {
             />
           </View>
         </View>
+        <Button
+          title="Set"
+          onPress={() => {}}
+          style={[{width: 150}, commonStyles.mAuto]}></Button>
       </Main>
-      <Button style={[commonStyles.m6]} title="Close" onPress={() => {}} />
+      <Button
+        style={[commonStyles.m6]}
+        title="Close"
+        onPress={() => {
+          Navigation.dismissModal(componentId);
+        }}
+      />
     </Container>
   );
 }
