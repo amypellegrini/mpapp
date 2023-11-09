@@ -6,6 +6,11 @@ import Title from './components/title';
 import {Text} from 'react-native';
 import Button from './components/button';
 import commonStyles from './components/commonStyles';
+import {
+  Navigation,
+  OptionsModalPresentationStyle,
+  OptionsModalTransitionStyle,
+} from 'react-native-navigation';
 
 function Goals() {
   return (
@@ -13,7 +18,27 @@ function Goals() {
       <Main>
         <Title>Goals</Title>
 
-        <Button title="Daily practice time" onPress={() => {}}>
+        <Button
+          title="Daily practice time"
+          onPress={() => {
+            Navigation.showModal({
+              stack: {
+                children: [
+                  {
+                    component: {
+                      name: 'com.myApp.GoalsModal',
+                      options: {
+                        modalTransitionStyle:
+                          OptionsModalTransitionStyle.coverVertical,
+                        modalPresentationStyle:
+                          OptionsModalPresentationStyle.overCurrentContext,
+                      },
+                    },
+                  },
+                ],
+              },
+            });
+          }}>
           <MaterialCommunityIcon
             style={commonStyles.mAuto}
             name="timer-outline"

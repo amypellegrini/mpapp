@@ -53,6 +53,18 @@ const commonStyles = StyleSheet.create({
   textCenter: {
     textAlign: 'center',
   },
+  btlr: {
+    borderTopLeftRadius: 10,
+  },
+  btrr: {
+    borderTopRightRadius: 10,
+  },
+  input: {
+    color: '#EFEFEF',
+    borderBottomWidth: 2,
+    borderBottomColor: '#EFEFEF',
+    marginBottom: 10,
+  },
 });
 
 export default commonStyles;

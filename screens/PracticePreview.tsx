@@ -37,7 +37,7 @@ function PracticePreview({componentId}): JSX.Element {
           onChangeText={value => onChangeEntryTitle(value)}
           value={entryTitle}
           style={[
-            styles.input,
+            commonStyles.input,
             {
               color: isDarkMode ? '#BFBFBF' : '#666666',
               borderBottomColor: isDarkMode ? '#BFBFBF' : '#666666',
@@ -141,12 +141,6 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: 'bold',
     color: '#666666',
-  },
-  input: {
-    color: '#EFEFEF',
-    borderBottomWidth: 2,
-    borderBottomColor: '#EFEFEF',
-    marginBottom: 10,
   },
 });
 

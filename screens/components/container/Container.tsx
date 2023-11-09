@@ -1,8 +1,13 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 
-const Container = ({children}) => {
-  return <View style={[styles.container]}>{children}</View>;
+const Container = ({style = {}, children}) => {
+  const stylesArray = Array.isArray(style) ? style : [style];
+  const resolvedStyles = stylesArray.map(style =>
+    typeof style === 'function' ? style({pressed: false}) : style,
+  );
+
+  return <View style={[styles.container, ...resolvedStyles]}>{children}</View>;
 };
 
 const styles = StyleSheet.create({
