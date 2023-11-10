@@ -25,14 +25,18 @@ function GoalsModalContent({componentId}) {
   const realm = useRealm();
   const isDarkMode = useColorScheme() === 'dark';
 
-  const [hours, onChangeHours] = useState('');
-  const [minutes, onChangeMinutes] = useState('');
-
   const queryGoal = useQuery<DailyPracticeTimeGoal>('DailyPracticeTimeGoal');
   const dailyPracticeTimeGoal = queryGoal[0];
 
   const hoursAndMinutes = getHoursAndMinutes(
     dailyPracticeTimeGoal?.seconds || 0,
+  );
+
+  const [hours, onChangeHours] = useState(
+    hoursAndMinutes.hours.toString() || '',
+  );
+  const [minutes, onChangeMinutes] = useState(
+    hoursAndMinutes.minutes.toString() || '',
   );
 
   return (
@@ -49,8 +53,8 @@ function GoalsModalContent({componentId}) {
           style={{
             flexDirection: 'row',
             justifyContent: 'center',
-            marginTop: 20,
-            marginBottom: 25,
+            marginTop: 30,
+            marginBottom: 30,
           }}>
           <View>
             <Text style={[commonStyles.h4, commonStyles.textCenter]}>
@@ -61,6 +65,23 @@ function GoalsModalContent({componentId}) {
               onChangeText={value => onChangeHours(value)}
               value={hours}
               placeholder="0"
+              onEndEditing={() => {
+                realm.write(() => {
+                  if (dailyPracticeTimeGoal) {
+                    dailyPracticeTimeGoal.seconds =
+                      parseInt(hours || '0') * 3600 +
+                      parseInt(minutes || '0') * 60;
+                  } else {
+                    const seconds =
+                      parseInt(hours || '0') * 3600 +
+                      parseInt(minutes || '0') * 60;
+
+                    realm.create('DailyPracticeTimeGoal', {
+                      seconds: seconds,
+                    });
+                  }
+                });
+              }}
               style={[
                 commonStyles.input,
                 commonStyles.textCenter,
@@ -83,6 +104,23 @@ function GoalsModalContent({componentId}) {
             <TextInput
               keyboardType="numeric"
               onChangeText={value => onChangeMinutes(value)}
+              onEndEditing={() => {
+                realm.write(() => {
+                  if (dailyPracticeTimeGoal) {
+                    dailyPracticeTimeGoal.seconds =
+                      parseInt(hours || '0') * 3600 +
+                      parseInt(minutes || '0') * 60;
+                  } else {
+                    const seconds =
+                      parseInt(hours || '0') * 3600 +
+                      parseInt(minutes || '0') * 60;
+
+                    realm.create('DailyPracticeTimeGoal', {
+                      seconds: seconds,
+                    });
+                  }
+                });
+              }}
               value={minutes}
               placeholder="0"
               style={[
@@ -101,28 +139,6 @@ function GoalsModalContent({componentId}) {
             />
           </View>
         </View>
-        <Button
-          title="Set"
-          onPress={() => {
-            realm.write(() => {
-              if (dailyPracticeTimeGoal) {
-                dailyPracticeTimeGoal.seconds =
-                  parseInt(hours || '0') * 3600 + parseInt(minutes || '0') * 60;
-              } else {
-                const seconds =
-                  parseInt(hours || '0') * 3600 + parseInt(minutes || '0') * 60;
-
-                realm.create('DailyPracticeTimeGoal', {
-                  seconds: seconds,
-                });
-              }
-            });
-          }}
-          style={[
-            {width: 150},
-            commonStyles.mAuto,
-            commonStyles.mb30,
-          ]}></Button>
         <Text style={[commonStyles.textCenter, commonStyles.mb10]}>
           Dialy goal currently set to:
         </Text>
