@@ -48,7 +48,9 @@ function GoalsModalContent({componentId}) {
       ]}>
       <Main>
         <H2>Practice time</H2>
-        <Text>How much time do you want to practice each day?</Text>
+        <Text style={[commonStyles.mt20, commonStyles.textCenter]}>
+          How much do you want to practice each day?
+        </Text>
         <View
           style={{
             flexDirection: 'row',
@@ -142,17 +144,18 @@ function GoalsModalContent({componentId}) {
         <Text style={[commonStyles.textCenter, commonStyles.mb10]}>
           Dialy goal currently set to:
         </Text>
-        <Text style={[commonStyles.textCenter, commonStyles.h3]}>
+        <Text
+          style={[commonStyles.textCenter, commonStyles.h3, commonStyles.mb50]}>
           {hoursAndMinutes.hours} hour(s) {hoursAndMinutes.minutes} minute(s)
         </Text>
+        <Button
+          style={[commonStyles.m6]}
+          title="Close"
+          onPress={() => {
+            Navigation.dismissModal(componentId);
+          }}
+        />
       </Main>
-      <Button
-        style={[commonStyles.m6]}
-        title="Close"
-        onPress={() => {
-          Navigation.dismissModal(componentId);
-        }}
-      />
     </Container>
   );
 }

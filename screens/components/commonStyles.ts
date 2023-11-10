@@ -46,6 +46,15 @@ const commonStyles = StyleSheet.create({
   mt6: {
     marginTop: 6,
   },
+  mt10: {
+    marginTop: 10,
+  },
+  mt20: {
+    marginTop: 20,
+  },
+  mt30: {
+    marginTop: 30,
+  },
   mb6: {
     marginBottom: 6,
   },
@@ -57,6 +66,12 @@ const commonStyles = StyleSheet.create({
   },
   mb30: {
     marginBottom: 30,
+  },
+  mb40: {
+    marginBottom: 40,
+  },
+  mb50: {
+    marginBottom: 50,
   },
   textCenter: {
     textAlign: 'center',
