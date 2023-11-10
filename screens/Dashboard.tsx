@@ -12,6 +12,7 @@ import Title from './components/title';
 import Main from './components/main';
 import formatDuration from './components/utils/formatDuration';
 import commonStyles from './components/commonStyles';
+import formatTime from './components/utils/formatTime';
 
 function DashboardContent() {
   const summaryEntries = useQuery<PracticeEntrySummary>('PracticeEntrySummary');
@@ -44,33 +45,15 @@ function DashboardContent() {
     <Container>
       <Main>
         <Title>Dashboard</Title>
-        <View style={commonStyles.mb20}>
-          <Text style={styles.h4}>Total practice time:</Text>
-          {totalTime === 0 && <Text>You haven't practiced anything yet!</Text>}
-          {totalTime > 0 && <Text>{formatDuration(totalTime)}</Text>}
-        </View>
-        <View style={commonStyles.mb20}>
-          <Text style={styles.h4}>Daily practice target:</Text>
-          {dailyPracticeTimeGoal && (
-            <Text>{formatDuration(dailyPracticeTimeGoal.seconds)}</Text>
-          )}
-        </View>
-        <View style={commonStyles.mb20}>
-          <Text style={styles.h4}>Practiced today:</Text>
-          {practicedToday.length === 0 && (
-            <Text>You haven't practiced anything today!</Text>
-          )}
-          {practicedToday.length > 0 && (
-            <Text>{formatDuration(totalPracticeTimeToday)}</Text>
-          )}
-        </View>
 
-        <View>
+        <View style={[commonStyles.mAuto, commonStyles.mb20]}>
           <AnimatedCircularProgress
+            delay={200}
+            duration={500}
             lineCap="round"
             rotation={180}
-            size={100}
-            width={10}
+            size={180}
+            width={12}
             fill={
               dailyPracticeTimeGoal
                 ? (totalPracticeTimeToday / dailyPracticeTimeGoal.seconds) * 100
@@ -78,8 +61,50 @@ function DashboardContent() {
             }
             tintColor="#00ee00"
             onAnimationComplete={() => console.log('onAnimationComplete')}
-            backgroundColor="#3d5875"
-          />
+            backgroundColor="#3d5875">
+            {fill => (
+              <Text style={{fontSize: 32}}>
+                {formatTime(totalPracticeTimeToday)}
+              </Text>
+            )}
+          </AnimatedCircularProgress>
+        </View>
+
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            marginBottom: 30,
+          }}>
+          <View style={commonStyles.mb20}>
+            <Text style={[styles.h4, commonStyles.textCenter]}>
+              Daily target
+            </Text>
+            {dailyPracticeTimeGoal && (
+              <Text style={commonStyles.textCenter}>
+                {formatDuration(dailyPracticeTimeGoal.seconds)}
+              </Text>
+            )}
+          </View>
+          <View style={commonStyles.mb20}>
+            <Text style={[styles.h4, commonStyles.textCenter]}>
+              Played today
+            </Text>
+            {practicedToday.length === 0 && (
+              <Text>You haven't practiced anything today!</Text>
+            )}
+            {practicedToday.length > 0 && (
+              <Text style={commonStyles.textCenter}>
+                {formatDuration(totalPracticeTimeToday)}
+              </Text>
+            )}
+          </View>
+        </View>
+
+        <View style={commonStyles.mb20}>
+          <Text style={styles.h4}>Total practice time:</Text>
+          {totalTime === 0 && <Text>You haven't practiced anything yet!</Text>}
+          {totalTime > 0 && <Text>{formatDuration(totalTime)}</Text>}
         </View>
       </Main>
     </Container>

@@ -7,18 +7,7 @@ import Container from './components/container';
 import {ButtonLeft, ButtonRight} from './components/button/Button';
 import Title from './components/title';
 import commonStyles from './components/commonStyles';
-
-function formatTime(totalSeconds) {
-  const hours = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
-
-  const hoursString = hours > 0 ? `${hours.toString().padStart(2, '0')}:` : '';
-
-  return `${hoursString}${minutes.toString().padStart(2, '0')}:${seconds
-    .toString()
-    .padStart(2, '0')}`;
-}
+import formatTime from './components/utils/formatTime';
 
 function Practice({entryTitle, componentId}) {
   const isDarkMode = useColorScheme() === 'dark';
