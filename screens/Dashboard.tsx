@@ -1,61 +1,85 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {useRealm, useQuery} from '@realm/react';
+import {useQuery} from '@realm/react';
+import {AnimatedCircularProgress} from 'react-native-circular-progress';
 import RealmProviderWrapper, {
+  DailyPracticeTimeGoal,
+  PracticeEntry,
   PracticeEntrySummary,
 } from './RealmProviderWrapper';
 import Container from './components/container';
 import Title from './components/title';
 import Main from './components/main';
-
-function formatDuration(seconds: number): string {
-  if (seconds === 0) {
-    return '0s';
-  }
-
-  const time = {
-    hours: Math.floor(seconds / 3600),
-    minutes: Math.floor((seconds % 3600) / 60),
-    seconds: seconds % 60,
-  };
-
-  let duration = '';
-
-  if (time.hours) {
-    duration += `${time.hours} hour${time.hours > 1 ? 's' : ''} `;
-  }
-
-  if (time.minutes) {
-    duration += `${time.minutes} minute${time.minutes > 1 ? 's' : ''} `;
-  }
-
-  if (time.minutes && time.seconds) {
-    duration += 'and ';
-  }
-
-  if (time.seconds) {
-    duration += `${time.seconds} second${time.seconds > 1 ? 's' : ''}`;
-  }
-
-  return duration.trim();
-}
+import formatDuration from './components/utils/formatDuration';
+import commonStyles from './components/commonStyles';
 
 function DashboardContent() {
-  const realm = useRealm();
-  const entries = useQuery<PracticeEntrySummary>('PracticeEntrySummary');
+  const summaryEntries = useQuery<PracticeEntrySummary>('PracticeEntrySummary');
+  const entries = useQuery<PracticeEntry>('PracticeEntry');
 
-  const totalTime = entries.reduce((total, entry) => {
+  const dailyPracticeTimeGoal = useQuery<DailyPracticeTimeGoal>(
+    'DailyPracticeTimeGoal',
+  )[0];
+
+  const practicedToday = entries.filter(entry => {
+    const today = new Date();
+    return (
+      entry.createdAt.getDate() === today.getDate() &&
+      entry.createdAt.getMonth() === today.getMonth() &&
+      entry.createdAt.getFullYear() === today.getFullYear()
+    );
+  });
+
+  const totalTime = summaryEntries.reduce((total, entry) => {
     return total + entry.totalDuration;
   }, 0);
+
+  const totalPracticeTimeToday = practicedToday.reduce((total, entry) => {
+    return total + entry.duration;
+  }, 0);
+
+  console.log(practicedToday);
 
   return (
     <Container>
       <Main>
         <Title>Dashboard</Title>
-        <View>
+        <View style={commonStyles.mb20}>
           <Text style={styles.h4}>Total practice time:</Text>
           {totalTime === 0 && <Text>You haven't practiced anything yet!</Text>}
           {totalTime > 0 && <Text>{formatDuration(totalTime)}</Text>}
+        </View>
+        <View style={commonStyles.mb20}>
+          <Text style={styles.h4}>Daily practice target:</Text>
+          {dailyPracticeTimeGoal && (
+            <Text>{formatDuration(dailyPracticeTimeGoal.seconds)}</Text>
+          )}
+        </View>
+        <View style={commonStyles.mb20}>
+          <Text style={styles.h4}>Practiced today:</Text>
+          {practicedToday.length === 0 && (
+            <Text>You haven't practiced anything today!</Text>
+          )}
+          {practicedToday.length > 0 && (
+            <Text>{formatDuration(totalPracticeTimeToday)}</Text>
+          )}
+        </View>
+
+        <View>
+          <AnimatedCircularProgress
+            lineCap="round"
+            rotation={180}
+            size={100}
+            width={10}
+            fill={
+              dailyPracticeTimeGoal
+                ? (totalPracticeTimeToday / dailyPracticeTimeGoal.seconds) * 100
+                : 0
+            }
+            tintColor="#00ee00"
+            onAnimationComplete={() => console.log('onAnimationComplete')}
+            backgroundColor="#3d5875"
+          />
         </View>
       </Main>
     </Container>
