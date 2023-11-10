@@ -5,6 +5,10 @@ const commonStyles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 10,
   },
+  h3: {
+    fontSize: 20,
+    marginBottom: 10,
+  },
   h4: {
     fontSize: 16,
     fontWeight: 'bold',

@@ -2,6 +2,17 @@ import React from 'react';
 import Realm from 'realm';
 import {RealmProvider} from '@realm/react';
 
+export class DailyPracticeTimeGoal extends Realm.Object {
+  static schema = {
+    name: 'DailyPracticeTimeGoal',
+    properties: {
+      seconds: 'int',
+    },
+  };
+
+  public seconds: number;
+}
+
 export class PracticeEntrySummary extends Realm.Object {
   _id!: Realm.BSON.ObjectId;
 
@@ -41,8 +52,8 @@ export class PracticeEntry extends Realm.Object {
 }
 
 const config: Realm.Configuration = {
-  schema: [PracticeEntry, PracticeEntrySummary],
-  schemaVersion: 4,
+  schema: [PracticeEntry, PracticeEntrySummary, DailyPracticeTimeGoal],
+  schemaVersion: 6,
 };
 
 function RealmProviderWrapper({children}) {

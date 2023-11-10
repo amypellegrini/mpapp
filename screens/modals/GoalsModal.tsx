@@ -5,16 +5,35 @@ import Container from '../components/container';
 import Main from '../components/main';
 import commonStyles from '../components/commonStyles';
 import {Navigation} from 'react-native-navigation';
+import RealmProviderWrapper, {
+  DailyPracticeTimeGoal,
+} from '../RealmProviderWrapper';
+import {useQuery, useRealm} from '@realm/react';
 
 function H2({children}) {
   return <Text style={[commonStyles.h2]}>{children}</Text>;
 }
 
-function GoalsModal({componentId}) {
+function getHoursAndMinutes(seconds: number) {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+
+  return {hours, minutes};
+}
+
+function GoalsModalContent({componentId}) {
+  const realm = useRealm();
+  const isDarkMode = useColorScheme() === 'dark';
+
   const [hours, onChangeHours] = useState('');
   const [minutes, onChangeMinutes] = useState('');
 
-  const isDarkMode = useColorScheme() === 'dark';
+  const queryGoal = useQuery<DailyPracticeTimeGoal>('DailyPracticeTimeGoal');
+  const dailyPracticeTimeGoal = queryGoal[0];
+
+  const hoursAndMinutes = getHoursAndMinutes(
+    dailyPracticeTimeGoal?.seconds || 0,
+  );
 
   return (
     <Container
@@ -84,8 +103,32 @@ function GoalsModal({componentId}) {
         </View>
         <Button
           title="Set"
-          onPress={() => {}}
-          style={[{width: 150}, commonStyles.mAuto]}></Button>
+          onPress={() => {
+            realm.write(() => {
+              if (dailyPracticeTimeGoal) {
+                dailyPracticeTimeGoal.seconds =
+                  parseInt(hours || '0') * 3600 + parseInt(minutes || '0') * 60;
+              } else {
+                const seconds =
+                  parseInt(hours || '0') * 3600 + parseInt(minutes || '0') * 60;
+
+                realm.create('DailyPracticeTimeGoal', {
+                  seconds: seconds,
+                });
+              }
+            });
+          }}
+          style={[
+            {width: 150},
+            commonStyles.mAuto,
+            commonStyles.mb30,
+          ]}></Button>
+        <Text style={[commonStyles.textCenter, commonStyles.mb10]}>
+          Dialy goal currently set to:
+        </Text>
+        <Text style={[commonStyles.textCenter, commonStyles.h3]}>
+          {hoursAndMinutes.hours} hour(s) {hoursAndMinutes.minutes} minute(s)
+        </Text>
       </Main>
       <Button
         style={[commonStyles.m6]}
@@ -95,6 +138,14 @@ function GoalsModal({componentId}) {
         }}
       />
     </Container>
+  );
+}
+
+function GoalsModal({componentId}) {
+  return (
+    <RealmProviderWrapper>
+      <GoalsModalContent componentId={componentId} />
+    </RealmProviderWrapper>
   );
 }
 
