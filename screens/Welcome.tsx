@@ -9,11 +9,11 @@ import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIc
 import Container from './components/container';
 import Title from './components/title';
 import Button from './components/button';
-import {Navigation} from 'react-native-navigation';
+import {Navigation, NavigationProps} from 'react-native-navigation';
 import Main from './components/main';
 import commonStyles from './components/commonStyles';
 
-const H2 = ({children}) => {
+const H2 = ({children}: {children: React.ReactNode}) => {
   const isDarkMode = useColorScheme() === 'dark';
   return (
     <Text
@@ -28,7 +28,7 @@ const H2 = ({children}) => {
   );
 };
 
-const Welcome = ({componentId}) => {
+const Welcome = ({componentId}: NavigationProps) => {
   return (
     <Container>
       <Main>

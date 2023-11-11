@@ -1,9 +1,10 @@
 import React from 'react';
 
 import Welcome from './screens/Welcome';
+import {NavigationProps} from 'react-native-navigation';
 
-function App({componentId}): JSX.Element {
-  return <Welcome componentId={componentId} />;
+function App(props: NavigationProps): JSX.Element {
+  return <Welcome {...props} />;
 }
 
 export default App;
