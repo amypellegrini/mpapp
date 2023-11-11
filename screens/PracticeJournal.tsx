@@ -9,7 +9,11 @@ import RealmProviderWrapper, {
 } from './RealmProviderWrapper';
 import {useQuery, useRealm} from '@realm/react';
 import {View, Text, StyleSheet, Pressable, ScrollView} from 'react-native';
-import {Navigation} from 'react-native-navigation';
+import {
+  Navigation,
+  NavigationComponentProps,
+  NavigationProps,
+} from 'react-native-navigation';
 import commonStyles from './components/commonStyles';
 
 function formatDuration(seconds: number): string {
@@ -44,7 +48,7 @@ function formatDuration(seconds: number): string {
   return duration.trim();
 }
 
-function PracticeJournalContent({componentId}) {
+function PracticeJournalContent({componentId}: NavigationProps) {
   const entries = useQuery<PracticeEntry>('PracticeEntry');
   const entrySummaryList = useQuery<PracticeEntrySummary>(
     'PracticeEntrySummary',
@@ -110,10 +114,10 @@ function PracticeJournalContent({componentId}) {
   );
 }
 
-function PracticeJournal({componentId}) {
+function PracticeJournal(props: NavigationProps) {
   return (
     <RealmProviderWrapper>
-      <PracticeJournalContent componentId={componentId} />
+      <PracticeJournalContent {...props} />
     </RealmProviderWrapper>
   );
 }

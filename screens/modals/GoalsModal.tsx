@@ -1,16 +1,16 @@
-import React, {useState} from 'react';
+import React, {ReactNode, useState} from 'react';
 import {Text, TextInput, View, useColorScheme} from 'react-native';
 import Button from '../components/button';
 import Container from '../components/container';
 import Main from '../components/main';
 import commonStyles from '../components/commonStyles';
-import {Navigation} from 'react-native-navigation';
+import {Navigation, NavigationProps} from 'react-native-navigation';
 import RealmProviderWrapper, {
   DailyPracticeTimeGoal,
 } from '../RealmProviderWrapper';
 import {useQuery, useRealm} from '@realm/react';
 
-function H2({children}) {
+function H2({children}: {children: ReactNode}) {
   return <Text style={[commonStyles.h2]}>{children}</Text>;
 }
 
@@ -21,7 +21,7 @@ function getHoursAndMinutes(seconds: number) {
   return {hours, minutes};
 }
 
-function GoalsModalContent({componentId}) {
+function GoalsModalContent({componentId}: NavigationProps) {
   const realm = useRealm();
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -160,10 +160,10 @@ function GoalsModalContent({componentId}) {
   );
 }
 
-function GoalsModal({componentId}) {
+function GoalsModal(props: NavigationProps) {
   return (
     <RealmProviderWrapper>
-      <GoalsModalContent componentId={componentId} />
+      <GoalsModalContent {...props} />
     </RealmProviderWrapper>
   );
 }
