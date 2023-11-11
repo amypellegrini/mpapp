@@ -56,7 +56,7 @@ const config: Realm.Configuration = {
   schemaVersion: 6,
 };
 
-function RealmProviderWrapper({children}) {
+function RealmProviderWrapper({children}: {children: React.ReactNode}) {
   return <RealmProvider {...config}>{children}</RealmProvider>;
 }
 
