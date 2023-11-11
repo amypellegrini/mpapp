@@ -8,14 +8,19 @@ import {
   View,
   useColorScheme,
 } from 'react-native';
-import {Navigation} from 'react-native-navigation';
+import {
+  Navigation,
+  NavigationProps,
+  OptionsModalPresentationStyle,
+  OptionsModalTransitionStyle,
+} from 'react-native-navigation';
 
 import Title from './components/title';
 import Main from './components/main';
 import Container from './components/container';
 import commonStyles from './components/commonStyles';
 
-function PracticePreview({componentId}): JSX.Element {
+function PracticePreview({componentId}: NavigationProps): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   const [entryTitle, onChangeEntryTitle] = React.useState('');
 
@@ -45,7 +50,27 @@ function PracticePreview({componentId}): JSX.Element {
           ]}
           placeholderTextColor={isDarkMode ? '#BFBFBF' : '#666666'}
         />
-        <Pressable style={styles.entryFieldButton}>
+        <Pressable
+          style={styles.entryFieldButton}
+          onPress={() => {
+            Navigation.showModal({
+              stack: {
+                children: [
+                  {
+                    component: {
+                      name: 'com.myApp.EntryFieldModal',
+                      options: {
+                        modalTransitionStyle:
+                          OptionsModalTransitionStyle.coverVertical,
+                        modalPresentationStyle:
+                          OptionsModalPresentationStyle.overCurrentContext,
+                      },
+                    },
+                  },
+                ],
+              },
+            });
+          }}>
           <View style={styles.plusButton}>
             <Text style={styles.plusIcon}>+</Text>
           </View>

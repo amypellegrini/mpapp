@@ -15,7 +15,7 @@ import Title from './components/title';
 import Main from './components/main';
 import Container from './components/container';
 import {ButtonLeft, ButtonRight} from './components/button/Button';
-import {Navigation} from 'react-native-navigation';
+import {Navigation, NavigationProps} from 'react-native-navigation';
 
 import {useQuery, useRealm} from '@realm/react';
 

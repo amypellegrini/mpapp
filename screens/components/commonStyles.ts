@@ -73,8 +73,29 @@ const commonStyles = StyleSheet.create({
   mb50: {
     marginBottom: 50,
   },
+  p5: {
+    padding: 5,
+  },
+  ph10: {
+    paddingHorizontal: 10,
+  },
+  ph20: {
+    paddingHorizontal: 20,
+  },
   textCenter: {
     textAlign: 'center',
+  },
+  bold: {
+    fontWeight: 'bold',
+  },
+  br4: {
+    borderRadius: 4,
+  },
+  br15: {
+    borderRadius: 15,
+  },
+  br20: {
+    borderRadius: 20,
   },
   btlr: {
     borderTopLeftRadius: 10,

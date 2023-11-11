@@ -9,10 +9,7 @@ import RealmProviderWrapper, {
   DailyPracticeTimeGoal,
 } from '../RealmProviderWrapper';
 import {useQuery, useRealm} from '@realm/react';
-
-function H2({children}: {children: ReactNode}) {
-  return <Text style={[commonStyles.h2]}>{children}</Text>;
-}
+import H2 from '../components/Typography/H2';
 
 function getHoursAndMinutes(seconds: number) {
   const hours = Math.floor(seconds / 3600);
