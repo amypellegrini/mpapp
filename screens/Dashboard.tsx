@@ -14,6 +14,17 @@ import formatDuration from './components/utils/formatDuration';
 import commonStyles from './components/commonStyles';
 import formatTime from './components/utils/formatTime';
 
+function formatDate(date: Date): string {
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+  const formattedDate = date.toLocaleDateString('en-US', options);
+
+  return formattedDate;
+}
+
 function DashboardContent() {
   const summaryEntries = useQuery<PracticeEntrySummary>('PracticeEntrySummary');
   const entries = useQuery<PracticeEntry>('PracticeEntry');
@@ -34,6 +45,8 @@ function DashboardContent() {
   const totalTime = summaryEntries.reduce((total, entry) => {
     return total + entry.totalDuration;
   }, 0);
+
+  const oldestSummaryEntry = summaryEntries.sorted('createdAt')[0];
 
   const totalPracticeTimeToday = practicedToday.reduce((total, entry) => {
     return total + entry.duration;
@@ -76,7 +89,7 @@ function DashboardContent() {
             justifyContent: 'space-around',
             marginBottom: 30,
           }}>
-          <View style={commonStyles.mb20}>
+          <View style={commonStyles.flex1}>
             <Text style={[styles.h4, commonStyles.textCenter]}>
               Daily target
             </Text>
@@ -86,7 +99,7 @@ function DashboardContent() {
               </Text>
             )}
           </View>
-          <View style={commonStyles.mb20}>
+          <View style={[commonStyles.flex1]}>
             <Text style={[styles.h4, commonStyles.textCenter]}>
               Played today
             </Text>
@@ -99,12 +112,27 @@ function DashboardContent() {
               </Text>
             )}
           </View>
+          <View style={commonStyles.flex1}>
+            <Text style={[styles.h4, commonStyles.textCenter]}>Remaining</Text>
+
+            <Text style={commonStyles.textCenter}>
+              {dailyPracticeTimeGoal &&
+                formatDuration(
+                  dailyPracticeTimeGoal.seconds - totalPracticeTimeToday,
+                )}
+            </Text>
+          </View>
         </View>
 
         <View style={commonStyles.mb20}>
           <Text style={styles.h4}>Total practice time:</Text>
           {totalTime === 0 && <Text>You haven't practiced anything yet!</Text>}
-          {totalTime > 0 && <Text>{formatDuration(totalTime)}</Text>}
+          {totalTime > 0 && (
+            <Text>
+              {formatDuration(totalTime)} since{' '}
+              {formatDate(oldestSummaryEntry.createdAt)}
+            </Text>
+          )}
         </View>
       </Main>
     </Container>

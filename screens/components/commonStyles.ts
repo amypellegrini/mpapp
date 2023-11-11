@@ -91,6 +91,12 @@ const commonStyles = StyleSheet.create({
   font18: {
     fontSize: 18,
   },
+  flex1: {
+    flex: 1,
+  },
+  flexRow: {
+    flexDirection: 'row',
+  },
 });
 
 export default commonStyles;
