@@ -25,7 +25,16 @@ import RealmProviderWrapper, {
 import formatDuration from './components/utils/formatDuration';
 import commonStyles from './components/commonStyles';
 
-function PracticeSummaryContent({entryTitle, duration, componentId}) {
+interface PracticeSummaryProps extends NavigationProps {
+  entryTitle: string;
+  duration: number;
+}
+
+function PracticeSummaryContent({
+  entryTitle,
+  duration,
+  componentId,
+}: PracticeSummaryProps) {
   const realm = useRealm();
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -130,7 +139,7 @@ function PracticeSummaryContent({entryTitle, duration, componentId}) {
   );
 }
 
-function PracticeSummary(props) {
+function PracticeSummary(props: PracticeSummaryProps) {
   return (
     <RealmProviderWrapper>
       <PracticeSummaryContent {...props} />

@@ -10,7 +10,7 @@ export class DailyPracticeTimeGoal extends Realm.Object {
     },
   };
 
-  public seconds: number;
+  public seconds: number = 0;
 }
 
 export class PracticeEntrySummary extends Realm.Object {
@@ -27,10 +27,10 @@ export class PracticeEntrySummary extends Realm.Object {
     },
   };
 
-  public title: string;
-  public totalDuration: number;
-  public createdAt: Date;
-  public updatedAt: Date;
+  public title: string = '';
+  public totalDuration: number = 0;
+  public createdAt: Date = new Date();
+  public updatedAt: Date = new Date();
 }
 
 export class PracticeEntry extends Realm.Object {
@@ -46,9 +46,9 @@ export class PracticeEntry extends Realm.Object {
     },
   };
 
-  public title: string;
-  public duration: number;
-  public createdAt: Date;
+  public title: string = '';
+  public duration: number = 0;
+  public createdAt: Date = new Date();
 }
 
 const config: Realm.Configuration = {
