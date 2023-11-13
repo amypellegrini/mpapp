@@ -1,5 +1,3 @@
-import 'react-native-get-random-values';
-
 import React, {useEffect, useState} from 'react';
 import Realm from 'realm';
 

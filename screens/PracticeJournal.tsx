@@ -7,13 +7,9 @@ import RealmProviderWrapper, {
   PracticeEntry,
   PracticeEntrySummary,
 } from './RealmProviderWrapper';
-import {useQuery, useRealm} from '@realm/react';
+import {useQuery} from '@realm/react';
 import {View, Text, StyleSheet, Pressable, ScrollView} from 'react-native';
-import {
-  Navigation,
-  NavigationComponentProps,
-  NavigationProps,
-} from 'react-native-navigation';
+import {Navigation, NavigationProps} from 'react-native-navigation';
 import commonStyles from './components/commonStyles';
 import formatDuration from './components/utils/formatDuration';
 

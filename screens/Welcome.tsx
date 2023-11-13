@@ -1,5 +1,3 @@
-import 'react-native-get-random-values';
-
 import React from 'react';
 import {StyleSheet, Text, useColorScheme} from 'react-native';
 import FoundationIcon from 'react-native-vector-icons/Foundation';

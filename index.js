@@ -2,9 +2,10 @@
  * @format
  */
 
+import 'react-native-get-random-values';
+
 import Realm from 'realm';
 Realm.flags.THROW_ON_GLOBAL_REALM = true;
-import 'react-native-get-random-values';
 import {Navigation} from 'react-native-navigation';
 import App from './App';
 import Practice from './screens/Practice';
