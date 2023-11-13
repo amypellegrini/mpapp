@@ -12,19 +12,15 @@ function formatDuration(seconds: number): string {
   let duration = '';
 
   if (time.hours) {
-    duration += `${time.hours} hour${time.hours > 1 ? 's' : ''} `;
+    duration += `${time.hours}h `;
   }
 
   if (time.minutes) {
-    duration += `${time.minutes} minute${time.minutes > 1 ? 's' : ''} `;
-  }
-
-  if (time.minutes && time.seconds) {
-    duration += 'and ';
+    duration += `${time.minutes}m `;
   }
 
   if (time.seconds) {
-    duration += `${time.seconds} second${time.seconds > 1 ? 's' : ''}`;
+    duration += `${time.seconds}s`;
   }
 
   return duration.trim();
