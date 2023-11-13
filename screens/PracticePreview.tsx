@@ -62,6 +62,13 @@ const practicePreviewMachine = createMachine<
     idle: {
       on: {
         FOCUS_ENTRY_TITLE: 'entryTitleFocused',
+        CHANGE_ENTRY_TITLE: {
+          actions: assign({
+            entryTitle: (_, event) => {
+              return event.value;
+            },
+          }),
+        },
       },
     },
     entryTitleFocused: {
@@ -107,8 +114,8 @@ function PracticePreviewContent({componentId}: NavigationProps): JSX.Element {
           onBlur={event => {
             send('BLUR_ENTRY_TITLE');
           }}
-          onChangeText={value => {
-            send('CHANGE_ENTRY_TITLE', {value});
+          onChange={event => {
+            send('CHANGE_ENTRY_TITLE', {value: event.nativeEvent.text});
           }}
           value={current.context.entryTitle}
           style={[
