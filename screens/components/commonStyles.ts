@@ -76,8 +76,14 @@ const commonStyles = StyleSheet.create({
   p5: {
     padding: 5,
   },
+  p10: {
+    padding: 10,
+  },
   ph10: {
     paddingHorizontal: 10,
+  },
+  ph15: {
+    paddingHorizontal: 15,
   },
   ph20: {
     paddingHorizontal: 20,
