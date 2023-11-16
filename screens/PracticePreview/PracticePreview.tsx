@@ -112,6 +112,9 @@ function PracticePreviewContent({componentId}: NavigationProps): JSX.Element {
               },
             ]}>
             <Pressable
+              onPress={() => {
+                send('DECREASE_BPM');
+              }}
               style={[
                 styles.fieldButton,
                 {
@@ -166,6 +169,9 @@ function PracticePreviewContent({componentId}: NavigationProps): JSX.Element {
               />
             </View>
             <Pressable
+              onPress={() => {
+                send('INCREASE_BPM');
+              }}
               style={[
                 styles.fieldButton,
                 {

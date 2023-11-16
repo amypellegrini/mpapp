@@ -1,5 +1,13 @@
 import {createMachine, assign} from 'xstate';
 
+type IncreaseBpmEvent = {
+  type: 'INCREASE_BPM';
+};
+
+type DecreaseBpmEvent = {
+  type: 'DECREASE_BPM';
+};
+
 type RemoveEntryFieldEvent = {
   type: 'REMOVE_ENTRY_FIELD';
   value: 'bpm';
@@ -38,6 +46,8 @@ type PracticePreviewEvent =
   | AddEntryFieldEvent
   | RemoveEntryFieldEvent
   | DoneAddingEntryFieldEvent
+  | IncreaseBpmEvent
+  | DecreaseBpmEvent
   | BlurEntryTitleEvent;
 
 type PracticePreviewContext = {
@@ -69,6 +79,12 @@ const practicePreviewMachine = createMachine<
     states: {
       idle: {
         on: {
+          DECREASE_BPM: {
+            actions: 'decreaseBpm',
+          },
+          INCREASE_BPM: {
+            actions: 'increaseBpm',
+          },
           REMOVE_ENTRY_FIELD: {
             actions: 'removeEntryField',
           },
@@ -101,6 +117,12 @@ const practicePreviewMachine = createMachine<
       },
       addingEntryField: {
         on: {
+          DECREASE_BPM: {
+            actions: 'decreaseBpm',
+          },
+          INCREASE_BPM: {
+            actions: 'increaseBpm',
+          },
           REMOVE_ENTRY_FIELD: {
             actions: 'removeEntryField',
           },
@@ -133,6 +155,28 @@ const practicePreviewMachine = createMachine<
             [event.value]: {
               ...context.entryFields[event.value],
               active: false,
+            },
+          };
+        },
+      }),
+      increaseBpm: assign({
+        entryFields: context => {
+          return {
+            ...context.entryFields,
+            bpm: {
+              ...context.entryFields.bpm,
+              value: context.entryFields.bpm.value + 5,
+            },
+          };
+        },
+      }),
+      decreaseBpm: assign({
+        entryFields: context => {
+          return {
+            ...context.entryFields,
+            bpm: {
+              ...context.entryFields.bpm,
+              value: context.entryFields.bpm.value - 5,
             },
           };
         },
