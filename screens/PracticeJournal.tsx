@@ -66,7 +66,7 @@ function PracticeJournalContent({componentId}: NavigationProps) {
             <ScrollView>
               {entries.map(entry => (
                 <View key={entry._id.toString()} style={commonStyles.mb10}>
-                  <Text style={[styles.entryItemTitle]}>{entry.title}</Text>
+                  <Text style={[commonStyles.h6]}>{entry.title}</Text>
                   <Text>{entry.createdAt.toLocaleString()}</Text>
                   <Text>{formatDuration(entry.duration)}</Text>
                 </View>
@@ -116,10 +116,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 20,
     marginTop: -8,
-  },
-  entryItemTitle: {
-    fontWeight: 'bold',
-    fontSize: 16,
   },
   entryItemText: {
     color: '#111111',
