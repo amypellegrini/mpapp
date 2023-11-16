@@ -124,6 +124,9 @@ const commonStyles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: '#EFEFEF',
     marginBottom: 10,
+    paddingLeft: 0,
+    paddingTop: 4,
+    paddingBottom: 10,
   },
   font18: {
     fontSize: 18,
