@@ -10,21 +10,7 @@ import Button from './components/button';
 import {Navigation, NavigationProps} from 'react-native-navigation';
 import Main from './components/main';
 import commonStyles from './components/commonStyles';
-
-const H2 = ({children}: {children: React.ReactNode}) => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <Text
-      style={[
-        commonStyles.h2,
-        {
-          color: isDarkMode ? '#EFEFEF' : '#202020',
-        },
-      ]}>
-      {children}
-    </Text>
-  );
-};
+import H2 from './components/Typography/H2';
 
 const Welcome = ({componentId}: NavigationProps) => {
   return (
