@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import {
+  Keyboard,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -38,6 +39,17 @@ function PracticePreviewContent({componentId}: NavigationProps): JSX.Element {
     titleInputRef.current?.blur();
   };
 
+  useEffect(() => {
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      handleTitleBlur,
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
   return (
     <Container>
       <Main>
@@ -74,7 +86,7 @@ function PracticePreviewContent({componentId}: NavigationProps): JSX.Element {
           ]}
           placeholderTextColor={isDarkMode ? '#BFBFBF' : '#666666'}
         />
-        {current.matches('entryTitleFocused') && (
+        {previousEntries.length > 0 && current.matches('entryTitleFocused') && (
           <ScrollView
             style={{
               borderColor: isDarkMode ? '#BFBFBF' : '#666666',
