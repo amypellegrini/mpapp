@@ -1,5 +1,10 @@
 import {createMachine, assign} from 'xstate';
 
+type RemoveEntryFieldEvent = {
+  type: 'REMOVE_ENTRY_FIELD';
+  value: 'bpm';
+};
+
 type AddEntryFieldEvent = {
   type: 'ADD_ENTRY_FIELD';
   value: 'bpm';
@@ -31,6 +36,7 @@ type PracticePreviewEvent =
   | FocusEntryTitleEvent
   | OpenEntryFieldMenuEvent
   | AddEntryFieldEvent
+  | RemoveEntryFieldEvent
   | DoneAddingEntryFieldEvent
   | BlurEntryTitleEvent;
 
@@ -47,69 +53,92 @@ type PracticePreviewContext = {
 const practicePreviewMachine = createMachine<
   PracticePreviewContext,
   PracticePreviewEvent
->({
-  predictableActionArguments: true,
-  initial: 'idle',
-  context: {
-    entryFields: {
-      bpm: {
-        active: false,
-        value: 120,
+>(
+  {
+    predictableActionArguments: true,
+    initial: 'idle',
+    context: {
+      entryFields: {
+        bpm: {
+          active: false,
+          value: 120,
+        },
+      },
+      entryTitle: '',
+    },
+    states: {
+      idle: {
+        on: {
+          REMOVE_ENTRY_FIELD: {
+            actions: 'removeEntryField',
+          },
+          OPEN_ENTRY_FIELD_MENU: {
+            target: 'addingEntryField',
+          },
+          FOCUS_ENTRY_TITLE: 'entryTitleFocused',
+          CHANGE_ENTRY_TITLE: {
+            actions: assign({
+              entryTitle: (_, event) => {
+                return event.value;
+              },
+            }),
+          },
+        },
+      },
+      entryTitleFocused: {
+        on: {
+          BLUR_ENTRY_TITLE: {
+            target: 'idle',
+          },
+          CHANGE_ENTRY_TITLE: {
+            actions: assign({
+              entryTitle: (_, event) => {
+                return event.value;
+              },
+            }),
+          },
+        },
+      },
+      addingEntryField: {
+        on: {
+          REMOVE_ENTRY_FIELD: {
+            actions: 'removeEntryField',
+          },
+          DONE_ADDING_ENTRY_FIELD: {
+            target: 'idle',
+          },
+          ADD_ENTRY_FIELD: {
+            actions: assign({
+              entryFields: (context, event) => {
+                return {
+                  ...context.entryFields,
+                  [event.value]: {
+                    ...context.entryFields[event.value],
+                    active: true,
+                  },
+                };
+              },
+            }),
+          },
+        },
       },
     },
-    entryTitle: '',
   },
-  states: {
-    idle: {
-      on: {
-        OPEN_ENTRY_FIELD_MENU: {
-          target: 'addingEntryField',
-        },
-        FOCUS_ENTRY_TITLE: 'entryTitleFocused',
-        CHANGE_ENTRY_TITLE: {
-          actions: assign({
-            entryTitle: (_, event) => {
-              return event.value;
+  {
+    actions: {
+      removeEntryField: assign({
+        entryFields: (context, event: RemoveEntryFieldEvent) => {
+          return {
+            ...context.entryFields,
+            [event.value]: {
+              ...context.entryFields[event.value],
+              active: false,
             },
-          }),
+          };
         },
-      },
-    },
-    entryTitleFocused: {
-      on: {
-        BLUR_ENTRY_TITLE: {
-          target: 'idle',
-        },
-        CHANGE_ENTRY_TITLE: {
-          actions: assign({
-            entryTitle: (_, event) => {
-              return event.value;
-            },
-          }),
-        },
-      },
-    },
-    addingEntryField: {
-      on: {
-        DONE_ADDING_ENTRY_FIELD: {
-          target: 'idle',
-        },
-        ADD_ENTRY_FIELD: {
-          actions: assign({
-            entryFields: (context, event) => {
-              return {
-                ...context.entryFields,
-                [event.value]: {
-                  ...context.entryFields[event.value],
-                  active: true,
-                },
-              };
-            },
-          }),
-        },
-      },
+      }),
     },
   },
-});
+);
 
 export default practicePreviewMachine;

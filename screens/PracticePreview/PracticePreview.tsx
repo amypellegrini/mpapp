@@ -102,103 +102,107 @@ function PracticePreviewContent({componentId}: NavigationProps): JSX.Element {
             ))}
           </ScrollView>
         )}
-        {/* {current.context.entryFields.bpm.active && ( */}
-        <View
-          style={[
-            commonStyles.flexRow,
-            commonStyles.mt20,
-            {
-              justifyContent: 'space-between',
-            },
-          ]}>
-          <Pressable
-            style={[
-              styles.fieldButton,
-              {
-                height: 30,
-                paddingHorizontal: 10,
-                marginLeft: 20,
-              },
-            ]}>
-            <MaterialCommunityIcon
-              name="minus"
-              size={35}
-              color={'#BFBFBF'}
-              style={{
-                marginTop: -1,
-                textAlign: 'center',
-                textAlignVertical: 'center',
-              }}
-            />
-          </Pressable>
+        {current.context.entryFields.bpm.active && (
           <View
             style={[
+              commonStyles.flexRow,
+              commonStyles.mt20,
               {
-                width: 100,
+                justifyContent: 'space-between',
               },
             ]}>
-            <Text
+            <Pressable
               style={[
+                styles.fieldButton,
                 {
-                  fontSize: 12,
-                  textAlign: 'center',
-                  fontWeight: '600',
+                  height: 30,
+                  paddingHorizontal: 10,
+                  marginLeft: 20,
                 },
               ]}>
-              BPM
-            </Text>
-            <TextInput
-              keyboardType="numeric"
+              <MaterialCommunityIcon
+                name="minus"
+                size={35}
+                color={'#BFBFBF'}
+                style={{
+                  marginTop: -1,
+                  textAlign: 'center',
+                  textAlignVertical: 'center',
+                }}
+              />
+            </Pressable>
+            <View
               style={[
-                commonStyles.input,
-                commonStyles.textCenter,
                 {
-                  verticalAlign: 'bottom',
-                  height: 48,
-                  fontSize: 26,
-                  color: isDarkMode ? '#BFBFBF' : '#666666',
-                  borderBottomColor: isDarkMode ? '#BFBFBF' : '#666666',
+                  width: 100,
                 },
-              ]}
-              value={current.context.entryFields.bpm.value.toString()}
-              placeholder="BPM"
-              placeholderTextColor={isDarkMode ? '#BFBFBF' : '#666666'}
-            />
+              ]}>
+              <Text
+                style={[
+                  {
+                    fontSize: 12,
+                    textAlign: 'center',
+                    fontWeight: '600',
+                  },
+                ]}>
+                BPM
+              </Text>
+              <TextInput
+                keyboardType="numeric"
+                style={[
+                  commonStyles.input,
+                  commonStyles.textCenter,
+                  {
+                    verticalAlign: 'bottom',
+                    height: 48,
+                    fontSize: 26,
+                    color: isDarkMode ? '#BFBFBF' : '#666666',
+                    borderBottomColor: isDarkMode ? '#BFBFBF' : '#666666',
+                  },
+                ]}
+                value={current.context.entryFields.bpm.value.toString()}
+                placeholder="BPM"
+                placeholderTextColor={isDarkMode ? '#BFBFBF' : '#666666'}
+              />
+            </View>
+            <Pressable
+              style={[
+                styles.fieldButton,
+                {
+                  paddingHorizontal: 10,
+                  height: 30,
+                },
+              ]}>
+              <MaterialCommunityIcon
+                name="plus"
+                size={35}
+                color={'#BFBFBF'}
+                style={{
+                  marginTop: -3,
+                  textAlign: 'center',
+                  textAlignVertical: 'center',
+                }}
+              />
+            </Pressable>
+            <Pressable
+              style={[styles.fieldButton]}
+              onPress={() => {
+                send('REMOVE_ENTRY_FIELD', {value: 'bpm'});
+              }}>
+              <MaterialCommunityIcon
+                name="close-box"
+                size={35}
+                color={'#EFEFEF'}
+                style={{
+                  marginTop: -4,
+                  marginRight: -4,
+                  textAlign: 'center',
+                  textAlignVertical: 'center',
+                }}
+              />
+            </Pressable>
           </View>
-          <Pressable
-            style={[
-              styles.fieldButton,
-              {
-                paddingHorizontal: 10,
-                height: 30,
-              },
-            ]}>
-            <MaterialCommunityIcon
-              name="plus"
-              size={35}
-              color={'#BFBFBF'}
-              style={{
-                marginTop: -3,
-                textAlign: 'center',
-                textAlignVertical: 'center',
-              }}
-            />
-          </Pressable>
-          <Pressable style={[styles.fieldButton]}>
-            <MaterialCommunityIcon
-              name="close-box"
-              size={35}
-              color={'#EFEFEF'}
-              style={{
-                marginTop: -4,
-                marginRight: -4,
-                textAlign: 'center',
-                textAlignVertical: 'center',
-              }}
-            />
-          </Pressable>
-        </View>
-        {/* )} */}
+        )}
         {current.matches('idle') && (
           <>
             <Pressable
