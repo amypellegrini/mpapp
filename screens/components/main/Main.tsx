@@ -1,7 +1,11 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 
-const Main = ({children}) => {
+type MainProps = {
+  children: React.ReactNode;
+};
+
+const Main = ({children}: MainProps) => {
   return <View style={styles.main}>{children}</View>;
 };
 
