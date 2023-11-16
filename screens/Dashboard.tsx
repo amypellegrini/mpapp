@@ -104,7 +104,7 @@ function DashboardContent() {
               Played today
             </Text>
             {practicedToday.length === 0 && (
-              <Text>You haven't practiced anything today!</Text>
+              <Text style={commonStyles.textCenter}>Nothing yet!</Text>
             )}
             {practicedToday.length > 0 && (
               <Text style={commonStyles.textCenter}>
