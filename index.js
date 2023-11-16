@@ -19,7 +19,6 @@ import DailyPlan from './screens/DailyPlan';
 import FreePractice from './screens/FreePractice';
 import EntrySummaryDetail from './screens/EntrySummaryDetail';
 import GoalsModal from './screens/modals/GoalsModal';
-import EntryFieldModal from './screens/modals/EntryFieldModal';
 
 Navigation.registerComponent('com.myApp.Welcome', () => App);
 Navigation.registerComponent('com.myApp.Dashboard', () => Dashboard);
@@ -45,10 +44,6 @@ Navigation.registerComponent(
 Navigation.registerComponent('com.myApp.DailyPlan', () => DailyPlan);
 Navigation.registerComponent('com.myApp.Goals', () => Goals);
 Navigation.registerComponent('com.myApp.GoalsModal', () => GoalsModal);
-Navigation.registerComponent(
-  'com.myApp.EntryFieldModal',
-  () => EntryFieldModal,
-);
 
 Navigation.events().registerAppLaunchedListener(() => {
   Navigation.setDefaultOptions({
