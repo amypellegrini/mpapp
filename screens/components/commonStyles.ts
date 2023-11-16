@@ -2,23 +2,24 @@ import {StyleSheet} from 'react-native';
 
 const commonStyles = StyleSheet.create({
   h2: {
-    fontSize: 24,
-    marginBottom: 10,
+    fontSize: 20,
+    marginBottom: 4,
   },
   h3: {
-    fontSize: 20,
-    marginBottom: 10,
+    fontSize: 18,
+    marginBottom: 3,
   },
   h4: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 5,
+    marginBottom: 2,
   },
   h5: {
-    fontSize: 14,
-    fontWeight: 'bold',
+    fontSize: 16,
+    marginBottom: 1,
   },
   h6: {
+    fontSize: 14,
     fontWeight: 'bold',
   },
   mAuto: {
@@ -78,6 +79,15 @@ const commonStyles = StyleSheet.create({
   },
   p10: {
     padding: 10,
+  },
+  pt10: {
+    paddingTop: 10,
+  },
+  pb10: {
+    paddingBottom: 10,
+  },
+  ph6: {
+    paddingHorizontal: 6,
   },
   ph10: {
     paddingHorizontal: 10,
