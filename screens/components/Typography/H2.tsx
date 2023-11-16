@@ -1,10 +1,14 @@
 import React from 'react';
-import {Text, useColorScheme} from 'react-native';
+import {Text, TextProps, useColorScheme} from 'react-native';
 import commonStyles from '../commonStyles';
 import {ReactNode} from 'react';
 
-function H2({children}: {children: ReactNode}) {
+interface H2Props extends TextProps {}
+
+function H2({style, children}: H2Props) {
   const isDarkMode = useColorScheme() === 'dark';
+
+  const stylesArray = Array.isArray(style) ? style : [style];
 
   return (
     <Text
@@ -13,6 +17,7 @@ function H2({children}: {children: ReactNode}) {
         {
           color: isDarkMode ? '#EFEFEF' : '#202020',
         },
+        ...stylesArray,
       ]}>
       {children}
     </Text>
