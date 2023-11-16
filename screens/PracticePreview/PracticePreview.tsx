@@ -359,14 +359,16 @@ function PracticePreviewContent({componentId}: NavigationProps): JSX.Element {
             ];
           }}
           onPress={() => {
+            const bpm = current.context.entryFields.bpm.active
+              ? current.context.entryFields.bpm.value
+              : undefined;
+
             Navigation.push(componentId, {
               component: {
                 name: 'com.myApp.Practice',
                 passProps: {
                   entryTitle: current.context.entryTitle,
-                  bpm: current.context.entryFields.bpm.active
-                    ? current.context.entryFields.bpm.value
-                    : undefined,
+                  bpm: bpm,
                 },
               },
             });

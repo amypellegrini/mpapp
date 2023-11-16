@@ -26,12 +26,14 @@ import commonStyles from './components/commonStyles';
 interface PracticeSummaryProps extends NavigationProps {
   entryTitle: string;
   duration: number;
+  bpm?: number;
 }
 
 function PracticeSummaryContent({
   entryTitle,
   duration,
   componentId,
+  bpm,
 }: PracticeSummaryProps) {
   const realm = useRealm();
   const isDarkMode = useColorScheme() === 'dark';
@@ -82,6 +84,7 @@ function PracticeSummaryContent({
             </Text>
             <Text>{entryTitle}</Text>
             <Text>{formatDuration(duration)}</Text>
+            {bpm && <Text>{bpm} bpm</Text>}
           </View>
 
           {entrySummary && (

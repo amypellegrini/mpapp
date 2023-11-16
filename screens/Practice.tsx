@@ -63,6 +63,7 @@ function Practice({entryTitle, bpm, componentId}: PracticeProps) {
                 passProps: {
                   entryTitle: entryTitle,
                   duration: seconds,
+                  bpm: bpm,
                 },
               },
             });
