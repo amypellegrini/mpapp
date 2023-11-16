@@ -114,6 +114,7 @@ function PracticeSummaryContent({
 
               if (entrySummary) {
                 entrySummary.totalDuration += duration;
+                entrySummary.updatedAt = date;
               } else {
                 realm.create('PracticeEntrySummary', {
                   title: entryTitle,
@@ -129,6 +130,7 @@ function PracticeSummaryContent({
                 duration: duration,
                 _id: new Realm.BSON.ObjectId(),
                 createdAt: date,
+                bpm: bpm,
               });
             });
 

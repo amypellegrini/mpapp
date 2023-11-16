@@ -55,6 +55,9 @@ function PracticeJournalContent({componentId}: NavigationProps) {
                     {formatDuration(entrySummary.totalDuration)} since{' '}
                     {entrySummary.createdAt.toLocaleString()}
                   </Text>
+                  <Text style={[styles.entryItemText]}>
+                    Last updated: {entrySummary.updatedAt.toLocaleString()}
+                  </Text>
                 </Pressable>
               );
             })}
@@ -69,6 +72,7 @@ function PracticeJournalContent({componentId}: NavigationProps) {
                   <Text style={[commonStyles.h6]}>{entry.title}</Text>
                   <Text>{entry.createdAt.toLocaleString()}</Text>
                   <Text>{formatDuration(entry.duration)}</Text>
+                  {entry.bpm && <Text>{entry.bpm} bpm</Text>}
                 </View>
               ))}
             </ScrollView>
