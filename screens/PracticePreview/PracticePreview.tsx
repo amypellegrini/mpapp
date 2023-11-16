@@ -364,6 +364,9 @@ function PracticePreviewContent({componentId}: NavigationProps): JSX.Element {
                 name: 'com.myApp.Practice',
                 passProps: {
                   entryTitle: current.context.entryTitle,
+                  bpm: current.context.entryFields.bpm.active
+                    ? current.context.entryFields.bpm.value
+                    : undefined,
                 },
               },
             });
