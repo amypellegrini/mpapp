@@ -1,13 +1,12 @@
 import React from 'react';
-import {Text, StyleSheet, useColorScheme} from 'react-native';
+import {Text, TextProps, StyleSheet, useColorScheme} from 'react-native';
 
-const Title = ({style = {}, children}) => {
+interface TitleProps extends TextProps {}
+
+const Title = ({style, children}: TitleProps) => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const stylesArray = Array.isArray(style) ? style : [style];
-  const resolvedStyles = stylesArray.map(style =>
-    typeof style === 'function' ? style({pressed: false}) : style,
-  );
 
   return (
     <Text
@@ -16,7 +15,7 @@ const Title = ({style = {}, children}) => {
         {
           color: isDarkMode ? '#EFEFEF' : '#202020',
         },
-        ...resolvedStyles,
+        ...stylesArray,
       ]}>
       {children}
     </Text>
@@ -26,7 +25,7 @@ const Title = ({style = {}, children}) => {
 const styles = StyleSheet.create({
   title: {
     color: '#EFEFEF',
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
     textTransform: 'uppercase',
     marginBottom: 20,
