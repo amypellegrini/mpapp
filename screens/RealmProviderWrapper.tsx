@@ -24,11 +24,13 @@ export class PracticeEntrySummary extends Realm.Object {
       totalDuration: 'int',
       createdAt: 'date',
       updatedAt: 'date',
+      bpm: 'int?',
     },
   };
 
   public title: string = '';
   public totalDuration: number = 0;
+  public bpm: number = 0;
   public createdAt: Date = new Date();
   public updatedAt: Date = new Date();
 }
@@ -43,17 +45,19 @@ export class PracticeEntry extends Realm.Object {
       title: 'string',
       duration: 'int',
       createdAt: 'date',
+      bpm: 'int?',
     },
   };
 
   public title: string = '';
   public duration: number = 0;
+  public bpm: number = 0;
   public createdAt: Date = new Date();
 }
 
 const config: Realm.Configuration = {
   schema: [PracticeEntry, PracticeEntrySummary, DailyPracticeTimeGoal],
-  schemaVersion: 6,
+  schemaVersion: 7,
 };
 
 function RealmProviderWrapper({children}: {children: React.ReactNode}) {
