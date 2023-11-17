@@ -4,11 +4,12 @@ import {StyleSheet, Text} from 'react-native';
 import Container from './components/container';
 import Title from './components/title';
 import Button from './components/button';
-import {Navigation} from 'react-native-navigation';
+import {Navigation, NavigationProps} from 'react-native-navigation';
 import Main from './components/main';
 import commonStyles from './components/commonStyles';
+import Menu from './components/menu';
 
-const PracticeMenu = ({componentId}) => {
+const PracticeMenu = ({componentId}: NavigationProps) => {
   return (
     <Container>
       <Main>
@@ -66,6 +67,7 @@ const PracticeMenu = ({componentId}) => {
           </Text>
         </Button>
       </Main>
+      <Menu componentId={componentId} />
     </Container>
   );
 };

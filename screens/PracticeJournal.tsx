@@ -12,6 +12,7 @@ import {View, Text, StyleSheet, Pressable, ScrollView} from 'react-native';
 import {Navigation, NavigationProps} from 'react-native-navigation';
 import commonStyles from './components/commonStyles';
 import formatDuration from './components/utils/formatDuration';
+import Menu from './components/menu';
 
 function PracticeJournalContent({componentId}: NavigationProps) {
   const entries = useQuery<PracticeEntry>('PracticeEntry');
@@ -79,6 +80,7 @@ function PracticeJournalContent({componentId}: NavigationProps) {
           </View>
         )}
       </Main>
+      <Menu componentId={componentId} />
     </Container>
   );
 }

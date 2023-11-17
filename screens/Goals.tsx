@@ -8,11 +8,13 @@ import Button from './components/button';
 import commonStyles from './components/commonStyles';
 import {
   Navigation,
+  NavigationProps,
   OptionsModalPresentationStyle,
   OptionsModalTransitionStyle,
 } from 'react-native-navigation';
+import Menu from './components/menu';
 
-function Goals() {
+function Goals({componentId}: NavigationProps) {
   return (
     <Container>
       <Main>
@@ -94,6 +96,7 @@ function Goals() {
           </Text>
         </Button>
       </Main>
+      <Menu componentId={componentId} />
     </Container>
   );
 }

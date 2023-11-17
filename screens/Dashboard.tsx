@@ -18,6 +18,7 @@ import formatDuration from './components/utils/formatDuration';
 import commonStyles from './components/commonStyles';
 import formatTime from './components/utils/formatTime';
 import {Navigation, NavigationProps} from 'react-native-navigation';
+import Menu from './components/menu';
 
 function formatDate(date: Date): string {
   const options: Intl.DateTimeFormatOptions = {
@@ -138,92 +139,7 @@ function DashboardContent({componentId}: NavigationProps) {
           )}
         </View>
       </Main>
-      <View
-        style={{
-          backgroundColor: '#444444',
-          margin: 0,
-          flexDirection: 'row',
-          height: 65,
-        }}>
-        <Pressable
-          style={[styles.menuButton]}
-          onPress={() => {
-            Navigation.push(componentId, {
-              component: {
-                name: 'com.myApp.Dashboard',
-              },
-            });
-          }}>
-          <IoniconsIcon
-            style={[
-              {
-                paddingTop: 3,
-                paddingBottom: 2,
-              },
-            ]}
-            name="stats-chart"
-            size={25}
-            color="#DFDFDF"
-          />
-          <Text style={styles.menuButtonText}>Dashboard</Text>
-        </Pressable>
-        <Pressable
-          style={styles.menuButton}
-          onPress={() => {
-            Navigation.push(componentId, {
-              component: {
-                name: 'com.myApp.PracticeMenu',
-              },
-            });
-          }}>
-          <MaterialCommunityIcon name="music" size={30} color="#DFDFDF" />
-          <Text style={styles.menuButtonText}>Practice</Text>
-        </Pressable>
-        <Pressable
-          style={styles.menuButton}
-          onPress={() => {
-            Navigation.push(componentId, {
-              component: {
-                name: 'com.myApp.DailyPlan',
-              },
-            });
-          }}>
-          <MaterialCommunityIcon
-            name="file-document-edit-outline"
-            size={30}
-            color="#DFDFDF"
-          />
-          <Text style={styles.menuButtonText}>Daily Plan</Text>
-        </Pressable>
-        <Pressable
-          style={styles.menuButton}
-          onPress={() => {
-            Navigation.push(componentId, {
-              component: {
-                name: 'com.myApp.Goals',
-              },
-            });
-          }}>
-          <FoundationIcon name="target" size={30} color="#DFDFDF" />
-          <Text style={styles.menuButtonText}>Goals</Text>
-        </Pressable>
-        <Pressable
-          style={styles.menuButton}
-          onPress={() => {
-            Navigation.push(componentId, {
-              component: {
-                name: 'com.myApp.PracticeJournal',
-              },
-            });
-          }}>
-          <MaterialCommunityIcon
-            name="book-music-outline"
-            size={30}
-            color="#DFDFDF"
-          />
-          <Text style={styles.menuButtonText}>Journal</Text>
-        </Pressable>
-      </View>
+      <Menu componentId={componentId} />
     </Container>
   );
 }
