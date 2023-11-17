@@ -7,8 +7,16 @@ import Main from './components/main';
 import Title from './components/title';
 import commonStyles from './components/commonStyles';
 import formatDuration from './components/utils/formatDuration';
+import {NavigationProps} from 'react-native-navigation';
 
-function EntrySummaryDetailContent({entryTitle, componentId}) {
+interface EntrySummaryDetailProps extends NavigationProps {
+  entryTitle: string;
+}
+
+function EntrySummaryDetailContent({
+  entryTitle,
+  componentId,
+}: EntrySummaryDetailProps) {
   const entries = useQuery<PracticeEntry>('PracticeEntry').filtered(
     `title = "${entryTitle}"`,
   );
@@ -25,6 +33,7 @@ function EntrySummaryDetailContent({entryTitle, componentId}) {
           <View key={entry._id.toString()} style={commonStyles.mb10}>
             <Text>{entry.createdAt.toLocaleString()}</Text>
             <Text>{formatDuration(entry.duration)}</Text>
+            {entry.bpm && <Text>{entry.bpm} bpm</Text>}
 
             {/* <Pressable
                   style={styles.deleteButton}
@@ -43,13 +52,10 @@ function EntrySummaryDetailContent({entryTitle, componentId}) {
   );
 }
 
-function EntrySummaryDetail({entryTitle, componentId}) {
+function EntrySummaryDetail(props: EntrySummaryDetailProps) {
   return (
     <RealmProviderWrapper>
-      <EntrySummaryDetailContent
-        entryTitle={entryTitle}
-        componentId={componentId}
-      />
+      <EntrySummaryDetailContent {...props} />
     </RealmProviderWrapper>
   );
 }
