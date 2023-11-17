@@ -134,7 +134,19 @@ function PracticeSummaryContent({
               });
             });
 
-            Navigation.popToRoot(componentId);
+            Navigation.setRoot({
+              root: {
+                stack: {
+                  children: [
+                    {
+                      component: {
+                        name: 'com.myApp.Dashboard',
+                      },
+                    },
+                  ],
+                },
+              },
+            });
           }}
         />
       </View>

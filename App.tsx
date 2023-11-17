@@ -1,10 +1,10 @@
 import React from 'react';
 
-import Welcome from './screens/Welcome';
+import Dashboard from './screens/Dashboard';
 import {NavigationProps} from 'react-native-navigation';
 
 function App(props: NavigationProps): JSX.Element {
-  return <Welcome {...props} />;
+  return <Dashboard {...props} />;
 }
 
 export default App;

@@ -1,7 +1,11 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {useQuery} from '@realm/react';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
+import FoundationIcon from 'react-native-vector-icons/Foundation';
+import IoniconsIcon from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import RealmProviderWrapper, {
   DailyPracticeTimeGoal,
   PracticeEntry,
@@ -13,6 +17,7 @@ import Main from './components/main';
 import formatDuration from './components/utils/formatDuration';
 import commonStyles from './components/commonStyles';
 import formatTime from './components/utils/formatTime';
+import {Navigation, NavigationProps} from 'react-native-navigation';
 
 function formatDate(date: Date): string {
   const options: Intl.DateTimeFormatOptions = {
@@ -25,7 +30,7 @@ function formatDate(date: Date): string {
   return formattedDate;
 }
 
-function DashboardContent() {
+function DashboardContent({componentId}: NavigationProps) {
   const summaryEntries = useQuery<PracticeEntrySummary>('PracticeEntrySummary');
   const entries = useQuery<PracticeEntry>('PracticeEntry');
 
@@ -51,8 +56,6 @@ function DashboardContent() {
   const totalPracticeTimeToday = practicedToday.reduce((total, entry) => {
     return total + entry.duration;
   }, 0);
-
-  console.log(practicedToday);
 
   return (
     <Container>
@@ -130,19 +133,105 @@ function DashboardContent() {
           {totalTime > 0 && (
             <Text>
               {formatDuration(totalTime)} since{' '}
-              {formatDate(oldestSummaryEntry.createdAt)}
+              {oldestSummaryEntry && formatDate(oldestSummaryEntry.createdAt)}
             </Text>
           )}
         </View>
       </Main>
+      <View
+        style={{
+          backgroundColor: '#444444',
+          margin: 0,
+          flexDirection: 'row',
+          height: 65,
+        }}>
+        <Pressable
+          style={[styles.menuButton]}
+          onPress={() => {
+            Navigation.push(componentId, {
+              component: {
+                name: 'com.myApp.Dashboard',
+              },
+            });
+          }}>
+          <IoniconsIcon
+            style={[
+              {
+                paddingTop: 3,
+                paddingBottom: 2,
+              },
+            ]}
+            name="stats-chart"
+            size={25}
+            color="#DFDFDF"
+          />
+          <Text style={styles.menuButtonText}>Dashboard</Text>
+        </Pressable>
+        <Pressable
+          style={styles.menuButton}
+          onPress={() => {
+            Navigation.push(componentId, {
+              component: {
+                name: 'com.myApp.PracticeMenu',
+              },
+            });
+          }}>
+          <MaterialCommunityIcon name="music" size={30} color="#DFDFDF" />
+          <Text style={styles.menuButtonText}>Practice</Text>
+        </Pressable>
+        <Pressable
+          style={styles.menuButton}
+          onPress={() => {
+            Navigation.push(componentId, {
+              component: {
+                name: 'com.myApp.DailyPlan',
+              },
+            });
+          }}>
+          <MaterialCommunityIcon
+            name="file-document-edit-outline"
+            size={30}
+            color="#DFDFDF"
+          />
+          <Text style={styles.menuButtonText}>Daily Plan</Text>
+        </Pressable>
+        <Pressable
+          style={styles.menuButton}
+          onPress={() => {
+            Navigation.push(componentId, {
+              component: {
+                name: 'com.myApp.Goals',
+              },
+            });
+          }}>
+          <FoundationIcon name="target" size={30} color="#DFDFDF" />
+          <Text style={styles.menuButtonText}>Goals</Text>
+        </Pressable>
+        <Pressable
+          style={styles.menuButton}
+          onPress={() => {
+            Navigation.push(componentId, {
+              component: {
+                name: 'com.myApp.PracticeJournal',
+              },
+            });
+          }}>
+          <MaterialCommunityIcon
+            name="book-music-outline"
+            size={30}
+            color="#DFDFDF"
+          />
+          <Text style={styles.menuButtonText}>Journal</Text>
+        </Pressable>
+      </View>
     </Container>
   );
 }
 
-const Dashboard = () => {
+const Dashboard = (props: NavigationProps) => {
   return (
     <RealmProviderWrapper>
-      <DashboardContent />
+      <DashboardContent {...props} />
     </RealmProviderWrapper>
   );
 };
@@ -194,6 +283,19 @@ const styles = StyleSheet.create({
   },
   mb10: {
     marginBottom: 10,
+  },
+  menuButtonText: {
+    marginTop: 2,
+    fontSize: 12,
+    fontWeight: '600',
+    height: 20,
+  },
+  menuButton: {
+    paddingTop: 5,
+    margin: 0,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
