@@ -2,9 +2,6 @@ import React from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {useQuery} from '@realm/react';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
-import FoundationIcon from 'react-native-vector-icons/Foundation';
-import IoniconsIcon from 'react-native-vector-icons/Ionicons';
-import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import RealmProviderWrapper, {
   DailyPracticeTimeGoal,
@@ -17,7 +14,7 @@ import Main from './components/main';
 import formatDuration from './components/utils/formatDuration';
 import commonStyles from './components/commonStyles';
 import formatTime from './components/utils/formatTime';
-import {Navigation, NavigationProps} from 'react-native-navigation';
+import {NavigationProps} from 'react-native-navigation';
 import Menu from './components/menu';
 
 function formatDate(date: Date): string {
@@ -39,14 +36,35 @@ function DashboardContent({componentId}: NavigationProps) {
     'DailyPracticeTimeGoal',
   )[0];
 
+  let lowestBpm = 1000;
+  let topBpm = 0;
+  let bpmSum = 0;
+  let bpmItems = 0;
+
   const practicedToday = entries.filter(entry => {
     const today = new Date();
+
+    if (entry.bpm) {
+      if (entry.bpm > topBpm) {
+        topBpm = entry.bpm;
+      }
+
+      if (entry.bpm < lowestBpm) {
+        lowestBpm = entry.bpm;
+      }
+
+      bpmItems++;
+      bpmSum += entry.bpm;
+    }
+
     return (
       entry.createdAt.getDate() === today.getDate() &&
       entry.createdAt.getMonth() === today.getMonth() &&
       entry.createdAt.getFullYear() === today.getFullYear()
     );
   });
+
+  const averageBpm = Math.round(bpmSum / bpmItems);
 
   const totalTime = summaryEntries.reduce((total, entry) => {
     return total + entry.totalDuration;
@@ -128,7 +146,7 @@ function DashboardContent({componentId}: NavigationProps) {
           </View>
         </View>
 
-        <View style={commonStyles.mb20}>
+        <View style={commonStyles.mb30}>
           <Text style={styles.h4}>Total practice time:</Text>
           {totalTime === 0 && <Text>You haven't practiced anything yet!</Text>}
           {totalTime > 0 && (
@@ -138,6 +156,54 @@ function DashboardContent({componentId}: NavigationProps) {
             </Text>
           )}
         </View>
+
+        {topBpm > 0 && (
+          <>
+            <Text
+              style={[
+                commonStyles.h2,
+                commonStyles.mb10,
+                commonStyles.underline,
+              ]}>
+              BPM metrics
+            </Text>
+            <View style={[commonStyles.mb20, {flexDirection: 'row'}]}>
+              <View style={commonStyles.flex1}>
+                <Text style={[styles.h4]}>Top</Text>
+                <Text
+                  style={[
+                    {
+                      fontSize: 14,
+                    },
+                  ]}>
+                  {topBpm} bpm
+                </Text>
+              </View>
+              <View style={commonStyles.flex1}>
+                <Text style={[styles.h4]}>Lowest</Text>
+                <Text
+                  style={[
+                    {
+                      fontSize: 14,
+                    },
+                  ]}>
+                  {lowestBpm} bpm
+                </Text>
+              </View>
+              <View style={commonStyles.flex1}>
+                <Text style={[styles.h4]}>Average</Text>
+                <Text
+                  style={[
+                    {
+                      fontSize: 14,
+                    },
+                  ]}>
+                  {averageBpm} bpm
+                </Text>
+              </View>
+            </View>
+          </>
+        )}
       </Main>
       <Menu componentId={componentId} />
     </Container>

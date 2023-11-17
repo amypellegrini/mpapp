@@ -22,6 +22,9 @@ const commonStyles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
   },
+  underline: {
+    textDecorationLine: 'underline',
+  },
   mAuto: {
     marginLeft: 'auto',
     marginRight: 'auto',
