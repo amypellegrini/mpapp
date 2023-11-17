@@ -87,12 +87,7 @@ function PracticePreviewContent({componentId}: NavigationProps): JSX.Element {
           placeholderTextColor={isDarkMode ? '#BFBFBF' : '#666666'}
         />
         {previousEntries.length > 0 && current.matches('entryTitleFocused') && (
-          <ScrollView
-            style={{
-              borderColor: isDarkMode ? '#BFBFBF' : '#666666',
-              borderWidth: 1,
-            }}
-            keyboardShouldPersistTaps={'handled'}>
+          <ScrollView style={{}} keyboardShouldPersistTaps={'handled'}>
             {previousEntries.map((entry, index) => (
               <Pressable
                 key={index}
@@ -128,9 +123,7 @@ function PracticePreviewContent({componentId}: NavigationProps): JSX.Element {
                 send('DECREASE_BPM');
               }}
               style={[
-                styles.fieldButton,
                 {
-                  height: 30,
                   paddingHorizontal: 10,
                   marginLeft: 20,
                 },
@@ -139,11 +132,13 @@ function PracticePreviewContent({componentId}: NavigationProps): JSX.Element {
                 name="minus"
                 size={35}
                 color={'#BFBFBF'}
-                style={{
-                  marginTop: -1,
-                  textAlign: 'center',
-                  textAlignVertical: 'center',
-                }}
+                style={[
+                  styles.fieldButton,
+                  {
+                    textAlign: 'center',
+                    textAlignVertical: 'center',
+                  },
+                ]}
               />
             </Pressable>
             <View
@@ -185,21 +180,21 @@ function PracticePreviewContent({componentId}: NavigationProps): JSX.Element {
                 send('INCREASE_BPM');
               }}
               style={[
-                styles.fieldButton,
                 {
                   paddingHorizontal: 10,
-                  height: 30,
                 },
               ]}>
               <MaterialCommunityIcon
                 name="plus"
                 size={35}
                 color={'#BFBFBF'}
-                style={{
-                  marginTop: -3,
-                  textAlign: 'center',
-                  textAlignVertical: 'center',
-                }}
+                style={[
+                  styles.fieldButton,
+                  {
+                    textAlign: 'center',
+                    textAlignVertical: 'center',
+                  },
+                ]}
               />
             </Pressable>
             <Pressable
