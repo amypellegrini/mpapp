@@ -113,36 +113,40 @@ function DashboardContent({componentId}: NavigationProps) {
           }}>
           <View style={commonStyles.flex1}>
             <Text style={[styles.h4, commonStyles.textCenter]}>
-              Daily target
+              {formatDuration(dailyPracticeTimeGoal.seconds)}
             </Text>
             {dailyPracticeTimeGoal && (
-              <Text style={commonStyles.textCenter}>
-                {formatDuration(dailyPracticeTimeGoal.seconds)}
-              </Text>
+              <Text style={commonStyles.textCenter}>Daily target</Text>
             )}
           </View>
           <View style={[commonStyles.flex1]}>
-            <Text style={[styles.h4, commonStyles.textCenter]}>
-              Played today
-            </Text>
             {practicedToday.length === 0 && (
-              <Text style={commonStyles.textCenter}>Nothing yet!</Text>
+              <Text style={[commonStyles.textCenter, styles.h4]}>
+                Nothing yet!
+              </Text>
             )}
             {practicedToday.length > 0 && (
-              <Text style={commonStyles.textCenter}>
+              <Text style={[commonStyles.textCenter, styles.h4]}>
                 {formatDuration(totalPracticeTimeToday)}
               </Text>
             )}
+            <Text style={[commonStyles.textCenter]}>Played today</Text>
           </View>
           <View style={commonStyles.flex1}>
-            <Text style={[styles.h4, commonStyles.textCenter]}>Remaining</Text>
-
-            <Text style={commonStyles.textCenter}>
-              {dailyPracticeTimeGoal &&
-                formatDuration(
-                  dailyPracticeTimeGoal.seconds - totalPracticeTimeToday,
-                )}
-            </Text>
+            {totalPracticeTimeToday < dailyPracticeTimeGoal?.seconds && (
+              <Text style={[commonStyles.textCenter, styles.h4]}>
+                {dailyPracticeTimeGoal &&
+                  formatDuration(
+                    dailyPracticeTimeGoal.seconds - totalPracticeTimeToday,
+                  )}
+              </Text>
+            )}
+            {totalPracticeTimeToday >= dailyPracticeTimeGoal?.seconds && (
+              <Text style={[commonStyles.textCenter, styles.h4]}>
+                Nothing, done!
+              </Text>
+            )}
+            <Text style={[commonStyles.textCenter]}>Remaining</Text>
           </View>
         </View>
 
@@ -162,44 +166,23 @@ function DashboardContent({componentId}: NavigationProps) {
             <Text
               style={[
                 commonStyles.h2,
-                commonStyles.mb10,
+                commonStyles.mb20,
                 commonStyles.underline,
               ]}>
               BPM metrics
             </Text>
             <View style={[commonStyles.mb20, {flexDirection: 'row'}]}>
               <View style={commonStyles.flex1}>
-                <Text style={[styles.h4]}>Top</Text>
-                <Text
-                  style={[
-                    {
-                      fontSize: 14,
-                    },
-                  ]}>
-                  {topBpm} bpm
-                </Text>
+                <Text style={[styles.h4]}>{topBpm} bpm</Text>
+                <Text>Top</Text>
               </View>
               <View style={commonStyles.flex1}>
-                <Text style={[styles.h4]}>Lowest</Text>
-                <Text
-                  style={[
-                    {
-                      fontSize: 14,
-                    },
-                  ]}>
-                  {lowestBpm} bpm
-                </Text>
+                <Text style={[styles.h4]}>{lowestBpm} bpm</Text>
+                <Text>Lowest</Text>
               </View>
               <View style={commonStyles.flex1}>
-                <Text style={[styles.h4]}>Average</Text>
-                <Text
-                  style={[
-                    {
-                      fontSize: 14,
-                    },
-                  ]}>
-                  {averageBpm} bpm
-                </Text>
+                <Text style={[styles.h4]}>{averageBpm} bpm</Text>
+                <Text>Average</Text>
               </View>
             </View>
           </>
