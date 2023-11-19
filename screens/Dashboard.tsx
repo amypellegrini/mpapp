@@ -64,6 +64,30 @@ function DashboardContent({componentId}: NavigationProps) {
     );
   });
 
+  const practicedLastWeek = entries
+    .filter(entry => {
+      const today = new Date();
+      const lastWeek = new Date();
+      lastWeek.setDate(today.getDate() - 7);
+
+      return entry.createdAt > lastWeek;
+    })
+    .reduce((total, entry) => {
+      return total + entry.duration;
+    }, 0);
+
+  const practicedLastMonth = entries
+    .filter(entry => {
+      const today = new Date();
+      const lastMonth = new Date();
+      lastMonth.setDate(today.getDate() - 30);
+
+      return entry.createdAt > lastMonth;
+    })
+    .reduce((total, entry) => {
+      return total + entry.duration;
+    }, 0);
+
   const averageBpm = Math.round(bpmSum / bpmItems);
 
   const totalTime = summaryEntries.reduce((total, entry) => {
@@ -112,7 +136,7 @@ function DashboardContent({componentId}: NavigationProps) {
             marginBottom: 30,
           }}>
           <View style={commonStyles.flex1}>
-            <Text style={[styles.h4, commonStyles.textCenter]}>
+            <Text style={[commonStyles.dl, commonStyles.textCenter]}>
               {formatDuration(dailyPracticeTimeGoal.seconds)}
             </Text>
             {dailyPracticeTimeGoal && (
@@ -121,12 +145,12 @@ function DashboardContent({componentId}: NavigationProps) {
           </View>
           <View style={[commonStyles.flex1]}>
             {practicedToday.length === 0 && (
-              <Text style={[commonStyles.textCenter, styles.h4]}>
+              <Text style={[commonStyles.textCenter, commonStyles.dl]}>
                 Nothing yet!
               </Text>
             )}
             {practicedToday.length > 0 && (
-              <Text style={[commonStyles.textCenter, styles.h4]}>
+              <Text style={[commonStyles.textCenter, commonStyles.dl]}>
                 {formatDuration(totalPracticeTimeToday)}
               </Text>
             )}
@@ -134,7 +158,7 @@ function DashboardContent({componentId}: NavigationProps) {
           </View>
           <View style={commonStyles.flex1}>
             {totalPracticeTimeToday < dailyPracticeTimeGoal?.seconds && (
-              <Text style={[commonStyles.textCenter, styles.h4]}>
+              <Text style={[commonStyles.textCenter, commonStyles.dl]}>
                 {dailyPracticeTimeGoal &&
                   formatDuration(
                     dailyPracticeTimeGoal.seconds - totalPracticeTimeToday,
@@ -142,7 +166,7 @@ function DashboardContent({componentId}: NavigationProps) {
               </Text>
             )}
             {totalPracticeTimeToday >= dailyPracticeTimeGoal?.seconds && (
-              <Text style={[commonStyles.textCenter, styles.h4]}>
+              <Text style={[commonStyles.textCenter, commonStyles.dl]}>
                 Nothing, done!
               </Text>
             )}
@@ -151,13 +175,39 @@ function DashboardContent({componentId}: NavigationProps) {
         </View>
 
         <View style={commonStyles.mb30}>
-          <Text style={styles.h4}>Total practice time:</Text>
+          <Text style={[commonStyles.h2, commonStyles.underline]}>
+            Total practice time
+          </Text>
+          <Text
+            style={[
+              commonStyles.mb20,
+              {
+                fontStyle: 'italic',
+              },
+            ]}>
+            Since{' '}
+            {oldestSummaryEntry && formatDate(oldestSummaryEntry.createdAt)}
+          </Text>
           {totalTime === 0 && <Text>You haven't practiced anything yet!</Text>}
           {totalTime > 0 && (
-            <Text>
-              {formatDuration(totalTime)} since{' '}
-              {oldestSummaryEntry && formatDate(oldestSummaryEntry.createdAt)}
-            </Text>
+            <View style={[commonStyles.flexRow]}>
+              <View style={[commonStyles.flex1]}>
+                <Text style={commonStyles.dl}>{formatDuration(totalTime)}</Text>
+                <Text>Total</Text>
+              </View>
+              <View style={[commonStyles.flex1]}>
+                <Text style={commonStyles.dl}>
+                  {formatDuration(practicedLastWeek)}
+                </Text>
+                <Text>Last week</Text>
+              </View>
+              <View style={[commonStyles.flex1]}>
+                <Text style={commonStyles.dl}>
+                  {formatDuration(practicedLastMonth)}
+                </Text>
+                <Text>Last month</Text>
+              </View>
+            </View>
           )}
         </View>
 
@@ -173,15 +223,15 @@ function DashboardContent({componentId}: NavigationProps) {
             </Text>
             <View style={[commonStyles.mb20, {flexDirection: 'row'}]}>
               <View style={commonStyles.flex1}>
-                <Text style={[styles.h4]}>{topBpm} bpm</Text>
+                <Text style={[commonStyles.dl]}>{topBpm} bpm</Text>
                 <Text>Top</Text>
               </View>
               <View style={commonStyles.flex1}>
-                <Text style={[styles.h4]}>{lowestBpm} bpm</Text>
+                <Text style={[commonStyles.dl]}>{lowestBpm} bpm</Text>
                 <Text>Lowest</Text>
               </View>
               <View style={commonStyles.flex1}>
-                <Text style={[styles.h4]}>{averageBpm} bpm</Text>
+                <Text style={[commonStyles.dl]}>{averageBpm} bpm</Text>
                 <Text>Average</Text>
               </View>
             </View>
@@ -239,12 +289,6 @@ const styles = StyleSheet.create({
   },
   entryItemText: {
     color: '#111111',
-  },
-  h4: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#EFEFEF',
-    marginBottom: 5,
   },
   mb10: {
     marginBottom: 10,
