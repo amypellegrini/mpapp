@@ -146,6 +146,14 @@ const commonStyles = StyleSheet.create({
   flexRow: {
     flexDirection: 'row',
   },
+  card: {
+    backgroundColor: '#404040',
+    borderRadius: 4,
+    paddingTop: 10,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
+    marginBottom: 20,
+  },
 });
 
 export default commonStyles;
