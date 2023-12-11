@@ -28,7 +28,7 @@ const commonStyles = StyleSheet.create({
   dl: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#EFEFEF',
+    color: '#66BBFF',
     marginBottom: 2,
   },
   mAuto: {

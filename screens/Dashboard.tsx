@@ -172,7 +172,7 @@ function DashboardContent({componentId}: NavigationProps) {
             <View style={[commonStyles.flex1]}>
               {practicedToday.length === 0 && (
                 <Text style={[commonStyles.textCenter, commonStyles.dl]}>
-                  Nothing yet!
+                  Nothing yet
                 </Text>
               )}
               {practicedToday.length > 0 && (
