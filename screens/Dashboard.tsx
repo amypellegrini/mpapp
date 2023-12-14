@@ -4,6 +4,7 @@ import RNFS from 'react-native-fs';
 import Share from 'react-native-share';
 import {useQuery} from '@realm/react';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
+import DocumentPicker from 'react-native-document-picker';
 
 import RealmProviderWrapper, {
   DailyPracticeTimeGoal,
@@ -19,6 +20,7 @@ import formatTime from './components/utils/formatTime';
 import {NavigationProps} from 'react-native-navigation';
 import Menu from './components/menu';
 import Button from './components/button';
+import {ButtonText} from './components/button/Button';
 
 function formatDate(date: Date): string {
   const options: Intl.DateTimeFormatOptions = {
@@ -201,9 +203,7 @@ function DashboardContent({componentId}: NavigationProps) {
           </View>
 
           <View style={[commonStyles.card]}>
-            <Text style={[commonStyles.h2, commonStyles.underline]}>
-              Total practice time
-            </Text>
+            <Text style={[commonStyles.h2]}>Total practice time</Text>
             <Text
               style={[
                 commonStyles.mb20,
@@ -243,12 +243,7 @@ function DashboardContent({componentId}: NavigationProps) {
 
           {topBpm > 0 && (
             <View style={commonStyles.card}>
-              <Text
-                style={[
-                  commonStyles.h2,
-                  commonStyles.mb20,
-                  commonStyles.underline,
-                ]}>
+              <Text style={[commonStyles.h2, commonStyles.mb20]}>
                 BPM metrics
               </Text>
               <View style={[{flexDirection: 'row'}]}>
@@ -267,33 +262,69 @@ function DashboardContent({componentId}: NavigationProps) {
               </View>
             </View>
           )}
-          <Button
-            title="Export data"
-            onPress={() => {
-              const data = convertToCSV(
-                entries as Realm.Collection<PracticeEntry>,
-              );
+          <Text style={[commonStyles.h2]}>Your data</Text>
+          <View
+            style={[
+              commonStyles.flexRow,
+              commonStyles.justifyBetween,
+              commonStyles.gap6,
+              commonStyles.mb20,
+            ]}>
+            <Button
+              title="Export data"
+              style={[commonStyles.flex1]}
+              onPress={() => {
+                const data = convertToCSV(
+                  entries as Realm.Collection<PracticeEntry>,
+                );
 
-              const path = `${RNFS.DocumentDirectoryPath}/exported_data.csv`;
+                const path = `${RNFS.DocumentDirectoryPath}/exported_data.csv`;
 
-              RNFS.writeFile(path, data, 'utf8')
-                .then(success => {
-                  console.log('File exported successfully!');
-                })
-                .catch(error => {
-                  console.error('Error exporting CSV:', error.message);
+                RNFS.writeFile(path, data, 'utf8')
+                  .then(success => {
+                    console.log('File exported successfully!');
+                  })
+                  .catch(error => {
+                    console.error('Error exporting CSV:', error.message);
+                  });
+
+                Share.open({
+                  url: `file://${path}`,
+                  type: 'text/csv',
+                  title: 'Exported data',
+                }).catch(err => {
+                  console.error('Error sharing CSV:', err.message);
                 });
-
-              Share.open({
-                url: `file://${path}`,
-                type: 'text/csv',
-                title: 'Exported data',
-              }).catch(err => {
-                console.error('Error sharing CSV:', err.message);
-              });
-            }}
-          />
-          <Button title="Import data" onPress={() => {}} />
+              }}
+            />
+            <Button
+              title="Import data"
+              style={[commonStyles.flex1]}
+              onPress={async () => {
+                try {
+                  const res = await DocumentPicker.pick({
+                    type: [DocumentPicker.types.allFiles], // or DocumentPicker.types.csv for CSV files
+                  });
+                  // Process the file URI as needed
+                  console.log(res[0].uri);
+                  const content = await RNFS.readFile(res[0].uri, 'utf8');
+                  console.log(content);
+                } catch (err) {
+                  if (DocumentPicker.isCancel(err)) {
+                    console.log('User canceled the file picker');
+                  } else {
+                    console.error('File Picker Error: ', err);
+                  }
+                }
+              }}
+            />
+          </View>
+          <Text style={[commonStyles.h2]}>Unsafe area</Text>
+          <Button
+            style={[commonStyles.error, commonStyles.errorBorder]}
+            onPress={() => {}}>
+            <ButtonText style={{color: '#ffffff'}}>Delete all data</ButtonText>
+          </Button>
         </Main>
       </ScrollView>
       <Menu componentId={componentId} />

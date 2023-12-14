@@ -1,11 +1,23 @@
 import React from 'react';
-import {Pressable, PressableProps, StyleSheet, Text} from 'react-native';
+import {
+  Pressable,
+  PressableProps,
+  StyleSheet,
+  Text,
+  TextProps,
+} from 'react-native';
 import commonStyles from '../commonStyles';
 
 interface ButtonProps extends PressableProps {
-  title: string;
+  title?: string;
   onPress: () => void;
 }
+
+interface ButtonTextProps extends TextProps {}
+
+const ButtonText = ({children, style}: ButtonTextProps) => {
+  return <Text style={[styles.text, style]}>{children}</Text>;
+};
 
 const Button: React.FC<ButtonProps> = ({title, style, children, ...props}) => {
   const stylesArray = Array.isArray(style) ? style : [style];
@@ -25,7 +37,7 @@ const Button: React.FC<ButtonProps> = ({title, style, children, ...props}) => {
     <Pressable
       style={[commonStyles.mb6, styles.button, ...resolvedStyles]}
       {...props}>
-      <Text style={[styles.text]}>{title}</Text>
+      {title && <ButtonText style={[styles.text]}>{title}</ButtonText>}
       {renderChildren()}
     </Pressable>
   );
@@ -68,5 +80,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export {ButtonLeft, ButtonRight};
+export {ButtonLeft, ButtonRight, ButtonText};
 export default Button;

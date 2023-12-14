@@ -4,6 +4,7 @@ const commonStyles = StyleSheet.create({
   h2: {
     fontSize: 20,
     marginBottom: 4,
+    color: '#ffffff',
   },
   h3: {
     fontSize: 18,
@@ -64,6 +65,9 @@ const commonStyles = StyleSheet.create({
   },
   mt30: {
     marginTop: 30,
+  },
+  mb4: {
+    marginBottom: 4,
   },
   mb6: {
     marginBottom: 6,
@@ -146,6 +150,15 @@ const commonStyles = StyleSheet.create({
   flexRow: {
     flexDirection: 'row',
   },
+  justifyBetween: {
+    justifyContent: 'space-between',
+  },
+  gap6: {
+    gap: 6,
+  },
+  gap10: {
+    gap: 10,
+  },
   card: {
     backgroundColor: '#404040',
     borderRadius: 4,
@@ -153,6 +166,14 @@ const commonStyles = StyleSheet.create({
     paddingBottom: 20,
     paddingHorizontal: 20,
     marginBottom: 20,
+  },
+  error: {
+    backgroundColor: '#BF0000',
+  },
+  errorBorder: {
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#440000',
   },
 });
 
