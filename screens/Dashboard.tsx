@@ -1,8 +1,9 @@
 import React from 'react';
+import Realm from 'realm';
 import {View, Text, ScrollView} from 'react-native';
 import RNFS from 'react-native-fs';
 import Share from 'react-native-share';
-import {useQuery} from '@realm/react';
+import {useQuery, useRealm} from '@realm/react';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
 import DocumentPicker from 'react-native-document-picker';
 
@@ -55,6 +56,7 @@ const convertToCSV = (data: Realm.Collection<PracticeEntry>) => {
 };
 
 function DashboardContent({componentId}: NavigationProps) {
+  const realm = useRealm();
   const summaryEntries = useQuery<PracticeEntrySummary>('PracticeEntrySummary');
   const entries = useQuery<PracticeEntry>('PracticeEntry');
 
@@ -132,90 +134,99 @@ function DashboardContent({componentId}: NavigationProps) {
         <Main>
           <Title>Dashboard</Title>
 
-          <View style={[commonStyles.mAuto, commonStyles.mb20]}>
-            <AnimatedCircularProgress
-              delay={200}
-              duration={500}
-              lineCap="round"
-              rotation={180}
-              size={180}
-              width={12}
-              fill={
-                dailyPracticeTimeGoal
-                  ? (totalPracticeTimeToday / dailyPracticeTimeGoal.seconds) *
-                    100
-                  : 0
-              }
-              tintColor="#00ee00"
-              onAnimationComplete={() => console.log('onAnimationComplete')}
-              backgroundColor="#3d5875">
-              {fill => (
-                <Text style={{fontSize: 32}}>
-                  {formatTime(totalPracticeTimeToday)}
-                </Text>
-              )}
-            </AnimatedCircularProgress>
-          </View>
+          {dailyPracticeTimeGoal && (
+            <>
+              <View style={[commonStyles.mAuto, commonStyles.mb20]}>
+                <AnimatedCircularProgress
+                  delay={200}
+                  duration={500}
+                  lineCap="round"
+                  rotation={180}
+                  size={180}
+                  width={12}
+                  fill={
+                    dailyPracticeTimeGoal
+                      ? (totalPracticeTimeToday /
+                          dailyPracticeTimeGoal.seconds) *
+                        100
+                      : 0
+                  }
+                  tintColor="#00ee00"
+                  onAnimationComplete={() => console.log('onAnimationComplete')}
+                  backgroundColor="#3d5875">
+                  {fill => (
+                    <Text style={{fontSize: 32}}>
+                      {formatTime(totalPracticeTimeToday)}
+                    </Text>
+                  )}
+                </AnimatedCircularProgress>
+              </View>
 
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-              marginBottom: 30,
-            }}>
-            <View style={commonStyles.flex1}>
-              <Text style={[commonStyles.dl, commonStyles.textCenter]}>
-                {formatDuration(dailyPracticeTimeGoal.seconds)}
-              </Text>
-              {dailyPracticeTimeGoal && (
-                <Text style={commonStyles.textCenter}>Daily target</Text>
-              )}
-            </View>
-            <View style={[commonStyles.flex1]}>
-              {practicedToday.length === 0 && (
-                <Text style={[commonStyles.textCenter, commonStyles.dl]}>
-                  Nothing yet
-                </Text>
-              )}
-              {practicedToday.length > 0 && (
-                <Text style={[commonStyles.textCenter, commonStyles.dl]}>
-                  {formatDuration(totalPracticeTimeToday)}
-                </Text>
-              )}
-              <Text style={[commonStyles.textCenter]}>Played today</Text>
-            </View>
-            <View style={commonStyles.flex1}>
-              {totalPracticeTimeToday < dailyPracticeTimeGoal?.seconds && (
-                <Text style={[commonStyles.textCenter, commonStyles.dl]}>
-                  {dailyPracticeTimeGoal &&
-                    formatDuration(
-                      dailyPracticeTimeGoal.seconds - totalPracticeTimeToday,
-                    )}
-                </Text>
-              )}
-              {totalPracticeTimeToday >= dailyPracticeTimeGoal?.seconds && (
-                <Text style={[commonStyles.textCenter, commonStyles.dl]}>
-                  Nothing, done!
-                </Text>
-              )}
-              <Text style={[commonStyles.textCenter]}>Remaining</Text>
-            </View>
-          </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-around',
+                  marginBottom: 30,
+                }}>
+                <View style={commonStyles.flex1}>
+                  <Text style={[commonStyles.dl, commonStyles.textCenter]}>
+                    {formatDuration(dailyPracticeTimeGoal.seconds)}
+                  </Text>
+                  {dailyPracticeTimeGoal && (
+                    <Text style={commonStyles.textCenter}>Daily target</Text>
+                  )}
+                </View>
+                <View style={[commonStyles.flex1]}>
+                  {practicedToday.length === 0 && (
+                    <Text style={[commonStyles.textCenter, commonStyles.dl]}>
+                      Nothing yet
+                    </Text>
+                  )}
+                  {practicedToday.length > 0 && (
+                    <Text style={[commonStyles.textCenter, commonStyles.dl]}>
+                      {formatDuration(totalPracticeTimeToday)}
+                    </Text>
+                  )}
+                  <Text style={[commonStyles.textCenter]}>Played today</Text>
+                </View>
+                <View style={commonStyles.flex1}>
+                  {totalPracticeTimeToday < dailyPracticeTimeGoal?.seconds && (
+                    <Text style={[commonStyles.textCenter, commonStyles.dl]}>
+                      {dailyPracticeTimeGoal &&
+                        formatDuration(
+                          dailyPracticeTimeGoal.seconds -
+                            totalPracticeTimeToday,
+                        )}
+                    </Text>
+                  )}
+                  {totalPracticeTimeToday >= dailyPracticeTimeGoal?.seconds && (
+                    <Text style={[commonStyles.textCenter, commonStyles.dl]}>
+                      Nothing, done!
+                    </Text>
+                  )}
+                  <Text style={[commonStyles.textCenter]}>Remaining</Text>
+                </View>
+              </View>
+            </>
+          )}
 
           <View style={[commonStyles.card]}>
             <Text style={[commonStyles.h2]}>Total practice time</Text>
-            <Text
-              style={[
-                commonStyles.mb20,
-                {
-                  fontStyle: 'italic',
-                },
-              ]}>
-              Since{' '}
-              {oldestSummaryEntry && formatDate(oldestSummaryEntry.createdAt)}
-            </Text>
+            {oldestSummaryEntry && (
+              <Text
+                style={[
+                  commonStyles.mb20,
+                  {
+                    fontStyle: 'italic',
+                  },
+                ]}>
+                `Since ${formatDate(oldestSummaryEntry.createdAt)}`
+              </Text>
+            )}
             {totalTime === 0 && (
-              <Text>You haven't practiced anything yet!</Text>
+              <Text style={[commonStyles.mt10]}>
+                You haven't practiced anything yet!
+              </Text>
             )}
             {totalTime > 0 && (
               <View style={[commonStyles.flexRow]}>
@@ -305,10 +316,38 @@ function DashboardContent({componentId}: NavigationProps) {
                   const res = await DocumentPicker.pick({
                     type: [DocumentPicker.types.allFiles], // or DocumentPicker.types.csv for CSV files
                   });
-                  // Process the file URI as needed
-                  console.log(res[0].uri);
+
                   const content = await RNFS.readFile(res[0].uri, 'utf8');
-                  console.log(content);
+                  const lines = content.split('\n');
+                  const headers = lines[0]
+                    .split(',')
+                    .map(header => header.trim().replaceAll('"', ''));
+
+                  const entries = lines.slice(1);
+
+                  const parsedEntries = entries.map(entry => {
+                    const values = entry.replaceAll('"', '').split(',');
+                    const parsedEntry: DataEntry = {};
+
+                    headers.forEach((header, index) => {
+                      parsedEntry[header] = values[index];
+                    });
+
+                    return parsedEntry;
+                  });
+
+                  realm.write(() => {
+                    parsedEntries.forEach(entry => {
+                      const realmEntry = {
+                        title: entry.title,
+                        duration: parseInt(entry.duration),
+                        _id: new Realm.BSON.ObjectId(),
+                        createdAt: new Date(entry.createdAt),
+                        bpm: entry.bpm ? parseInt(entry.bpm) : null,
+                      };
+                      realm.create('PracticeEntry', realmEntry);
+                    });
+                  });
                 } catch (err) {
                   if (DocumentPicker.isCancel(err)) {
                     console.log('User canceled the file picker');
