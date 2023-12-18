@@ -309,6 +309,7 @@ function DashboardContent({componentId}: NavigationProps) {
                   url: `file://${path}`,
                   type: 'text/csv',
                   title: 'Exported data',
+                  failOnCancel: false,
                 }).catch(err => {
                   console.error('Error sharing CSV:', err.message);
                 });
