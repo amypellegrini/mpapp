@@ -68,14 +68,18 @@ function PracticeJournalContent({componentId}: NavigationProps) {
           <View style={{maxHeight: '30%'}}>
             <Text style={commonStyles.h4}>Practice history</Text>
             <ScrollView>
-              {entries.map(entry => (
-                <View key={entry._id.toString()} style={commonStyles.mb10}>
-                  <Text style={[commonStyles.h6]}>{entry.title}</Text>
-                  <Text>{entry.createdAt.toLocaleString()}</Text>
-                  <Text>{formatDuration(entry.duration)}</Text>
-                  {entry.bpm && <Text>{entry.bpm} bpm</Text>}
-                </View>
-              ))}
+              {entries.map(entry => {
+                return (
+                  <View key={entry._id.toString()} style={commonStyles.mb10}>
+                    <Text style={[commonStyles.h6]}>{entry.title}</Text>
+                    <Text>{entry.createdAt.toLocaleString()}</Text>
+                    <Text>{formatDuration(entry.duration)}</Text>
+                    {!!(entry.bpm && entry.bpm > 0) && (
+                      <Text>{entry.bpm} bpm</Text>
+                    )}
+                  </View>
+                );
+              })}
             </ScrollView>
           </View>
         )}

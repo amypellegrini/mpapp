@@ -220,7 +220,7 @@ function DashboardContent({componentId}: NavigationProps) {
                     fontStyle: 'italic',
                   },
                 ]}>
-                `Since ${formatDate(oldestSummaryEntry.createdAt)}`
+                Since {formatDate(oldestSummaryEntry.createdAt)}
               </Text>
             )}
             {totalTime === 0 && (
@@ -232,19 +232,25 @@ function DashboardContent({componentId}: NavigationProps) {
               <View style={[commonStyles.flexRow]}>
                 <View style={[commonStyles.flex1]}>
                   <Text style={commonStyles.dl}>
-                    {formatDuration(totalTime)}
+                    {formatDuration(totalTime).split(' ').slice(0, 2).join(' ')}
                   </Text>
                   <Text>Total</Text>
                 </View>
                 <View style={[commonStyles.flex1]}>
                   <Text style={commonStyles.dl}>
-                    {formatDuration(practicedLastWeek)}
+                    {formatDuration(practicedLastWeek)
+                      .split(' ')
+                      .slice(0, 2)
+                      .join(' ')}
                   </Text>
                   <Text>Last week</Text>
                 </View>
                 <View style={[commonStyles.flex1]}>
                   <Text style={commonStyles.dl}>
-                    {formatDuration(practicedLastMonth)}
+                    {formatDuration(practicedLastMonth)
+                      .split(' ')
+                      .slice(0, 2)
+                      .join(' ')}
                   </Text>
                   <Text>Last month</Text>
                 </View>
@@ -314,7 +320,7 @@ function DashboardContent({componentId}: NavigationProps) {
               onPress={async () => {
                 try {
                   const res = await DocumentPicker.pick({
-                    type: [DocumentPicker.types.allFiles], // or DocumentPicker.types.csv for CSV files
+                    type: [DocumentPicker.types.allFiles],
                   });
 
                   const content = await RNFS.readFile(res[0].uri, 'utf8');
@@ -338,14 +344,41 @@ function DashboardContent({componentId}: NavigationProps) {
 
                   realm.write(() => {
                     parsedEntries.forEach(entry => {
-                      const realmEntry = {
-                        title: entry.title,
-                        duration: parseInt(entry.duration),
-                        _id: new Realm.BSON.ObjectId(),
-                        createdAt: new Date(entry.createdAt),
-                        bpm: entry.bpm ? parseInt(entry.bpm) : null,
-                      };
-                      realm.create('PracticeEntry', realmEntry);
+                      if (entry.title && entry.duration && entry.createdAt) {
+                        const entrySummary = summaryEntries.filtered(
+                          `title = "${entry.title}"`,
+                        )[0];
+
+                        if (entrySummary) {
+                          entrySummary.totalDuration += parseInt(
+                            entry.duration,
+                          );
+                        } else {
+                          const realmEntrySummary = {
+                            title: entry.title,
+                            totalDuration: parseInt(entry.duration),
+                            _id: new Realm.BSON.ObjectId(),
+                            createdAt: new Date(entry.createdAt),
+                            updatedAt: new Date(entry.createdAt),
+                            bpm: entry.bpm ? parseInt(entry.bpm) : null,
+                          };
+
+                          realm.create(
+                            'PracticeEntrySummary',
+                            realmEntrySummary,
+                          );
+                        }
+
+                        const realmEntry = {
+                          title: entry.title,
+                          duration: parseInt(entry.duration),
+                          _id: new Realm.BSON.ObjectId(),
+                          createdAt: new Date(entry.createdAt),
+                          bpm: entry.bpm ? parseInt(entry.bpm) : null,
+                        };
+
+                        realm.create('PracticeEntry', realmEntry);
+                      }
                     });
                   });
                 } catch (err) {
@@ -361,7 +394,11 @@ function DashboardContent({componentId}: NavigationProps) {
           <Text style={[commonStyles.h2]}>Unsafe area</Text>
           <Button
             style={[commonStyles.error, commonStyles.errorBorder]}
-            onPress={() => {}}>
+            onPress={() => {
+              realm.write(() => {
+                realm.deleteAll();
+              });
+            }}>
             <ButtonText style={{color: '#ffffff'}}>Delete all data</ButtonText>
           </Button>
         </Main>
