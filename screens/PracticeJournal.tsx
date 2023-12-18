@@ -8,7 +8,7 @@ import RealmProviderWrapper, {
   PracticeEntrySummary,
 } from './RealmProviderWrapper';
 import {useQuery} from '@realm/react';
-import {View, Text, StyleSheet, Pressable, ScrollView} from 'react-native';
+import {View, Text, StyleSheet, Pressable, FlatList} from 'react-native';
 import {Navigation, NavigationProps} from 'react-native-navigation';
 import commonStyles from './components/commonStyles';
 import formatDuration from './components/utils/formatDuration';
@@ -18,7 +18,7 @@ function PracticeJournalContent({componentId}: NavigationProps) {
   const entries = useQuery<PracticeEntry>('PracticeEntry');
   const entrySummaryList = useQuery<PracticeEntrySummary>(
     'PracticeEntrySummary',
-  );
+  ).map(entrySummary => entrySummary);
 
   return (
     <Container>
@@ -32,7 +32,39 @@ function PracticeJournalContent({componentId}: NavigationProps) {
             },
           ]}>
           <Text style={commonStyles.h4}>Practice summary</Text>
-          <ScrollView>
+          <FlatList
+            data={entrySummaryList}
+            renderItem={listItem => {
+              const entrySummary = listItem.item;
+              const entryTitleCopy = entrySummary.title;
+              return (
+                <Pressable
+                  style={styles.entryItem}
+                  key={entrySummary._id.toString()}
+                  onPress={() => {
+                    Navigation.push(componentId, {
+                      component: {
+                        name: 'com.myApp.EntrySummaryDetail',
+                        passProps: {
+                          entryTitle: entryTitleCopy,
+                        },
+                      },
+                    });
+                  }}>
+                  <Text style={[commonStyles.h6, styles.entryItemText]}>
+                    {entrySummary.title}
+                  </Text>
+                  <Text style={[styles.entryItemText]}>
+                    {formatDuration(entrySummary.totalDuration)} since{' '}
+                    {entrySummary.createdAt.toLocaleString()}
+                  </Text>
+                  <Text style={[styles.entryItemText]}>
+                    Last updated: {entrySummary.updatedAt.toLocaleString()}
+                  </Text>
+                </Pressable>
+              );
+            }}></FlatList>
+          {/* <ScrollView>
             {entrySummaryList.map(entrySummary => {
               const entryTitleCopy = entrySummary.title;
               return (
@@ -62,25 +94,26 @@ function PracticeJournalContent({componentId}: NavigationProps) {
                 </Pressable>
               );
             })}
-          </ScrollView>
+          </ScrollView> */}
         </View>
         {entries.length > 0 && (
           <View style={{maxHeight: '30%'}}>
             <Text style={commonStyles.h4}>Practice history</Text>
-            <ScrollView>
-              {entries.map(entry => {
+            <FlatList
+              data={entries}
+              renderItem={entry => {
+                const item = entry.item;
                 return (
-                  <View key={entry._id.toString()} style={commonStyles.mb10}>
-                    <Text style={[commonStyles.h6]}>{entry.title}</Text>
-                    <Text>{entry.createdAt.toLocaleString()}</Text>
-                    <Text>{formatDuration(entry.duration)}</Text>
-                    {!!(entry.bpm && entry.bpm > 0) && (
-                      <Text>{entry.bpm} bpm</Text>
+                  <View key={item._id.toString()} style={commonStyles.mb10}>
+                    <Text style={[commonStyles.h6]}>{item.title}</Text>
+                    <Text>{item.createdAt.toLocaleString()}</Text>
+                    <Text>{formatDuration(item.duration)}</Text>
+                    {!!(item.bpm && item.bpm > 0) && (
+                      <Text>{item.bpm} bpm</Text>
                     )}
                   </View>
                 );
-              })}
-            </ScrollView>
+              }}></FlatList>
           </View>
         )}
       </Main>
