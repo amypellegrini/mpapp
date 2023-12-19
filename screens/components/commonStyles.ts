@@ -150,8 +150,26 @@ const commonStyles = StyleSheet.create({
   flexRow: {
     flexDirection: 'row',
   },
+  flexRowReverse: {
+    flexDirection: 'row-reverse',
+  },
   justifyBetween: {
     justifyContent: 'space-between',
+  },
+  justifyCenter: {
+    justifyContent: 'center',
+  },
+  justifyAround: {
+    justifyContent: 'space-around',
+  },
+  justifyEnd: {
+    justifyContent: 'flex-end',
+  },
+  justifyStart: {
+    justifyContent: 'flex-start',
+  },
+  alignCenter: {
+    alignItems: 'center',
   },
   gap6: {
     gap: 6,

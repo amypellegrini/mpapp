@@ -6,6 +6,7 @@ import Share from 'react-native-share';
 import {useQuery, useRealm} from '@realm/react';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
 import DocumentPicker from 'react-native-document-picker';
+import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import RealmProviderWrapper, {
   DailyPracticeTimeGoal,
@@ -18,7 +19,12 @@ import Main from './components/main';
 import formatDuration from './components/utils/formatDuration';
 import commonStyles from './components/commonStyles';
 import formatTime from './components/utils/formatTime';
-import {NavigationProps} from 'react-native-navigation';
+import {
+  Navigation,
+  NavigationProps,
+  OptionsModalPresentationStyle,
+  OptionsModalTransitionStyle,
+} from 'react-native-navigation';
 import Menu from './components/menu';
 import Button from './components/button';
 import {ButtonText} from './components/button/Button';
@@ -128,13 +134,18 @@ function DashboardContent({componentId}: NavigationProps) {
     return total + entry.duration;
   }, 0);
 
+  const displayDailyPracticeTimeGoal =
+    dailyPracticeTimeGoal && dailyPracticeTimeGoal.seconds > 0;
+
   return (
     <Container>
       <ScrollView>
         <Main>
           <Title>Dashboard</Title>
-
-          {dailyPracticeTimeGoal && (
+          <Text style={[commonStyles.h2, commonStyles.mb10]}>
+            Daily practice goal
+          </Text>
+          {displayDailyPracticeTimeGoal && (
             <>
               <View style={[commonStyles.mAuto, commonStyles.mb20]}>
                 <AnimatedCircularProgress
@@ -208,6 +219,48 @@ function DashboardContent({componentId}: NavigationProps) {
                 </View>
               </View>
             </>
+          )}
+
+          {!displayDailyPracticeTimeGoal && (
+            <View style={[commonStyles.mb20]}>
+              <View style={[commonStyles.mb20]}>
+                <Text>You don't have a daily practice time goal set.</Text>
+                <Text>Set a daily practice time goal to get started!</Text>
+              </View>
+              <Button
+                title="Set goal"
+                style={[
+                  commonStyles.flexRowReverse,
+                  commonStyles.justifyCenter,
+                  commonStyles.alignCenter,
+                ]}
+                onPress={() => {
+                  Navigation.showModal({
+                    stack: {
+                      children: [
+                        {
+                          component: {
+                            name: 'com.myApp.GoalsModal',
+                            options: {
+                              modalTransitionStyle:
+                                OptionsModalTransitionStyle.coverVertical,
+                              modalPresentationStyle:
+                                OptionsModalPresentationStyle.overCurrentContext,
+                            },
+                          },
+                        },
+                      ],
+                    },
+                  });
+                }}>
+                <MaterialCommunityIcon
+                  style={[commonStyles.mr10]}
+                  name="timer-outline"
+                  color="#333333"
+                  size={50}
+                />
+              </Button>
+            </View>
           )}
 
           <View style={[commonStyles.card]}>
