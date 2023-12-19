@@ -128,7 +128,10 @@ function DashboardContent({componentId}: NavigationProps) {
     return total + entry.totalDuration;
   }, 0);
 
-  const oldestSummaryEntry = summaryEntries.sorted('createdAt')[0];
+  const original = summaryEntries.sorted('createdAt')[0];
+  const oldestSummaryEntry = original
+    ? JSON.parse(JSON.stringify(original))
+    : null;
 
   const totalPracticeTimeToday = practicedToday.reduce((total, entry) => {
     return total + entry.duration;
@@ -265,7 +268,7 @@ function DashboardContent({componentId}: NavigationProps) {
 
           <View style={[commonStyles.card]}>
             <Text style={[commonStyles.h2]}>Total practice time</Text>
-            {oldestSummaryEntry && (
+            {oldestSummaryEntry && oldestSummaryEntry.createdAt && (
               <Text
                 style={[
                   commonStyles.mb20,
@@ -273,7 +276,8 @@ function DashboardContent({componentId}: NavigationProps) {
                     fontStyle: 'italic',
                   },
                 ]}>
-                Since {formatDate(oldestSummaryEntry.createdAt)}
+                {oldestSummaryEntry.createdAt &&
+                  `Since ${formatDate(new Date(oldestSummaryEntry.createdAt))}`}
               </Text>
             )}
             {totalTime === 0 && (
@@ -311,11 +315,14 @@ function DashboardContent({componentId}: NavigationProps) {
             )}
           </View>
 
-          {topBpm > 0 && (
-            <View style={commonStyles.card}>
-              <Text style={[commonStyles.h2, commonStyles.mb20]}>
-                BPM metrics
+          <View style={commonStyles.card}>
+            <Text style={[commonStyles.h2]}>BPM metrics</Text>
+            {bpmItems === 0 && (
+              <Text style={[commonStyles.mt10]}>
+                You haven't practiced anything yet!
               </Text>
+            )}
+            {topBpm > 0 && (
               <View style={[{flexDirection: 'row'}]}>
                 <View style={commonStyles.flex1}>
                   <Text style={[commonStyles.dl]}>{topBpm} bpm</Text>
@@ -330,8 +337,8 @@ function DashboardContent({componentId}: NavigationProps) {
                   <Text>Average</Text>
                 </View>
               </View>
-            </View>
-          )}
+            )}
+          </View>
           <Text style={[commonStyles.h2]}>Your data</Text>
           <View
             style={[
