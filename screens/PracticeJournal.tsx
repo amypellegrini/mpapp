@@ -15,7 +15,11 @@ import formatDuration from './components/utils/formatDuration';
 import Menu from './components/menu';
 
 function PracticeJournalContent({componentId}: NavigationProps) {
-  const entries = useQuery<PracticeEntry>('PracticeEntry');
+  const entries = useQuery<PracticeEntry>('PracticeEntry').sorted(
+    'createdAt',
+    true,
+  );
+
   const entrySummaryList = useQuery<PracticeEntrySummary>(
     'PracticeEntrySummary',
   ).map(entrySummary => entrySummary);
