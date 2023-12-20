@@ -318,9 +318,7 @@ function DashboardContent({componentId}: NavigationProps) {
           <View style={commonStyles.card}>
             <Text style={[commonStyles.h2]}>BPM metrics</Text>
             {bpmItems === 0 && (
-              <Text style={[commonStyles.mt10]}>
-                You haven't practiced anything yet!
-              </Text>
+              <Text style={[commonStyles.mt10]}>No data available.</Text>
             )}
             {topBpm > 0 && (
               <View style={[{flexDirection: 'row'}]}>
@@ -339,6 +337,61 @@ function DashboardContent({componentId}: NavigationProps) {
               </View>
             )}
           </View>
+
+          <View style={[commonStyles.card]}>
+            <Text style={[commonStyles.h2, commonStyles.mb10]}>
+              Recent practice entries
+            </Text>
+            {entries.length === 0 && <Text>No data available.</Text>}
+            {entries.length > 0 &&
+              entries
+                .sorted('createdAt', true)
+                .slice(0, 3)
+                .map(entry => {
+                  return (
+                    <View
+                      style={[
+                        commonStyles.flexColumn,
+                        commonStyles.justifyBetween,
+                        commonStyles.gap6,
+                        commonStyles.mb10,
+                        {
+                          borderTopWidth: 1,
+                          borderTopColor: '#666666',
+                          paddingBottom: 10,
+                        },
+                      ]}
+                      key={entry._id.toString()}>
+                      <Text>
+                        {entry.title} - {formatDuration(entry.duration)}
+                      </Text>
+                      <Text style={[commonStyles.fontItalic, {lineHeight: 15}]}>
+                        {formatDate(entry.createdAt)}
+                      </Text>
+                    </View>
+                  );
+                })}
+          </View>
+
+          {entries.length === 0 && (
+            <View style={[commonStyles.mb20]}>
+              <Text style={[commonStyles.h3, commonStyles.mb10]}>
+                You haven't practiced anything yet. You'll see some data once
+                you start practicing with the app.
+              </Text>
+              <Button
+                title="Start practicing"
+                onPress={() => {
+                  Navigation.push(componentId, {
+                    component: {
+                      name: 'com.myApp.PracticePreview',
+                    },
+                  });
+                }}
+              />
+            </View>
+          )}
+
           <Text style={[commonStyles.h2]}>Your data</Text>
           <View
             style={[
@@ -411,6 +464,7 @@ function DashboardContent({componentId}: NavigationProps) {
                         )[0];
 
                         if (entrySummary) {
+                          // Check the correct date is being set here
                           entrySummary.totalDuration += parseInt(
                             entry.duration,
                           );

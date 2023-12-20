@@ -23,6 +23,9 @@ const commonStyles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
   },
+  fontItalic: {
+    fontStyle: 'italic',
+  },
   underline: {
     textDecorationLine: 'underline',
   },
@@ -149,6 +152,9 @@ const commonStyles = StyleSheet.create({
   },
   flexRow: {
     flexDirection: 'row',
+  },
+  flexColumn: {
+    flexDirection: 'column',
   },
   flexRowReverse: {
     flexDirection: 'row-reverse',
