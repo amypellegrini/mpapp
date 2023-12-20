@@ -24,6 +24,7 @@ export class PracticeEntrySummary extends Realm.Object {
       totalDuration: 'int',
       createdAt: 'date',
       updatedAt: 'date',
+      practiceScore: 'int',
       bpm: 'int?',
     },
   };
@@ -33,6 +34,7 @@ export class PracticeEntrySummary extends Realm.Object {
   public bpm: number = 0;
   public createdAt: Date = new Date();
   public updatedAt: Date = new Date();
+  public practiceScore: number = 0;
 }
 
 export class PracticeEntry extends Realm.Object {
@@ -57,7 +59,7 @@ export class PracticeEntry extends Realm.Object {
 
 const config: Realm.Configuration = {
   schema: [PracticeEntry, PracticeEntrySummary, DailyPracticeTimeGoal],
-  schemaVersion: 7,
+  schemaVersion: 8,
 };
 
 function RealmProviderWrapper({children}: {children: React.ReactNode}) {

@@ -140,6 +140,14 @@ function DashboardContent({componentId}: NavigationProps) {
   const displayDailyPracticeTimeGoal =
     dailyPracticeTimeGoal && dailyPracticeTimeGoal.seconds > 0;
 
+  let praciceRecommendation = summaryEntries[0];
+
+  summaryEntries.forEach(entry => {
+    if (entry.practiceScore < praciceRecommendation.practiceScore) {
+      praciceRecommendation = entry;
+    }
+  });
+
   return (
     <Container>
       <ScrollView>
@@ -222,6 +230,27 @@ function DashboardContent({componentId}: NavigationProps) {
                 </View>
               </View>
             </>
+          )}
+
+          {praciceRecommendation && (
+            <View style={[commonStyles.mb20, commonStyles.card]}>
+              <Text style={[commonStyles.h2, commonStyles.mb10]}>
+                Practice recommendation
+              </Text>
+              <Text style={[commonStyles.h3, commonStyles.mb20]}>
+                {praciceRecommendation.title}
+              </Text>
+              <Button
+                title="Practice now"
+                onPress={() => {
+                  Navigation.push(componentId, {
+                    component: {
+                      name: 'com.myApp.PracticePreview',
+                    },
+                  });
+                }}
+              />
+            </View>
           )}
 
           {!displayDailyPracticeTimeGoal && (
@@ -365,9 +394,9 @@ function DashboardContent({componentId}: NavigationProps) {
                       <Text>
                         {entry.title} - {formatDuration(entry.duration)}
                       </Text>
-                      <Text style={[commonStyles.fontItalic, {lineHeight: 15}]}>
+                      {/* <Text style={[commonStyles.fontItalic, {lineHeight: 15}]}>
                         {formatDate(entry.createdAt)}
-                      </Text>
+                      </Text> */}
                     </View>
                   );
                 })}
@@ -468,14 +497,27 @@ function DashboardContent({componentId}: NavigationProps) {
                           entrySummary.totalDuration += parseInt(
                             entry.duration,
                           );
+                          entrySummary.practiceScore = Math.floor(
+                            entrySummary.createdAt.getTime() / 1000 +
+                              entrySummary.totalDuration,
+                          );
                         } else {
+                          const createdAt = new Date(entry.createdAt);
+                          const totalDuration = parseInt(entry.duration);
+                          const practiceScore = Math.floor(
+                            createdAt.getTime() / 1000 + totalDuration,
+                          );
+
+                          console.log('practiceScore', practiceScore);
+
                           const realmEntrySummary = {
                             title: entry.title,
-                            totalDuration: parseInt(entry.duration),
+                            totalDuration: totalDuration,
                             _id: new Realm.BSON.ObjectId(),
-                            createdAt: new Date(entry.createdAt),
-                            updatedAt: new Date(entry.createdAt),
+                            createdAt: createdAt,
+                            updatedAt: createdAt,
                             bpm: entry.bpm ? parseInt(entry.bpm) : null,
+                            practiceScore: practiceScore,
                           };
 
                           realm.create(
