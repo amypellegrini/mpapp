@@ -8,6 +8,11 @@ type DecreaseBpmEvent = {
   type: 'DECREASE_BPM';
 };
 
+type ChangeBpmEvent = {
+  type: 'CHANGE_BPM';
+  value: number;
+};
+
 type RemoveEntryFieldEvent = {
   type: 'REMOVE_ENTRY_FIELD';
   value: 'bpm';
@@ -40,6 +45,7 @@ type DoneAddingEntryFieldEvent = {
 };
 
 type PracticePreviewEvent =
+  | ChangeBpmEvent
   | ChangeEntryTitleEvent
   | FocusEntryTitleEvent
   | OpenEntryFieldMenuEvent
@@ -84,6 +90,19 @@ const practicePreviewMachine = createMachine<
           },
           INCREASE_BPM: {
             actions: 'increaseBpm',
+          },
+          CHANGE_BPM: {
+            actions: assign({
+              entryFields: (context, event) => {
+                return {
+                  ...context.entryFields,
+                  bpm: {
+                    ...context.entryFields.bpm,
+                    value: event.value,
+                  },
+                };
+              },
+            }),
           },
           REMOVE_ENTRY_FIELD: {
             actions: 'removeEntryField',

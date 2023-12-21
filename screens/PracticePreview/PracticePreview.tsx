@@ -159,6 +159,16 @@ function PracticePreviewContent({componentId}: NavigationProps): JSX.Element {
               </Text>
               <TextInput
                 keyboardType="numeric"
+                onChangeText={value => {
+                  send('CHANGE_BPM', {
+                    value: value === '' ? 0 : parseInt(value),
+                  });
+                }}
+                onBlur={() => {
+                  if (current.context.entryFields.bpm.value === 0) {
+                    send('CHANGE_BPM', {value: 120});
+                  }
+                }}
                 style={[
                   commonStyles.input,
                   commonStyles.textCenter,
@@ -170,8 +180,11 @@ function PracticePreviewContent({componentId}: NavigationProps): JSX.Element {
                     borderBottomColor: isDarkMode ? '#BFBFBF' : '#666666',
                   },
                 ]}
-                value={current.context.entryFields.bpm.value.toString()}
-                placeholder="BPM"
+                value={
+                  current.context.entryFields.bpm.value === 0
+                    ? ''
+                    : current.context.entryFields.bpm.value.toString()
+                }
                 placeholderTextColor={isDarkMode ? '#BFBFBF' : '#666666'}
               />
             </View>
