@@ -232,27 +232,6 @@ function DashboardContent({componentId}: NavigationProps) {
             </>
           )}
 
-          {praciceRecommendation && (
-            <View style={[commonStyles.mb20, commonStyles.card]}>
-              <Text style={[commonStyles.h2, commonStyles.mb10]}>
-                Practice recommendation
-              </Text>
-              <Text style={[commonStyles.h3, commonStyles.mb20]}>
-                {praciceRecommendation.title}
-              </Text>
-              <Button
-                title="Practice now"
-                onPress={() => {
-                  Navigation.push(componentId, {
-                    component: {
-                      name: 'com.myApp.PracticePreview',
-                    },
-                  });
-                }}
-              />
-            </View>
-          )}
-
           {!displayDailyPracticeTimeGoal && (
             <View style={[commonStyles.mb20]}>
               <View style={[commonStyles.mb20]}>
@@ -292,6 +271,27 @@ function DashboardContent({componentId}: NavigationProps) {
                   size={50}
                 />
               </Button>
+            </View>
+          )}
+
+          {praciceRecommendation && (
+            <View style={[commonStyles.mb20, commonStyles.card]}>
+              <Text style={[commonStyles.h2, commonStyles.mb10]}>
+                Practice recommendation
+              </Text>
+              <Text style={[commonStyles.h3, commonStyles.mb20]}>
+                {praciceRecommendation.title}
+              </Text>
+              <Button
+                title="Practice now"
+                onPress={() => {
+                  Navigation.push(componentId, {
+                    component: {
+                      name: 'com.myApp.PracticePreview',
+                    },
+                  });
+                }}
+              />
             </View>
           )}
 
@@ -391,12 +391,11 @@ function DashboardContent({componentId}: NavigationProps) {
                         },
                       ]}
                       key={entry._id.toString()}>
-                      <Text>
-                        {entry.title} - {formatDuration(entry.duration)}
-                      </Text>
-                      {/* <Text style={[commonStyles.fontItalic, {lineHeight: 15}]}>
+                      <Text>{entry.title}</Text>
+                      <Text style={[commonStyles.fontItalic, {lineHeight: 15}]}>
+                        {formatDuration(entry.duration)} -{' '}
                         {formatDate(entry.createdAt)}
-                      </Text> */}
+                      </Text>
                     </View>
                   );
                 })}
