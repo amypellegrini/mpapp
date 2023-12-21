@@ -88,25 +88,27 @@ function PracticePreviewContent({componentId}: NavigationProps): JSX.Element {
         />
         {previousEntries.length > 0 && current.matches('entryTitleFocused') && (
           <ScrollView style={{}} keyboardShouldPersistTaps={'handled'}>
-            {previousEntries.map((entry, index) => (
-              <Pressable
-                key={index}
-                style={[
-                  commonStyles.p10,
-                  {
-                    borderBottomColor: isDarkMode ? '#BFBFBF' : '#666666',
-                    borderBottomWidth: 1,
-                    backgroundColor: '#EFEFEF',
-                  },
-                ]}
-                onPress={event => {
-                  send('CHANGE_ENTRY_TITLE', {value: entry.title});
-                  send('BLUR_ENTRY_TITLE');
-                  handleTitleBlur();
-                }}>
-                <Text style={[{color: '#444444'}]}>{entry.title}</Text>
-              </Pressable>
-            ))}
+            {previousEntries
+              .filtered(`title CONTAINS[c] $0`, current.context.entryTitle)
+              .map((entry, index) => (
+                <Pressable
+                  key={index}
+                  style={[
+                    commonStyles.p10,
+                    {
+                      borderBottomColor: isDarkMode ? '#BFBFBF' : '#666666',
+                      borderBottomWidth: 1,
+                      backgroundColor: '#EFEFEF',
+                    },
+                  ]}
+                  onPress={event => {
+                    send('CHANGE_ENTRY_TITLE', {value: entry.title});
+                    send('BLUR_ENTRY_TITLE');
+                    handleTitleBlur();
+                  }}>
+                  <Text style={[{color: '#444444'}]}>{entry.title}</Text>
+                </Pressable>
+              ))}
           </ScrollView>
         )}
         {current.context.entryFields.bpm.active && (
