@@ -65,40 +65,12 @@ function PracticeJournalContent({componentId}: NavigationProps) {
                   <Text style={[styles.entryItemText]}>
                     Last updated: {entrySummary.updatedAt.toLocaleString()}
                   </Text>
+                  <Text style={[styles.entryItemText]}>
+                    Practice score: {entrySummary.practiceScore}
+                  </Text>
                 </Pressable>
               );
             }}></FlatList>
-          {/* <ScrollView>
-            {entrySummaryList.map(entrySummary => {
-              const entryTitleCopy = entrySummary.title;
-              return (
-                <Pressable
-                  style={styles.entryItem}
-                  key={entrySummary._id.toString()}
-                  onPress={() => {
-                    Navigation.push(componentId, {
-                      component: {
-                        name: 'com.myApp.EntrySummaryDetail',
-                        passProps: {
-                          entryTitle: entryTitleCopy,
-                        },
-                      },
-                    });
-                  }}>
-                  <Text style={[commonStyles.h6, styles.entryItemText]}>
-                    {entrySummary.title}
-                  </Text>
-                  <Text style={[styles.entryItemText]}>
-                    {formatDuration(entrySummary.totalDuration)} since{' '}
-                    {entrySummary.createdAt.toLocaleString()}
-                  </Text>
-                  <Text style={[styles.entryItemText]}>
-                    Last updated: {entrySummary.updatedAt.toLocaleString()}
-                  </Text>
-                </Pressable>
-              );
-            })}
-          </ScrollView> */}
         </View>
         {entries.length > 0 && (
           <View style={{maxHeight: '30%'}}>

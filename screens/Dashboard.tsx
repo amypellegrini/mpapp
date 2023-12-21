@@ -28,6 +28,7 @@ import {
 import Menu from './components/menu';
 import Button from './components/button';
 import {ButtonText} from './components/button/Button';
+import getPracticeScore from './utils/getPracticeScore';
 
 function formatDate(date: Date): string {
   const options: Intl.DateTimeFormatOptions = {
@@ -496,18 +497,17 @@ function DashboardContent({componentId}: NavigationProps) {
                           entrySummary.totalDuration += parseInt(
                             entry.duration,
                           );
-                          entrySummary.practiceScore = Math.floor(
-                            entrySummary.createdAt.getTime() / 1000 +
-                              entrySummary.totalDuration,
+                          entrySummary.practiceScore = getPracticeScore(
+                            entrySummary.updatedAt,
+                            entrySummary.totalDuration,
                           );
                         } else {
                           const createdAt = new Date(entry.createdAt);
                           const totalDuration = parseInt(entry.duration);
-                          const practiceScore = Math.floor(
-                            createdAt.getTime() / 1000 + totalDuration,
+                          const practiceScore = getPracticeScore(
+                            createdAt,
+                            totalDuration,
                           );
-
-                          console.log('practiceScore', practiceScore);
 
                           const realmEntrySummary = {
                             title: entry.title,
