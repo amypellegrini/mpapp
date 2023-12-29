@@ -280,9 +280,14 @@ function DashboardContent({componentId}: NavigationProps) {
               <Text style={[commonStyles.h2, commonStyles.mb10]}>
                 Practice recommendation
               </Text>
-              <Text style={[commonStyles.h3, commonStyles.mb20]}>
+              <Text style={[commonStyles.h3]}>
                 {praciceRecommendation.title}
               </Text>
+              {praciceRecommendation.bpm && (
+                <Text style={[commonStyles.fontItalic, commonStyles.mb20]}>
+                  Last played at {praciceRecommendation.bpm} bpm
+                </Text>
+              )}
               <Button
                 title="Practice now"
                 onPress={() => {
@@ -493,7 +498,15 @@ function DashboardContent({componentId}: NavigationProps) {
                         )[0];
 
                         if (entrySummary) {
-                          // Check the correct date is being set here
+                          if (
+                            entrySummary.updatedAt < new Date(entry.createdAt)
+                          ) {
+                            entrySummary.updatedAt = new Date(entry.createdAt);
+                            entrySummary.bpm = entry.bpm
+                              ? parseInt(entry.bpm)
+                              : null;
+                          }
+
                           entrySummary.totalDuration += parseInt(
                             entry.duration,
                           );

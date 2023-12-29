@@ -31,7 +31,7 @@ export class PracticeEntrySummary extends Realm.Object {
 
   public title: string = '';
   public totalDuration: number = 0;
-  public bpm: number = 0;
+  public bpm: number | null = 0;
   public createdAt: Date = new Date();
   public updatedAt: Date = new Date();
   public practiceScore: number = 0;
@@ -53,7 +53,7 @@ export class PracticeEntry extends Realm.Object {
 
   public title: string = '';
   public duration: number = 0;
-  public bpm: number = 0;
+  public bpm: number | null = 0;
   public createdAt: Date = new Date();
 }
 

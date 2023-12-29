@@ -120,6 +120,7 @@ function PracticeSummaryContent({
                   entrySummary.updatedAt,
                   entrySummary.totalDuration,
                 );
+                entrySummary.bpm = bpm || null;
               } else {
                 realm.create('PracticeEntrySummary', {
                   title: entryTitle,
@@ -128,6 +129,7 @@ function PracticeSummaryContent({
                   createdAt: date,
                   updatedAt: date,
                   practiceScore: getPracticeScore(date, duration),
+                  bpm: bpm || null,
                 });
               }
 
