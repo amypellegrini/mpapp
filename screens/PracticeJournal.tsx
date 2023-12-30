@@ -13,6 +13,7 @@ import {Navigation, NavigationProps} from 'react-native-navigation';
 import commonStyles from './components/commonStyles';
 import formatDuration from './components/utils/formatDuration';
 import Menu from './components/menu';
+import formatDate from './utils/formatDate';
 
 function PracticeJournalContent({componentId}: NavigationProps) {
   const entries = useQuery<PracticeEntry>('PracticeEntry').sorted(
@@ -20,9 +21,13 @@ function PracticeJournalContent({componentId}: NavigationProps) {
     true,
   );
 
+  const entriesCopy = JSON.parse(JSON.stringify(entries));
+
   const entrySummaryList = useQuery<PracticeEntrySummary>(
     'PracticeEntrySummary',
-  ).map(entrySummary => entrySummary);
+  );
+
+  const entrySummaryListCopy = JSON.parse(JSON.stringify(entrySummaryList));
 
   return (
     <Container>
@@ -30,14 +35,16 @@ function PracticeJournalContent({componentId}: NavigationProps) {
         <Title>Practice journal</Title>
         <View
           style={[
-            commonStyles.mb10,
+            commonStyles.mb20,
             {
-              maxHeight: '30%',
+              maxHeight: '40%',
             },
           ]}>
-          <Text style={commonStyles.h4}>Practice summary</Text>
+          <Text style={[commonStyles.h2, commonStyles.mb10]}>
+            Practice summary by title
+          </Text>
           <FlatList
-            data={entrySummaryList}
+            data={entrySummaryListCopy}
             renderItem={listItem => {
               const entrySummary = listItem.item;
               const entryTitleCopy = entrySummary.title;
@@ -60,10 +67,10 @@ function PracticeJournalContent({componentId}: NavigationProps) {
                   </Text>
                   <Text style={[styles.entryItemText]}>
                     {formatDuration(entrySummary.totalDuration)} since{' '}
-                    {entrySummary.createdAt.toLocaleString()}
+                    {formatDate(new Date(entrySummary.createdAt))}
                   </Text>
                   <Text style={[styles.entryItemText]}>
-                    Last updated: {entrySummary.updatedAt.toLocaleString()}
+                    Last updated: {formatDate(new Date(entrySummary.updatedAt))}
                   </Text>
                   <Text style={[styles.entryItemText]}>
                     Practice score: {entrySummary.practiceScore}
@@ -72,11 +79,13 @@ function PracticeJournalContent({componentId}: NavigationProps) {
               );
             }}></FlatList>
         </View>
-        {entries.length > 0 && (
-          <View style={{maxHeight: '30%'}}>
-            <Text style={commonStyles.h4}>Practice history</Text>
+        {entriesCopy.length > 0 && (
+          <View style={{maxHeight: '40%'}}>
+            <Text style={[commonStyles.h2, commonStyles.mb10]}>
+              Practice history
+            </Text>
             <FlatList
-              data={entries}
+              data={entriesCopy}
               renderItem={entry => {
                 const item = entry.item;
                 return (

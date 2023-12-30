@@ -29,17 +29,7 @@ import Menu from './components/menu';
 import Button from './components/button';
 import {ButtonText} from './components/button/Button';
 import getPracticeScore from './utils/getPracticeScore';
-
-function formatDate(date: Date): string {
-  const options: Intl.DateTimeFormatOptions = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  };
-  const formattedDate = date.toLocaleDateString('en-US', options);
-
-  return formattedDate;
-}
+import formatDate from './utils/formatDate';
 
 type DataEntry = {
   [key: string]: any;
