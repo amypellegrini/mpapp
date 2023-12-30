@@ -495,6 +495,8 @@ function DashboardContent({componentId}: NavigationProps) {
                             entrySummary.bpm = entry.bpm
                               ? parseInt(entry.bpm)
                               : null;
+                          } else {
+                            entrySummary.createdAt = new Date(entry.createdAt);
                           }
 
                           entrySummary.totalDuration += parseInt(
