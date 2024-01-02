@@ -267,19 +267,18 @@ function DashboardContent({componentId}: NavigationProps) {
 
           {praciceRecommendation && (
             <View style={[commonStyles.mb20, commonStyles.card]}>
-              <Text style={[commonStyles.h2, commonStyles.mb10]}>
-                Practice recommendation
+              <Text style={[commonStyles.h2]}>Practice recommendation</Text>
+              <Text style={[commonStyles.fontItalic, commonStyles.mb20]}>
+                Last played on {formatDate(praciceRecommendation.updatedAt)}
+                {praciceRecommendation.bpm &&
+                  ` at ${praciceRecommendation.bpm} bpm`}
               </Text>
               <Text style={[commonStyles.h3]}>
                 {praciceRecommendation.title}
               </Text>
-              {praciceRecommendation.bpm && (
-                <Text style={[commonStyles.fontItalic, commonStyles.mb20]}>
-                  Last played at {praciceRecommendation.bpm} bpm
-                </Text>
-              )}
               <Button
                 title="Practice now"
+                style={[commonStyles.mt20]}
                 onPress={() => {
                   Navigation.push(componentId, {
                     component: {
