@@ -26,9 +26,30 @@ import H2 from '../components/Typography/H2';
 import Button from '../components/button';
 import practicePreviewMachine from './practicePreviewMachine';
 
-function PracticePreviewContent({componentId}: NavigationProps): JSX.Element {
+interface PracticePreviewProps extends NavigationProps {
+  entryTitle?: string;
+  bpm?: number;
+}
+
+function PracticePreviewContent({
+  componentId,
+  bpm,
+  entryTitle,
+}: PracticePreviewProps): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-  const [current, send] = useMachine(practicePreviewMachine);
+
+  const [current, send] = useMachine(practicePreviewMachine, {
+    context: {
+      entryTitle: entryTitle || '',
+      entryFields: {
+        bpm: {
+          active: bpm !== undefined,
+          value: bpm || 120,
+        },
+      },
+    },
+  });
+
   const previousEntries = useQuery<PracticeEntrySummary>(
     'PracticeEntrySummary',
   );
@@ -456,7 +477,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function PracticePreview(props: NavigationProps): JSX.Element {
+function PracticePreview(props: PracticePreviewProps): JSX.Element {
   return (
     <RealmProviderWrapper>
       <PracticePreviewContent {...props} />

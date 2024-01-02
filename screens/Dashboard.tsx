@@ -139,6 +139,8 @@ function DashboardContent({componentId}: NavigationProps) {
     }
   });
 
+  praciceRecommendation = JSON.parse(JSON.stringify(praciceRecommendation));
+
   return (
     <Container>
       <ScrollView>
@@ -269,7 +271,8 @@ function DashboardContent({componentId}: NavigationProps) {
             <View style={[commonStyles.mb20, commonStyles.card]}>
               <Text style={[commonStyles.h2]}>Practice recommendation</Text>
               <Text style={[commonStyles.fontItalic, commonStyles.mb20]}>
-                Last played on {formatDate(praciceRecommendation.updatedAt)}
+                Last played on{' '}
+                {formatDate(new Date(praciceRecommendation.updatedAt))}
                 {praciceRecommendation.bpm &&
                   ` at ${praciceRecommendation.bpm} bpm`}
               </Text>
@@ -283,6 +286,10 @@ function DashboardContent({componentId}: NavigationProps) {
                   Navigation.push(componentId, {
                     component: {
                       name: 'com.myApp.PracticePreview',
+                      passProps: {
+                        entryTitle: praciceRecommendation.title,
+                        bpm: praciceRecommendation.bpm,
+                      },
                     },
                   });
                 }}
