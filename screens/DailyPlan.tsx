@@ -11,7 +11,7 @@ function PracticeSchedule({componentId}: NavigationProps) {
       <Main>
         <Title>Daily plan</Title>
       </Main>
-      <Menu componentId={componentId} />
+      <Menu componentId={componentId} current="dailyPlan" />
     </Container>
   );
 }

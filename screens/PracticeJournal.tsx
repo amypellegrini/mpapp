@@ -102,7 +102,7 @@ function PracticeJournalContent({componentId}: NavigationProps) {
           </View>
         )}
       </Main>
-      <Menu componentId={componentId} />
+      <Menu componentId={componentId} current="journal" />
     </Container>
   );
 }

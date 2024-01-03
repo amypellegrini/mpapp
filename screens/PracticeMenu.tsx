@@ -67,7 +67,7 @@ const PracticeMenu = ({componentId}: NavigationProps) => {
           </Text>
         </Button>
       </Main>
-      <Menu componentId={componentId} />
+      <Menu componentId={componentId} current="practice" />
     </Container>
   );
 };

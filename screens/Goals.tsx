@@ -96,7 +96,7 @@ function Goals({componentId}: NavigationProps) {
           </Text>
         </Button>
       </Main>
-      <Menu componentId={componentId} />
+      <Menu componentId={componentId} current="goals" />
     </Container>
   );
 }

@@ -7,9 +7,10 @@ import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIc
 
 type MenuProps = {
   componentId: string;
+  current: 'dashboard' | 'practice' | 'dailyPlan' | 'goals' | 'journal';
 };
 
-function Menu({componentId}: MenuProps) {
+function Menu({componentId, current}: MenuProps) {
   return (
     <View
       style={{
@@ -36,9 +37,17 @@ function Menu({componentId}: MenuProps) {
           ]}
           name="stats-chart"
           size={25}
-          color="#DFDFDF"
+          color={current === 'dashboard' ? '#66BBFF' : '#DFDFDF'}
         />
-        <Text style={styles.menuButtonText}>Dashboard</Text>
+        <Text
+          style={[
+            styles.menuButtonText,
+            {
+              color: current === 'dashboard' ? '#66BBFF' : '#DFDFDF',
+            },
+          ]}>
+          Dashboard
+        </Text>
       </Pressable>
       <Pressable
         style={styles.menuButton}
@@ -49,8 +58,20 @@ function Menu({componentId}: MenuProps) {
             },
           });
         }}>
-        <MaterialCommunityIcon name="music" size={30} color="#DFDFDF" />
-        <Text style={styles.menuButtonText}>Practice</Text>
+        <MaterialCommunityIcon
+          name="music"
+          size={30}
+          color={current === 'practice' ? '#66BBFF' : '#DFDFDF'}
+        />
+        <Text
+          style={[
+            styles.menuButtonText,
+            {
+              color: current === 'practice' ? '#66BBFF' : '#DFDFDF',
+            },
+          ]}>
+          Practice
+        </Text>
       </Pressable>
       <Pressable
         style={styles.menuButton}
@@ -64,9 +85,17 @@ function Menu({componentId}: MenuProps) {
         <MaterialCommunityIcon
           name="file-document-edit-outline"
           size={30}
-          color="#DFDFDF"
+          color={current === 'dailyPlan' ? '#66BBFF' : '#DFDFDF'}
         />
-        <Text style={styles.menuButtonText}>Daily Plan</Text>
+        <Text
+          style={[
+            styles.menuButtonText,
+            {
+              color: current === 'dailyPlan' ? '#66BBFF' : '#DFDFDF',
+            },
+          ]}>
+          Daily Plan
+        </Text>
       </Pressable>
       <Pressable
         style={styles.menuButton}
@@ -77,8 +106,20 @@ function Menu({componentId}: MenuProps) {
             },
           });
         }}>
-        <FoundationIcon name="target" size={30} color="#DFDFDF" />
-        <Text style={styles.menuButtonText}>Goals</Text>
+        <FoundationIcon
+          name="target"
+          size={30}
+          color={current === 'goals' ? '#66BBFF' : '#DFDFDF'}
+        />
+        <Text
+          style={[
+            styles.menuButtonText,
+            {
+              color: current === 'goals' ? '#66BBFF' : '#DFDFDF',
+            },
+          ]}>
+          Goals
+        </Text>
       </Pressable>
       <Pressable
         style={styles.menuButton}
@@ -92,62 +133,23 @@ function Menu({componentId}: MenuProps) {
         <MaterialCommunityIcon
           name="book-music-outline"
           size={30}
-          color="#DFDFDF"
+          color={current === 'journal' ? '#66BBFF' : '#DFDFDF'}
         />
-        <Text style={styles.menuButtonText}>Journal</Text>
+        <Text
+          style={[
+            styles.menuButtonText,
+            {
+              color: current === 'journal' ? '#66BBFF' : '#DFDFDF',
+            },
+          ]}>
+          Journal
+        </Text>
       </Pressable>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  entryItem: {
-    borderRadius: 4,
-    backgroundColor: '#DFDFDF',
-    padding: 5,
-    paddingLeft: 10,
-    paddingBottom: 8,
-    marginBottom: 5,
-    borderWidth: 1,
-    borderColor: '#666666',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  deleteButton: {
-    backgroundColor: '#D11111',
-    borderColor: '#B11111',
-    borderWidth: 1,
-    borderRadius: 4,
-    padding: 5,
-    marginLeft: 5,
-    width: 30,
-    height: 30,
-  },
-  deleteButtonText: {
-    fontFamily: 'Arial',
-    textAlign: 'center',
-    color: '#FAFAFA',
-    fontWeight: '700',
-    fontSize: 20,
-    marginTop: -8,
-  },
-  entryItemTitle: {
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  entryItemText: {
-    color: '#111111',
-  },
-  h4: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#EFEFEF',
-    marginBottom: 5,
-  },
-  mb10: {
-    marginBottom: 10,
-  },
   menuButtonText: {
     marginTop: 2,
     fontSize: 12,

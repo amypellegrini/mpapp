@@ -615,7 +615,7 @@ function DashboardContent({componentId}: NavigationProps) {
           </Button>
         </Main>
       </ScrollView>
-      <Menu componentId={componentId} />
+      <Menu componentId={componentId} current="dashboard" />
     </Container>
   );
 }
