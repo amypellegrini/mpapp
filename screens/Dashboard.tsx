@@ -170,8 +170,8 @@ function DashboardContent({componentId}: NavigationProps) {
       <ScrollView>
         <Main>
           <Title>Dashboard</Title>
-          <Text style={[commonStyles.h2, commonStyles.mb10]}>
-            Daily practice goal
+          <Text style={[commonStyles.h2, commonStyles.mb20]}>
+            Daily practice
           </Text>
           {displayDailyPracticeTimeGoal && (
             <>
