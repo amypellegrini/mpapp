@@ -415,10 +415,10 @@ function DashboardContent({componentId}: NavigationProps) {
           </View>
 
           <View style={[commonStyles.card]}>
-            <Text style={[commonStyles.h2, commonStyles.mb10]}>
-              Recent practice entries
-            </Text>
-            {entries.length === 0 && <Text>No data available.</Text>}
+            <Text style={[commonStyles.h2]}>Recent practice entries</Text>
+            {entries.length === 0 && (
+              <Text style={commonStyles.mt10}>No data available.</Text>
+            )}
             {entries.length > 0 &&
               entries
                 .sorted('createdAt', true)
@@ -430,7 +430,7 @@ function DashboardContent({componentId}: NavigationProps) {
                         commonStyles.flexColumn,
                         commonStyles.justifyBetween,
                         commonStyles.gap6,
-                        commonStyles.mb10,
+                        commonStyles.mt10,
                         {
                           borderTopWidth: 1,
                           borderTopColor: '#666666',
