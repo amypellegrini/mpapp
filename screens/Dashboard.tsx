@@ -12,6 +12,7 @@ import RealmProviderWrapper, {
   DailyPracticeTimeGoal,
   PracticeEntry,
   PracticeEntrySummary,
+  Skipped,
 } from './RealmProviderWrapper';
 import Container from './components/container';
 import Title from './components/title';
@@ -52,6 +53,15 @@ const convertToCSV = (data: Realm.Collection<PracticeEntry>) => {
   return csvData.join('\n');
 };
 
+function isToday(date: Date) {
+  const today = new Date();
+  return (
+    date.getDate() === today.getDate() &&
+    date.getMonth() === today.getMonth() &&
+    date.getFullYear() === today.getFullYear()
+  );
+}
+
 function DashboardContent({componentId}: NavigationProps) {
   const realm = useRealm();
   const summaryEntries = useQuery<PracticeEntrySummary>('PracticeEntrySummary');
@@ -60,6 +70,8 @@ function DashboardContent({componentId}: NavigationProps) {
   const dailyPracticeTimeGoal = useQuery<DailyPracticeTimeGoal>(
     'DailyPracticeTimeGoal',
   )[0];
+
+  const skipped = useQuery<Skipped>('Skipped')[0];
 
   let lowestBpm = 1000;
   let topBpm = 0;
@@ -134,12 +146,24 @@ function DashboardContent({componentId}: NavigationProps) {
   let praciceRecommendation = summaryEntries[0];
 
   summaryEntries.forEach(entry => {
+    if (skipped && skipped.entryTitles[entry.title.replace(/\./g, '')]) {
+      return;
+    }
+
     if (entry.practiceScore < praciceRecommendation.practiceScore) {
       praciceRecommendation = entry;
     }
   });
 
-  praciceRecommendation = JSON.parse(JSON.stringify(praciceRecommendation));
+  praciceRecommendation = praciceRecommendation
+    ? JSON.parse(JSON.stringify(praciceRecommendation))
+    : null;
+
+  if (skipped && !isToday(skipped.lastUpdated)) {
+    realm.write(() => {
+      skipped.entryTitles = {};
+    });
+  }
 
   return (
     <Container>
@@ -280,8 +304,28 @@ function DashboardContent({componentId}: NavigationProps) {
                 {praciceRecommendation.title}
               </Text>
               <Button
-                title="Practice now"
                 style={[commonStyles.mt20]}
+                title="Skip"
+                onPress={() => {
+                  realm.write(() => {
+                    if (skipped) {
+                      skipped.lastUpdated = new Date();
+                      skipped.entryTitles[
+                        praciceRecommendation.title.replace(/\./g, '')
+                      ] = praciceRecommendation.title;
+                    } else {
+                      realm.create('Skipped', {
+                        lastUpdated: new Date(),
+                        entryTitles: {
+                          [praciceRecommendation.title.replace(/\./g, '')]:
+                            praciceRecommendation.title,
+                        },
+                      });
+                    }
+                  });
+                }}></Button>
+              <Button
+                title="Practice now"
                 onPress={() => {
                   Navigation.push(componentId, {
                     component: {

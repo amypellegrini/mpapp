@@ -2,6 +2,19 @@ import React from 'react';
 import Realm from 'realm';
 import {RealmProvider} from '@realm/react';
 
+export class Skipped extends Realm.Object {
+  static schema = {
+    name: 'Skipped',
+    properties: {
+      lastUpdated: 'date',
+      entryTitles: 'string{}',
+    },
+  };
+
+  public lastUpdated: Date = new Date();
+  public entryTitles: {[key: string]: string} = {};
+}
+
 export class DailyPracticeTimeGoal extends Realm.Object {
   static schema = {
     name: 'DailyPracticeTimeGoal',
@@ -58,8 +71,8 @@ export class PracticeEntry extends Realm.Object {
 }
 
 const config: Realm.Configuration = {
-  schema: [PracticeEntry, PracticeEntrySummary, DailyPracticeTimeGoal],
-  schemaVersion: 8,
+  schema: [PracticeEntry, PracticeEntrySummary, DailyPracticeTimeGoal, Skipped],
+  schemaVersion: 9,
 };
 
 function RealmProviderWrapper({children}: {children: React.ReactNode}) {
