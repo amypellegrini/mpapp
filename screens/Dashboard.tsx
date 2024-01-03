@@ -182,11 +182,12 @@ function DashboardContent({componentId}: NavigationProps) {
                   lineCap="round"
                   rotation={180}
                   size={180}
-                  width={12}
+                  width={8}
                   fill={
                     dailyPracticeTimeGoal
                       ? (totalPracticeTimeToday /
-                          dailyPracticeTimeGoal.seconds) *
+                          dailyPracticeTimeGoal.seconds +
+                          0.001) *
                         100
                       : 0
                   }
