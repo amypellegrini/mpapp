@@ -15,6 +15,17 @@ export class Skipped extends Realm.Object {
   public entryTitles: {[key: string]: string} = {};
 }
 
+export class Completed extends Realm.Object {
+  static schema = {
+    name: 'Completed',
+    properties: {
+      entryTitles: 'string{}',
+    },
+  };
+
+  public entryTitles: {[key: string]: string} = {};
+}
+
 export class DailyPracticeTimeGoal extends Realm.Object {
   static schema = {
     name: 'DailyPracticeTimeGoal',
@@ -71,7 +82,13 @@ export class PracticeEntry extends Realm.Object {
 }
 
 const config: Realm.Configuration = {
-  schema: [PracticeEntry, PracticeEntrySummary, DailyPracticeTimeGoal, Skipped],
+  schema: [
+    PracticeEntry,
+    PracticeEntrySummary,
+    DailyPracticeTimeGoal,
+    Skipped,
+    Completed,
+  ],
   schemaVersion: 9,
 };
 

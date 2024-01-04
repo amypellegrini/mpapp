@@ -9,6 +9,7 @@ import DocumentPicker from 'react-native-document-picker';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import RealmProviderWrapper, {
+  Completed,
   DailyPracticeTimeGoal,
   PracticeEntry,
   PracticeEntrySummary,
@@ -72,6 +73,7 @@ function DashboardContent({componentId}: NavigationProps) {
   )[0];
 
   const skipped = useQuery<Skipped>('Skipped')[0];
+  const completed = useQuery<Completed>('Completed')[0];
 
   let lowestBpm = 1000;
   let topBpm = 0;
@@ -147,6 +149,10 @@ function DashboardContent({componentId}: NavigationProps) {
 
   summaryEntries.forEach(entry => {
     if (skipped && skipped.entryTitles[entry.title.replace(/\./g, '')]) {
+      return;
+    }
+
+    if (completed && completed.entryTitles[entry.title.replace(/\./g, '')]) {
       return;
     }
 
@@ -304,27 +310,55 @@ function DashboardContent({componentId}: NavigationProps) {
               <Text style={[commonStyles.h3]}>
                 {praciceRecommendation.title}
               </Text>
-              <Button
-                style={[commonStyles.mt20]}
-                title="Skip"
-                onPress={() => {
-                  realm.write(() => {
-                    if (skipped) {
-                      skipped.lastUpdated = new Date();
-                      skipped.entryTitles[
-                        praciceRecommendation.title.replace(/\./g, '')
-                      ] = praciceRecommendation.title;
-                    } else {
-                      realm.create('Skipped', {
-                        lastUpdated: new Date(),
-                        entryTitles: {
-                          [praciceRecommendation.title.replace(/\./g, '')]:
-                            praciceRecommendation.title,
-                        },
-                      });
-                    }
-                  });
-                }}></Button>
+              <View
+                style={[
+                  commonStyles.flexRow,
+                  commonStyles.mt20,
+                  commonStyles.gap6,
+                ]}>
+                <Button
+                  style={[commonStyles.flex1]}
+                  title="Skip"
+                  onPress={() => {
+                    realm.write(() => {
+                      if (skipped) {
+                        skipped.lastUpdated = new Date();
+                        skipped.entryTitles[
+                          praciceRecommendation.title.replace(/\./g, '')
+                        ] = praciceRecommendation.title;
+                      } else {
+                        realm.create('Skipped', {
+                          lastUpdated: new Date(),
+                          entryTitles: {
+                            [praciceRecommendation.title.replace(/\./g, '')]:
+                              praciceRecommendation.title,
+                          },
+                        });
+                      }
+                    });
+                  }}
+                />
+                <Button
+                  title="Completed"
+                  style={[commonStyles.flex1]}
+                  onPress={() => {
+                    realm.write(() => {
+                      if (completed) {
+                        completed.entryTitles[
+                          praciceRecommendation.title.replace(/\./g, '')
+                        ] = praciceRecommendation.title;
+                      } else {
+                        realm.create('Completed', {
+                          entryTitles: {
+                            [praciceRecommendation.title.replace(/\./g, '')]:
+                              praciceRecommendation.title,
+                          },
+                        });
+                      }
+                    });
+                  }}
+                />
+              </View>
               <Button
                 title="Practice now"
                 onPress={() => {
