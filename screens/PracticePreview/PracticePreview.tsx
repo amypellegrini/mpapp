@@ -19,7 +19,9 @@ import Main from '../components/main';
 import Container from '../components/container';
 import commonStyles from '../components/commonStyles';
 import RealmProviderWrapper, {
+  Completed,
   PracticeEntrySummary,
+  Skipped,
 } from '../RealmProviderWrapper';
 import {useQuery} from '@realm/react';
 import H2 from '../components/Typography/H2';
@@ -50,9 +52,16 @@ function PracticePreviewContent({
     },
   });
 
-  const previousEntries = useQuery<PracticeEntrySummary>(
-    'PracticeEntrySummary',
-  );
+  const skipped = useQuery<Skipped>('Skipped')[0];
+  const completed = useQuery<Completed>('Completed')[0];
+
+  const previousEntries = useQuery<PracticeEntrySummary>('PracticeEntrySummary')
+    .filtered(`title CONTAINS[c] $0`, current.context.entryTitle)
+    .filter(
+      entry =>
+        !skipped.entryTitles[entry.title.replace(/\./g, '')] &&
+        !completed.entryTitles[entry.title.replace(/\./g, '')],
+    );
 
   const titleInputRef = React.useRef<TextInput>(null);
 
@@ -109,27 +118,25 @@ function PracticePreviewContent({
         />
         {previousEntries.length > 0 && current.matches('entryTitleFocused') && (
           <ScrollView style={{}} keyboardShouldPersistTaps={'handled'}>
-            {previousEntries
-              .filtered(`title CONTAINS[c] $0`, current.context.entryTitle)
-              .map((entry, index) => (
-                <Pressable
-                  key={index}
-                  style={[
-                    commonStyles.p10,
-                    {
-                      borderBottomColor: isDarkMode ? '#BFBFBF' : '#666666',
-                      borderBottomWidth: 1,
-                      backgroundColor: '#EFEFEF',
-                    },
-                  ]}
-                  onPress={event => {
-                    send('CHANGE_ENTRY_TITLE', {value: entry.title});
-                    send('BLUR_ENTRY_TITLE');
-                    handleTitleBlur();
-                  }}>
-                  <Text style={[{color: '#444444'}]}>{entry.title}</Text>
-                </Pressable>
-              ))}
+            {previousEntries.map((entry, index) => (
+              <Pressable
+                key={index}
+                style={[
+                  commonStyles.p10,
+                  {
+                    borderBottomColor: isDarkMode ? '#BFBFBF' : '#666666',
+                    borderBottomWidth: 1,
+                    backgroundColor: '#EFEFEF',
+                  },
+                ]}
+                onPress={event => {
+                  send('CHANGE_ENTRY_TITLE', {value: entry.title});
+                  send('BLUR_ENTRY_TITLE');
+                  handleTitleBlur();
+                }}>
+                <Text style={[{color: '#444444'}]}>{entry.title}</Text>
+              </Pressable>
+            ))}
           </ScrollView>
         )}
         {current.context.entryFields.bpm.active && (
